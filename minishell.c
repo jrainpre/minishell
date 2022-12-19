@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/19 14:47:32 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:11:23 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int main(int argc, char *argv[], char **envp)
     ft_split_input(&input);
     put_to_table(input.output, table);
     
-    while (i < table->numberOfArguments)
+    while (i < 2)
     {
-        printf("%s, ", table->arguments[i].command);
-        printf("%s, ", table->arguments[i].flag);
-        printf("%s, ", table->arguments[i].redir.in);
-        printf("%s", table->arguments[i].redir.out);
+        printf("Command: %s, ", table->arguments[i].command);
+        printf("Flags: %s, ", table->arguments[i].flag);
+        printf("In: %s, ", table->arguments[i].redir.in);
+        printf("Out: %s", table->arguments[i].redir.out);
         printf("\n");
         i++;
     }

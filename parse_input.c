@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 14:46:15 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:07:10 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	*ft_word(t_input *input, int i)
 	return (word);
 }
 
-char	**ft_split_input(t_input *input)
+void ft_split_input(t_input *input)
 {
 	int		i;
 	int		j;
@@ -97,10 +97,10 @@ char	**ft_split_input(t_input *input)
 	i = 0;
 	j = 0;
 	if (input->str == NULL)
-		return (NULL);
+		return;
 	input->output = (char **)malloc(sizeof(char *) * (ft_check_str_count(input) + 1));
 	if (input->output == NULL)
-		return (NULL);
+		return;
 	while (input->str[j])
 	{
 		while (input->str[j] && input->str[j] == input->c)

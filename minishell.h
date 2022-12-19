@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/19 14:50:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:06:47 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_com
 	t_parse_com	*arguments;
 }				t_com;
 
-char	**ft_split_input(t_input *input);
+void ft_split_input(t_input *input);
 int put_to_table(char **str, t_com *table);
 
 #endif
