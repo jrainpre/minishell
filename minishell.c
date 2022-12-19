@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/19 15:47:37 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:54:56 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int main(int argc, char *argv[], char **envp)
     table = malloc(sizeof(t_com));
     table->arguments = malloc(sizeof(t_parse_com) * 100);
     input.str= malloc(100);
-    
+    input.c = ' ';
     input.str = readline("minishell $> ");
     ft_split_input(&input);
     put_to_table(input.output, table);

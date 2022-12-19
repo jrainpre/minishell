@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
+#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2022/12/19 15:06:00 by mkoller          ###   ########.fr        #
+#    Updated: 2022/12/19 15:51:33 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell_test
 CC        := cc
-FLAGS    := -Wall -Wextra -Werror
+FLAGS    := -Wall -Wextra -Werror -g
 READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
 
 SRCS        :=      libft/ft_printf.c \
