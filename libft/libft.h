@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 14:32:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 14:59:45 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,17 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 t_list	*ft_lstnew(void *content);
 int		ft_lstsize(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+/*printf*/
+int					ft_printstr_fd(char *s, int fd);
+int					ft_printchar_fd(char c, int fd);
+int					ft_printnbr_fd(int nbr, int fd);
+void				ft_puthex_fd(unsigned long n, int fd, char *base_to);
+int					get_strlen_for_int(unsigned long n, char *base);
+int					ft_printhex_adress(unsigned long n, int fd, char *base_to);
+int					ft_printhex(unsigned int n, int fd, char *base_to);
+int					check_format(char c, va_list ptr);
+int					ft_printf(const char *speci, ...);
+void				ft_putnbr_unsigned_fd(unsigned int n, int fd);
+int					ft_printnbr_unsigned_fd(unsigned int nbr, int fd);
 
 #endif
