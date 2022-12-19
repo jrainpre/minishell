@@ -6,13 +6,14 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 08:49:10 by mkoller           #+#    #+#              #
-#    Updated: 2022/12/19 13:37:55 by mkoller          ###   ########.fr        #
+#    Updated: 2022/12/19 14:51:55 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell_test
 CC        := cc
-FLAGS    := -Wall -Wextra -Werror -lreadline -L/usr/local/lib -I/usr/local/include 
+FLAGS    := -Wall -Wextra -Werror
+READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
 
 SRCS        :=      libft/ft_printf.c \
                           libft/get_next_line.c \
@@ -78,7 +79,7 @@ RM		    := rm -f
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS}
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${READ_INCLUDE}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}

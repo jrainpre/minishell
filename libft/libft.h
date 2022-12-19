@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 09:36:19 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:32:55 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,6 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }t_list;
-
-
-typedef struct s_read_input
-{
-	char *str;
-	char c;
-	int nbr_single_quots;
-	int nbr_double_quots;
-	int double_open;
-	int single_open;
-	int current_index_single_quotes;
-	int current_index_double_quotes;
-	char **output;
-	char **in_token;
-} t_input;
 
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);

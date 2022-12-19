@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 09:46:33 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:46:15 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Libft/libft.h"
+#include "minishell.h"
 
-
-
-void	open_close_quotes(t_input *input, int i)
+static void	open_close_quotes(t_input *input, int i)
 {
 	if (input->str[i] == '\"' && !input->double_open && !input->single_open &&\
 	 (ft_strchr(&input->str[i + 1], '\"') != NULL))
@@ -91,9 +89,8 @@ static char	*ft_word(t_input *input, int i)
 	return (word);
 }
 
-char	**ft_split(t_input *input)
+char	**ft_split_input(t_input *input)
 {
-	char	**s;
 	int		i;
 	int		j;
 
@@ -101,8 +98,8 @@ char	**ft_split(t_input *input)
 	j = 0;
 	if (input->str == NULL)
 		return (NULL);
-	s = (char **)malloc(sizeof(char *) * (ft_check_str_count(input) + 1));
-	if (s == NULL)
+	input->output = (char **)malloc(sizeof(char *) * (ft_check_str_count(input) + 1));
+	if (input->output == NULL)
 		return (NULL);
 	while (input->str[j])
 	{
@@ -110,7 +107,7 @@ char	**ft_split(t_input *input)
 			j++;
 		if (input->str[j])
 		{ 
-			s[i] = ft_word(input, j);
+			input->output[i] = ft_word(input, j);
 			i++;
 		}
 		while (input->str[j] && ((input->str[j] != input->c) ||\
@@ -120,25 +117,24 @@ char	**ft_split(t_input *input)
 				j++;
 		}
 	}
-	s[i] = 0;
-	return (s);
+	input->output[i] = 0;
 }
 
 
-#include <stdio.h>
-int	main()
-{
-	t_input input;
-	int		index;
-	char	**split;
+// #include <stdio.h>
+// int	main()
+// {
+// 	t_input input;
+// 	int		index;
+// 	char	**split;
 
-	input.c = ' ';
-	input.str = "\"Hallo test\" \'bim dran\'";
-	split = ft_split(&input);
-	index = 0;
-	while (split[index] != 0)
-	{
-		printf("%s\n", split[index]);
-		index++;
-	}
-}
+// 	input.c = ' ';
+// 	input.str = "\"Hallo test\" \'bim dran\'";
+// 	split = ft_split(&input);
+// 	index = 0;
+// 	while (split[index] != 0)
+// 	{
+// 		printf("%s\n", split[index]);
+// 		index++;
+// 	}
+// }
