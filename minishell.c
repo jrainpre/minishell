@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/19 15:11:23 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:47:37 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[], char **envp)
     table->arguments = malloc(sizeof(t_parse_com) * 100);
     input.str= malloc(100);
     
-    input.str = readline("minishell $>");
+    input.str = readline("minishell $> ");
     ft_split_input(&input);
     put_to_table(input.output, table);
     
