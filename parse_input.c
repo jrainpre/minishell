@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 15:07:10 by mkoller          ###   ########.fr       */
+/*   Updated: 2022/12/20 09:15:27 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,21 +120,3 @@ void ft_split_input(t_input *input)
 	input->output[i] = 0;
 }
 
-
-// #include <stdio.h>
-// int	main()
-// {
-// 	t_input input;
-// 	int		index;
-// 	char	**split;
-
-// 	input.c = ' ';
-// 	input.str = "\"Hallo test\" \'bim dran\'";
-// 	split = ft_split(&input);
-// 	index = 0;
-// 	while (split[index] != 0)
-// 	{
-// 		printf("%s\n", split[index]);
-// 		index++;
-// 	}
-// }
