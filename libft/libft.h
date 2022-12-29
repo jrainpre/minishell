@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/19 15:01:15 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/29 10:44:50 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 t_list	*ft_lstnew(void *content);
 int		ft_lstsize(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+char	*ft_strcat(char *dest, char *src);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+char *ft_strcpy(char *dest, char *src);
 /*printf*/
 int					ft_printstr_fd(char *s, int fd);
 int					ft_printchar_fd(char c, int fd);
