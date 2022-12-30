@@ -6,13 +6,13 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/30 11:36:18 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/30 16:05:25 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void include_env(t_input *input)
+void include_env(t_input *input, t_env_list *env_list)
 {
 	char *dollar_pos;
 	char *name;
@@ -24,7 +24,7 @@ void include_env(t_input *input)
 		while (find_unquoted_dollar(input->output[i]))	
 		{
 			dollar_pos = find_unquoted_dollar(input->output[i]);
-			name = get_env_name(dollar_pos);
+			name = get_env_name(dollar_pos, env_list);
 			temp = input->output[i];
 			input->output[i] = get_new_str(input->output[i], name, dollar_pos);
 			free(temp);
@@ -75,7 +75,7 @@ int get_new_strlen(char *str, char *value, char *ptr)
 	return (i);
 }
 
-char *get_env_name(char *arg)
+char *get_env_name(char *arg, t_env_list *env_lst)
 {
 	int i;
 	char *env_name;
@@ -92,7 +92,7 @@ char *get_env_name(char *arg)
 		env_name[i] = arg[i];
 		i++;
 	}
-	env_val = getenv(env_name);
+	env_val = get_env_value(env_lst, env_name);
 	if (!env_val)
 		env_val = ft_calloc(1, 1);
 	free(env_name);
@@ -127,7 +127,3 @@ char *find_unquoted_dollar(char *str)
   }
   return (NULL);
 }
-
-
-
-ft_check 

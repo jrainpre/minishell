@@ -6,7 +6,7 @@
 #    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2022/12/30 10:38:11 by jrainpre         ###   ########.fr        #
+#    Updated: 2022/12/30 16:16:47 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,8 +60,10 @@ SRCS        :=      libft/ft_printf.c \
                           libft/ft_memmove.c \
                           libft/ft_strcpy.c \
                           libft/ft_strncpy.c \
+                          libft/ft_strcmp.c \
                           parse_input.c \
                           env_replace.c \
+                          safe_env_in_lst.c \
                           minishell.c \
                           
 OBJS        := $(SRCS:.c=.o)

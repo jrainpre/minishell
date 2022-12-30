@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/30 10:51:32 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/30 16:07:11 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,21 @@ int main(int argc, char *argv[], char **envp)
     int i = 0;
     t_input input;
     t_com *table;
+    t_env_list *env_lst;
     
     (void)argc;
 	(void)argv;
     (void)envp;
+    
+    env_lst = NULL;
+    fill_env_lst(&env_lst, envp);
     table = malloc(sizeof(t_com));
     table->arguments = malloc(sizeof(t_parse_com) * 100);
     input.str= malloc(100);
     input.c = ' ';
     input.str = readline("minishell $> ");
     ft_split_input(&input);
-    include_env(&input);
+    include_env(&input, env_lst);
     put_to_table(input.output, table);
     
     while (i < 2)

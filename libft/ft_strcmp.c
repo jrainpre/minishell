@@ -1,46 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 13:21:02 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/30 16:15:28 by jrainpre         ###   ########.fr       */
+/*   Created: 2022/12/30 16:09:43 by jrainpre          #+#    #+#             */
+/*   Updated: 2022/12/30 16:10:17 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strcpydup(char *dest, const char *src)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
-	}
-	dest[i] = '\0';
-	return (&dest[0]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-
-char	*ft_strdup(const char *s)
-{
-	char	*p;
-
-	p = malloc(ft_strlen(s) + 1);
-	if (p == NULL)
-		return (0);
-	return (ft_strcpydup(p, s));
-}
-
-/*
-#include <stdio.h>
-int	main()
-{
-	char str[] = "Hallo";
-	printf("%s", ft_strdup(str));
-}
-*/

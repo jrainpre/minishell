@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/30 10:23:10 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/30 16:06:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,21 @@ typedef struct s_com
 	t_parse_com	*arguments;
 }				t_com;
 
+typedef struct s_env_list
+{
+	char		*name;
+	char		*value;
+	struct s_env_list	*next;
+}				t_env_list;
+
 void ft_split_input(t_input *input);
 int put_to_table(char **str, t_com *table);
-void include_env(t_input *input);
+void include_env(t_input *input, t_env_list *env_lst);
 char *get_new_str(char *str, char *envvar, char *ptr);
 int get_new_strlen(char *str, char *value, char *ptr);
-char *get_env_name(char *arg);
-char *find_unquoted_dollar(char *str);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+char *get_env_name(char *arg, t_env_list *env_lst);
+char *find_unquoted_dollar(char *str);
+void fill_env_lst(t_env_list **env_lst, char **envp);
+char *get_env_value(t_env_list *env_lst, char *name);                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
 #endif
