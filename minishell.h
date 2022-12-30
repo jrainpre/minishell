@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/29 14:09:09 by jrainpre         ###   ########.fr       */
+/*   Updated: 2022/12/30 10:23:10 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,10 @@ typedef struct s_com
 
 void ft_split_input(t_input *input);
 int put_to_table(char **str, t_com *table);
+void include_env(t_input *input);
+char *get_new_str(char *str, char *envvar, char *ptr);
+int get_new_strlen(char *str, char *value, char *ptr);
+char *get_env_name(char *arg);
+char *find_unquoted_dollar(char *str);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 #endif

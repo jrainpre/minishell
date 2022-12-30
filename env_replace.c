@@ -1,21 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_replace.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
+/*   Updated: 2022/12/30 11:36:18 by jrainpre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-char *get_env_name(char *arg);
-int get_new_strlen(char *str, char *value, char *ptr);
-char *get_new_str(char *str, char *envvar, char *ptr);
-char *find_unquoted_dollar(char *str);
-//function that replaces $ with the value of the env variable
-void include_env(t_parse_com *args, char **env)
+
+void include_env(t_input *input)
 {
-	char *ptr;
+	char *dollar_pos;
 	char *name;
-	char *second;
+	char *temp;
 	int i = 0;
 
-	while (find_unquoted_dollar(args->command))
+	while (input->output[i])
 	{
-	ptr = find_unquoted_dollar(args->command);
-		name = get_env_name(ptr);
-		args->command = get_new_str(args->command, name, ptr);
+		while (find_unquoted_dollar(input->output[i]))	
+		{
+			dollar_pos = find_unquoted_dollar(input->output[i]);
+			name = get_env_name(dollar_pos);
+			temp = input->output[i];
+			input->output[i] = get_new_str(input->output[i], name, dollar_pos);
+			free(temp);
+		}
+		i++;
 	}
 }
 
@@ -85,42 +99,12 @@ char *get_env_name(char *arg)
 	return(env_val);
 }
 
-
-
-// int check_in_single_quotes(char *str)
-// {
-// 	int i;
-// 	int open;
-// 	int in_qutoes;
-// 	int dollar_found;
-
-// 	i = 0;
-// 	open = 0;
-// 	in_qutoes = 0;
-// 	dollar_found = 0;
-// 	while (str[i])
-// 	{
-// 		if (!open && str[i] == '\'')
-// 			open = 1;
-// 		if (open && str[i] == '$')
-// 			dollar_found = 1;
-// 		if (open && str[i++] == '\'')
-// 		{
-// 			open = 0;
-// 			if (dollar_found)
-// 				in_qutoes = 1;
-// 		}
-// 	}
-// 	return (dollar_found);
-// }
-
-
 char *find_unquoted_dollar(char *str)
 {
-  bool in_single_quotes;
+  int in_single_quotes;
   char *q;
 
-	in_single_quotes = false;
+	in_single_quotes = 0;
  	while (*str != '\0')
 	{
     if (*str == '\'')
@@ -144,14 +128,6 @@ char *find_unquoted_dollar(char *str)
   return (NULL);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_parse_com args;
-	int i;
 
-	i = 0;
 
-	args.command = "Hall'o $USER Test $GDMSESSION Hallo";
-	include_env(&args, envp);
-
-}
+ft_check 
