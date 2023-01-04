@@ -6,13 +6,13 @@
 #    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2022/12/30 16:16:47 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/04 10:45:53 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell_test
 CC        := cc
-FLAGS    := -Wall -Wextra -Werror -g
+FLAGS    :=  -g
 READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
 
 SRCS        :=      libft/ft_printf.c \

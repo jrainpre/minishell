@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2022/12/30 16:07:11 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 10:45:22 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,18 @@ int main(int argc, char *argv[], char **envp)
     input.str = readline("minishell $> ");
     ft_split_input(&input);
     include_env(&input, env_lst);
+    print_export_list(env_lst);
     put_to_table(input.output, table);
     
-    while (i < 2)
-    {
-        printf("Command: %s, ", table->arguments[i].command);
-        printf("Flags: %s, ", table->arguments[i].flag);
-        printf("In: %s, ", table->arguments[i].redir.in);
-        printf("Out: %s", table->arguments[i].redir.out);
-        printf("\n");
-        i++;
-    }
+    // while (i < 2)
+    // {
+    //     printf("Command: %s, ", table->arguments[i].command);
+    //     printf("Flags: %s, ", table->arguments[i].flag);
+    //     printf("In: %s, ", table->arguments[i].redir.in);
+    //     printf("Out: %s", table->arguments[i].redir.out);
+    //     printf("\n");
+    //     i++;
+    // }
 
     // while (envp[i])
     // {
