@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/04 16:04:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:40:05 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*get_env_value(t_env_list *env_lst, char *name)
 // 	return (0);
 // }
 
-int changevalue(t_env_list *env_lst, char *name_value)
+int	changevalue(t_env_list *env_lst, char *name_value)
 {
 	t_env_list	*temp;
 	char		*name;
@@ -94,7 +94,6 @@ int changevalue(t_env_list *env_lst, char *name_value)
 	free(value);
 	return (0);
 }
-
 
 void	delete_env_value(t_env_list *env_lst, char *name)
 {
@@ -135,11 +134,11 @@ void	free_env_lst(t_env_list *env_lst)
 	}
 }
 
-t_env_list *duplicate_list(t_env_list *env_lst)
+t_env_list	*duplicate_list(t_env_list *env_lst)
 {
-	t_env_list *new;
-	t_env_list *temp;
-	t_env_list *head;
+	t_env_list	*new;
+	t_env_list	*temp;
+	t_env_list	*head;
 
 	new = NULL;
 	temp = env_lst;
@@ -166,12 +165,12 @@ t_env_list *duplicate_list(t_env_list *env_lst)
 	return (head);
 }
 
-t_env_list *sort_list_alphabetically(t_env_list *env_lst)
+t_env_list	*sort_list_alphabetically(t_env_list *env_lst)
 {
-	t_env_list *temp;
-	t_env_list *head;
-	char *temp_name;
-	char *temp_value;
+	t_env_list	*temp;
+	t_env_list	*head;
+	char		*temp_name;
+	char		*temp_value;
 
 	head = env_lst;
 	while (env_lst)
@@ -195,9 +194,9 @@ t_env_list *sort_list_alphabetically(t_env_list *env_lst)
 	return (head);
 }
 
-void print_env_list(t_env_list *env_lst)
+void	print_env_list(t_env_list *env_lst)
 {
-	t_env_list *temp;
+	t_env_list	*temp;
 
 	temp = env_lst;
 	while (temp)
@@ -207,10 +206,10 @@ void print_env_list(t_env_list *env_lst)
 	}
 }
 
-void print_export_list(t_env_list *env_lst)
+void	print_export_list(t_env_list *env_lst)
 {
-	t_env_list *sort_copy;
-	t_env_list *temp;
+	t_env_list	*sort_copy;
+	t_env_list	*temp;
 
 	sort_copy = duplicate_list(env_lst);
 	sort_copy = sort_list_alphabetically(sort_copy);
@@ -223,9 +222,9 @@ void print_export_list(t_env_list *env_lst)
 	free_env_lst(sort_copy);
 }
 
-int		is_valid_env(const char *env)
+int	is_valid_env(const char *env)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (ft_isdigit(env[i]) == 1)
@@ -241,11 +240,11 @@ int		is_valid_env(const char *env)
 	return (1);
 }
 
-int add_env_entry(t_env_list *env, char *str)
+int	add_env_entry(t_env_list *env, char *str)
 {
-	t_env_list *temp;
-	char *name;
-	char *value;
+	t_env_list	*temp;
+	char		*name;
+	char		*value;
 
 	temp = env;
 	name = ft_substr(str, 0, ft_strchr(str, '=') - str);
@@ -260,9 +259,10 @@ int add_env_entry(t_env_list *env, char *str)
 	return (1);
 }
 
-int export_env(t_env_list *env, char **args)
+int	export_env(t_env_list *env, char **args)
 {
 	int i;
+	char *name;
 
 	i = 0;
 	while (args[i])
@@ -271,19 +271,19 @@ int export_env(t_env_list *env, char **args)
 		print_export_list(env);
 	else
 	{
-		i = 0;
-		while (args[i])
+		i = -1;
+		while (args[++i])
 		{
+			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 			if (is_valid_env(args[i]) == 0)
-			{
-				printf("minishell: export: `%s': not a valid identifier\n", args[i]);
+				printf(EXPORT,args[i]);
+			if (is_valid_env(args[i]) == 0)
 				return (1);
-			}
-			if (get_env_value(env, args[i]) == NULL)
+			if (get_env_value(env, name) == NULL)
 				add_env_entry(env, args[i]);
 			else
-				changevalue(env, args[i]);	
-			i++;
+				changevalue(env, args[i]);
+			free(name);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 16:05:36 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:39:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ENV "env"
 # define EXIT "exit"
 # define ERROR "ERROR"
+# define EXPORT "minishell: export: `%s': not a valid identifier\n"
 
 typedef struct s_read_input
 {

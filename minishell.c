@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 10:45:22 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:49:19 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,22 @@ int main(int argc, char *argv[], char **envp)
 	(void)argv;
     (void)envp;
     
-    env_lst = NULL;
-    fill_env_lst(&env_lst, envp);
+    // env_lst = NULL;
+     fill_env_lst(&env_lst, envp);
+         char *str[3];
+    str[0] = "Hallo=99";
+    str[1] = "Test=123";
+    str[2] = NULL;
+    export_env(env_lst, str);
+//    delete_env_value(env_lst, "Hallo");
+
+        str[0] = "Hallo=asdfasdf";
+    str[1] = "Test=super";
+    str[2] = NULL;
+    export_env(env_lst, str);
+        str[0] = NULL;
+        export_env(env_lst, str);
+    
     table = malloc(sizeof(t_com));
     table->arguments = malloc(sizeof(t_parse_com) * 100);
     input.str= malloc(100);
@@ -77,18 +91,20 @@ int main(int argc, char *argv[], char **envp)
     input.str = readline("minishell $> ");
     ft_split_input(&input);
     include_env(&input, env_lst);
-    print_export_list(env_lst);
+    // print_export_list(env_lst);
     put_to_table(input.output, table);
-    
-    // while (i < 2)
-    // {
-    //     printf("Command: %s, ", table->arguments[i].command);
-    //     printf("Flags: %s, ", table->arguments[i].flag);
-    //     printf("In: %s, ", table->arguments[i].redir.in);
-    //     printf("Out: %s", table->arguments[i].redir.out);
-    //     printf("\n");
-    //     i++;
-    // }
+
+        // print_export_list(env_lst);
+
+    while (i < 2)
+    {
+        printf("Command: %s, ", table->arguments[i].command);
+        printf("Flags: %s, ", table->arguments[i].flag);
+        printf("In: %s, ", table->arguments[i].redir.in);
+        printf("Out: %s", table->arguments[i].redir.out);
+        printf("\n");
+        i++;
+    }
 
     // while (envp[i])
     // {
@@ -97,5 +113,5 @@ int main(int argc, char *argv[], char **envp)
     // }
 
     
-    
+       free_env_lst(env_lst); 
 }
