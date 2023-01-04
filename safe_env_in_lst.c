@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/04 10:40:50 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:04:56 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,51 @@ char	*get_env_value(t_env_list *env_lst, char *name)
 	return (NULL);
 }
 
-void	change_env_value(t_env_list *env_lst, char *name, char *value)
+// int	change_env_value(t_env_list *env_lst, char *name, char *value)
+// {
+// 	t_env_list	*temp;
+
+// 	temp = env_lst;
+// 	while (temp)
+// 	{
+// 		if (ft_strcmp(temp->name, name) == 0)
+// 		{
+// 			free(temp->value);
+// 			temp->value = ft_strdup(value);
+// 			return (1);
+// 		}
+// 		temp = temp->next;
+// 	}
+// 	return (0);
+// }
+
+int changevalue(t_env_list *env_lst, char *name_value)
 {
 	t_env_list	*temp;
+	char		*name;
+	char		*value;
 
 	temp = env_lst;
+	name = ft_substr(name_value, 0, ft_strchr(name_value, '=') - name_value);
+	value = ft_substr(name_value, ft_strchr(name_value, '=') - name_value + 1,
+			ft_strlen(name_value));
 	while (temp)
 	{
 		if (ft_strcmp(temp->name, name) == 0)
 		{
 			free(temp->value);
 			temp->value = ft_strdup(value);
-			return ;
+			free(name);
+			free(value);
+			return (1);
 		}
 		temp = temp->next;
 	}
+	free(name);
+	free(value);
+	return (0);
 }
+
 
 void	delete_env_value(t_env_list *env_lst, char *name)
 {
@@ -193,4 +222,68 @@ void print_export_list(t_env_list *env_lst)
 	}
 	free_env_lst(sort_copy);
 }
-	
+
+int		is_valid_env(const char *env)
+{
+	int		i;
+
+	i = 0;
+	if (ft_isdigit(env[i]) == 1)
+		return (0);
+	while (env[i] && env[i] != '=')
+	{
+		if (ft_isalnum(env[i]) == 0)
+			return (0);
+		i++;
+	}
+	if (env[i] != '=')
+		return (0);
+	return (1);
+}
+
+int add_env_entry(t_env_list *env, char *str)
+{
+	t_env_list *temp;
+	char *name;
+	char *value;
+
+	temp = env;
+	name = ft_substr(str, 0, ft_strchr(str, '=') - str);
+	value = ft_strdup(ft_strchr(str, '=') + 1);
+	while (temp->next)
+		temp = temp->next;
+	temp->next = malloc(sizeof(t_env_list));
+	temp = temp->next;
+	temp->name = name;
+	temp->value = value;
+	temp->next = NULL;
+	return (1);
+}
+
+int export_env(t_env_list *env, char **args)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	if (i == 0)
+		print_export_list(env);
+	else
+	{
+		i = 0;
+		while (args[i])
+		{
+			if (is_valid_env(args[i]) == 0)
+			{
+				printf("minishell: export: `%s': not a valid identifier\n", args[i]);
+				return (1);
+			}
+			if (get_env_value(env, args[i]) == NULL)
+				add_env_entry(env, args[i]);
+			else
+				changevalue(env, args[i]);	
+			i++;
+		}
+	}
+}

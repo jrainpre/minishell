@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 10:44:16 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:05:36 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,16 @@ char					*get_env_name(char *arg, t_env_list *env_lst);
 char					*find_unquoted_dollar(char *str);
 void					fill_env_lst(t_env_list **env_lst, char **envp);
 char					*get_env_value(t_env_list *env_lst, char *name);
-void					change_env_value(t_env_list *env_lst, char *name,
-							char *value);
+int 					changevalue(t_env_list *env_lst, char *name_value);
 void					delete_env_value(t_env_list *env_lst, char *name);
 void					free_env_lst(t_env_list *env_lst);
 t_env_list				*duplicate_list(t_env_list *env_lst);
 t_env_list				*sort_list_alphabetically(t_env_list *env_lst);
 void					print_env_list(t_env_list *env_lst);
 void					print_export_list(t_env_list *env_lst);
+int						is_valid_env(const char *env);
+int						add_env_entry(t_env_list *env, char *str);
+int						add_env_list(t_env_list *env, char **envp);
+int						export_env(t_env_list *env, char **args);
 
 #endif
