@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_env_in_lst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/04 16:40:05 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:12:45 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int	export_env(t_env_list *env, char **args)
 		{
 			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 			if (is_valid_env(args[i]) == 0)
-				printf(EXPORT,args[i]);
+				printf(EXPORT_ERROR, args[i]);
 			if (is_valid_env(args[i]) == 0)
 				return (1);
 			if (get_env_value(env, name) == NULL)
@@ -286,4 +286,5 @@ int	export_env(t_env_list *env, char **args)
 			free(name);
 		}
 	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 16:39:00 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:07:00 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define ENV "env"
 # define EXIT "exit"
 # define ERROR "ERROR"
-# define EXPORT "minishell: export: `%s': not a valid identifier\n"
+# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
 
 typedef struct s_read_input
 {
@@ -46,17 +46,12 @@ typedef struct s_redir
 	int					fd_error;
 }						t_redir;
 
-typedef struct s_parse_com
+typedef struct s_com
 {
 	char				*command;
 	char				*flag;
 	t_redir				redir;
-}						t_parse_com;
-
-typedef struct s_com
-{
-	int					numberOfArguments;
-	t_parse_com			*arguments;
+	struct s_com				*next;
 }						t_com;
 
 typedef struct s_env_list

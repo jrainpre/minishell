@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/30 16:05:25 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:44:35 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void include_env(t_input *input, t_env_list *env_list)
 
 	while (input->output[i])
 	{
-		while (find_unquoted_dollar(input->output[i]))	
+		while (find_unquoted_dollar(input->output[i]))
 		{
 			dollar_pos = find_unquoted_dollar(input->output[i]);
 			name = get_env_name(dollar_pos, env_list);

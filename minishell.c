@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 16:49:19 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:15:47 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,99 +19,145 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int put_to_table(char **str, t_com *table)
+void init_node(t_com *node)
+{
+    node->command = NULL;
+    node->flag = NULL;
+    node->next = NULL;
+    node->redir.error = NULL;
+    node->redir.in = NULL;
+    node->redir.out = NULL;
+    node->redir.fd_out = 0;
+    node->redir.fd_in = 0;
+    node->redir.fd_error = 0;
+}
+
+int add_node(t_com *node)
+{
+    t_com *new;
+    
+    new = malloc(sizeof(t_com));
+    if(!new)
+        return(1);
+    init_node(new);
+    if (node->next == NULL)
+        node->next = new;
+    return (0); 
+}
+
+void free_list(t_com *head)
+{
+    t_com *help;
+    
+    while (head)
+    {
+        help = head->next;
+        if (head)
+            free(head);
+        head = NULL;
+        head = help;
+    }
+}
+
+int put_to_table(char **str, t_com *head)
 {
     int i;
     int k;
     int last_cmd;
+    t_com *temp;
 
     k = 0;
     i = 0;
     last_cmd = 0;
+    temp = head;
     while (str[i])
     {
         if (k > 0 && str[i][0] == '-')
-            if (!table->arguments[last_cmd].flag)
-                table->arguments[last_cmd].flag = ft_strjoin(str[i], "\0");
+            if (!temp->flag)
+                temp->flag = ft_strjoin(str[i], "\0");
             else
-                table->arguments[last_cmd].flag = ft_strjoin(table->arguments[last_cmd].flag, str[i]);
+                temp->flag = ft_strjoin(temp->flag, str[i]);
         else if (k > 0 && str[i][0] == '>')
-            if (!table->arguments[last_cmd].redir.out)
-                table->arguments[last_cmd].redir.out = ft_strjoin(str[i], "\0");
+            if (!temp->redir.out)
+                temp->redir.out = ft_strjoin(str[i], "\0");
             else 
-                table->arguments[last_cmd].redir.out = ft_strjoin(table->arguments[last_cmd].redir.out, str[i]);
+                temp->redir.out = ft_strjoin(temp->redir.out, str[i]);
         else if (k > 0 && str[i][0] == '<')
-            if (!table->arguments[last_cmd].redir.in)
-                table->arguments[last_cmd].redir.in = ft_strjoin(str[i], "\0");
+            if (!temp->redir.in)
+                temp->redir.in = ft_strjoin(str[i], "\0");
             else
-                table->arguments[last_cmd].redir.in = ft_strjoin(table->arguments[last_cmd].redir.in, str[i]);
+                temp->redir.in = ft_strjoin(temp->redir.in, str[i]);
         else 
         {
-            table->arguments[k].command = str[i];
-            table->numberOfArguments++;
+            temp->command = str[i];
             last_cmd = k;
             k++;
         }
         i++;
+        if (temp->next == NULL)
+            add_node(temp);
+        temp = temp->next;
     }
-    return (0);
+    return(0);
 }
 
-int main(int argc, char *argv[], char **envp)
+void free_input_output(t_input *input)
+{
+    int i;
+    
+    i = 0;
+    while (input->output[i])
+    {
+        free(input->output[i]);
+        input->output[i] = NULL;
+        i++;
+    }
+    free(input->output);
+    input->output = NULL;
+}
+
+int main(int argc, char **argv, char **envp)
 {
     int i = 0;
     t_input input;
-    t_com *table;
-    t_env_list *env_lst;
+    t_com *head;
+    t_com *temp;
     
     (void)argc;
 	(void)argv;
     (void)envp;
-    
-    // env_lst = NULL;
-     fill_env_lst(&env_lst, envp);
-         char *str[3];
-    str[0] = "Hallo=99";
-    str[1] = "Test=123";
-    str[2] = NULL;
-    export_env(env_lst, str);
-//    delete_env_value(env_lst, "Hallo");
-
-        str[0] = "Hallo=asdfasdf";
-    str[1] = "Test=super";
-    str[2] = NULL;
-    export_env(env_lst, str);
-        str[0] = NULL;
-        export_env(env_lst, str);
-    
-    table = malloc(sizeof(t_com));
-    table->arguments = malloc(sizeof(t_parse_com) * 100);
-    input.str= malloc(100);
-    input.c = ' ';
-    input.str = readline("minishell $> ");
-    ft_split_input(&input);
-    include_env(&input, env_lst);
-    // print_export_list(env_lst);
-    put_to_table(input.output, table);
-
-        // print_export_list(env_lst);
-
-    while (i < 2)
+   
+    while (1)
     {
-        printf("Command: %s, ", table->arguments[i].command);
-        printf("Flags: %s, ", table->arguments[i].flag);
-        printf("In: %s, ", table->arguments[i].redir.in);
-        printf("Out: %s", table->arguments[i].redir.out);
-        printf("\n");
+        input.c = ' ';
+        head = malloc(sizeof(t_com));
+        init_node(head);
+        temp = head;
+        input.str = readline("minishell $> ");
+        add_history(input.str);
+        ft_split_input(&input);
+        put_to_table(input.output, temp);
+        while (temp->next)
+        {
+            printf("%s\n", temp->command);
+            printf("%s\n", temp->flag);
+            printf("%s\n", temp->redir.in);
+            printf("%s\n", temp->redir.out);
+            printf("\n");
+            temp = temp->next;
+        }
+        if (temp != NULL)
+        {
+            printf("%s\n", temp->command);
+            printf("%s\n", temp->flag);
+            printf("%s\n", temp->redir.in);
+            printf("%s\n", temp->redir.out);
+        }
+        free_list(head);
+        free_input_output(&input);
+        head = NULL;
+        temp = NULL;
         i++;
     }
-
-    // while (envp[i])
-    // {
-    //     printf("%s\n", envp[i]);
-    //     i++;
-    // }
-
-    
-       free_env_lst(env_lst); 
+    return(0);
 }
