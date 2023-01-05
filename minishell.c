@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/04 16:49:19 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:43:37 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,12 @@ int main(int argc, char *argv[], char **envp)
     // env_lst = NULL;
      fill_env_lst(&env_lst, envp);
          char *str[3];
-    str[0] = "Hallo=99";
+    str[0] = "1Hallo";
     str[1] = "Test=123";
     str[2] = NULL;
-    export_env(env_lst, str);
-//    delete_env_value(env_lst, "Hallo");
-
-        str[0] = "Hallo=asdfasdf";
-    str[1] = "Test=super";
-    str[2] = NULL;
-    export_env(env_lst, str);
+    export(env_lst, str);
         str[0] = NULL;
-        export_env(env_lst, str);
+    export(env_lst, str);
     
     table = malloc(sizeof(t_com));
     table->arguments = malloc(sizeof(t_parse_com) * 100);
