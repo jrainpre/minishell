@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/05 17:15:47 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/06 10:45:52 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void init_node(t_com *node)
     node->redir.fd_out = 0;
     node->redir.fd_in = 0;
     node->redir.fd_error = 0;
+    node->redir.in_delim = NULL;
+    node->redir.delimiter = NULL;
+    node->redir.out_app = NULL;
+    node->redir.pipe = NULL;
 }
 
 int add_node(t_com *node)
@@ -62,41 +66,77 @@ void free_list(t_com *head)
 int put_to_table(char **str, t_com *head)
 {
     int i;
-    int k;
-    int last_cmd;
     t_com *temp;
 
-    k = 0;
     i = 0;
-    last_cmd = 0;
     temp = head;
     while (str[i])
     {
-        if (k > 0 && str[i][0] == '-')
+        if (str[i][0] == '-')
+        {
             if (!temp->flag)
                 temp->flag = ft_strjoin(str[i], "\0");
             else
                 temp->flag = ft_strjoin(temp->flag, str[i]);
-        else if (k > 0 && str[i][0] == '>')
+        } 
+        else if (ft_strcmp(str[i], "<<") == 0)
+        {
+            if (!temp->redir.in_delim)
+            {
+                temp->redir.in_delim = ft_strjoin(str[i], "\0");
+                temp->redir.delimiter = str[i+1];
+            }
+            else
+            {
+                temp->redir.in_delim = ft_strjoin(temp->redir.in_delim, str[i]);
+                temp->redir.delimiter = str[i+1];
+            }
+        }
+        else if (ft_strcmp(str[i], ">>") == 0)
+        {
+            if (!temp->redir.out_app)
+                temp->redir.out_app = ft_strjoin(str[i], "\0");
+            else
+                temp->redir.out_app = ft_strjoin(temp->redir.out_app, str[i]);
+        }
+        else if (str[i][0] == '|')
+        {
+            if (!temp->redir.pipe)
+                temp->redir.pipe = ft_strjoin(str[i], "\0");
+            else 
+                temp->redir.pipe = ft_strjoin(temp->redir.pipe, str[i]);
+        } 
+        else if (str[i][0] == '>')
+        {
             if (!temp->redir.out)
                 temp->redir.out = ft_strjoin(str[i], "\0");
             else 
                 temp->redir.out = ft_strjoin(temp->redir.out, str[i]);
-        else if (k > 0 && str[i][0] == '<')
+        } 
+        else if (str[i][0] == '<')
+        {
             if (!temp->redir.in)
                 temp->redir.in = ft_strjoin(str[i], "\0");
             else
                 temp->redir.in = ft_strjoin(temp->redir.in, str[i]);
+        }
         else 
         {
-            temp->command = str[i];
-            last_cmd = k;
-            k++;
+            if (i > 0 && str[i-1][0] == '<')
+                temp->redir.in = ft_strjoin(temp->redir.in, str[i]);
+            else if (i > 0 && str[i-1][0] == '>')
+                temp->redir.out = ft_strjoin(temp->redir.out, str[i]);
+            else
+            {
+                if (i > 0)
+                {
+                    add_node(temp);
+                    temp = temp->next;
+                }    
+                temp->command = str[i];
+            }
         }
         i++;
-        if (temp->next == NULL)
-            add_node(temp);
-        temp = temp->next;
     }
     return(0);
 }
@@ -137,21 +177,17 @@ int main(int argc, char **argv, char **envp)
         add_history(input.str);
         ft_split_input(&input);
         put_to_table(input.output, temp);
-        while (temp->next)
+        while (temp != NULL)
         {
-            printf("%s\n", temp->command);
-            printf("%s\n", temp->flag);
-            printf("%s\n", temp->redir.in);
-            printf("%s\n", temp->redir.out);
-            printf("\n");
+            printf("Command: %s\n", temp->command);
+            printf("Flag: %s\n", temp->flag);
+            printf("Pipe: %s\n", temp->redir.pipe);
+            printf("Redir In: %s\n", temp->redir.in);
+            printf("Redir Out: %s\n", temp->redir.out);
+            printf("Redir In Delim: %s\n", temp->redir.in_delim);
+            printf("Delimiter: %s\n", temp->redir.delimiter);
+            printf("Redir Out append: %s\n", temp->redir.out_app);
             temp = temp->next;
-        }
-        if (temp != NULL)
-        {
-            printf("%s\n", temp->command);
-            printf("%s\n", temp->flag);
-            printf("%s\n", temp->redir.in);
-            printf("%s\n", temp->redir.out);
         }
         free_list(head);
         free_input_output(&input);

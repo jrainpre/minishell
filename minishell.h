@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/05 15:07:00 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/06 10:43:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ typedef struct s_redir
 	int					fd_out;
 	char				*error;
 	int					fd_error;
+	char				*in_delim;
+	char				*delimiter;
+	char				*out_app;
+	char				*pipe;
 }						t_redir;
 
 typedef struct s_com
