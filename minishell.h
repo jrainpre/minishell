@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/06 10:43:21 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/06 16:19:11 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,33 @@ typedef struct s_read_input
 	char				**in_token;
 }						t_input;
 
-typedef struct s_redir
+// typedef struct s_redir
+// {
+// 	char				*in;
+// 	int					fd_in;
+// 	char				*out;
+// 	int					fd_out;
+// 	char				*error;
+// 	int					fd_error;
+// 	char				*in_delim;
+// 	char				*delimiter;
+// 	char				*out_app;
+// 	char				*pipe;
+// }						t_redir;
+
+typedef struct s_parse
 {
-	char				*in;
-	int					fd_in;
-	char				*out;
-	int					fd_out;
-	char				*error;
-	int					fd_error;
-	char				*in_delim;
-	char				*delimiter;
-	char				*out_app;
-	char				*pipe;
-}						t_redir;
+	char	**full_cmd;
+	char	*full_path;
+	int		in;
+	int		out;
+}			t_parse;
 
 typedef struct s_com
 {
-	char				*command;
-	char				*flag;
-	t_redir				redir;
+	char				*word;
+	char				*pipe;
+	char				*redir;
 	struct s_com				*next;
 }						t_com;
 
