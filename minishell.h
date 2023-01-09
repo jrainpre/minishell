@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/06 16:19:11 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/09 14:32:55 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,30 @@
 # define ERROR "ERROR"
 # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
 
+typedef struct s_parse
+{
+	char				**full_cmd;
+	char				*full_path;
+	struct s_parse		*next;
+	int					in;
+	int					out;
+}						t_parse;
+
+typedef struct s_prompt
+{
+	t_parse				*cmds;
+	char				**envp;
+	pid_t				pid;
+}						t_prompt;
+
+// typedef struct s_com
+// {
+// 	char				*word;
+// 	char				*pipe;
+// 	char				*redir;
+// 	struct s_com		*next;
+// }						t_com;
+
 typedef struct s_read_input
 {
 	char				*str;
@@ -36,36 +60,6 @@ typedef struct s_read_input
 	char				**in_token;
 }						t_input;
 
-// typedef struct s_redir
-// {
-// 	char				*in;
-// 	int					fd_in;
-// 	char				*out;
-// 	int					fd_out;
-// 	char				*error;
-// 	int					fd_error;
-// 	char				*in_delim;
-// 	char				*delimiter;
-// 	char				*out_app;
-// 	char				*pipe;
-// }						t_redir;
-
-typedef struct s_parse
-{
-	char	**full_cmd;
-	char	*full_path;
-	int		in;
-	int		out;
-}			t_parse;
-
-typedef struct s_com
-{
-	char				*word;
-	char				*pipe;
-	char				*redir;
-	struct s_com				*next;
-}						t_com;
-
 typedef struct s_env_list
 {
 	char				*name;
@@ -74,7 +68,7 @@ typedef struct s_env_list
 }						t_env_list;
 
 void					ft_split_input(t_input *input);
-int						put_to_table(char **str, t_com *table);
+int						put_to_table(char **str, t_prompt *struc);
 void					include_env(t_input *input, t_env_list *env_lst);
 char					*get_new_str(char *str, char *envvar, char *ptr);
 int						get_new_strlen(char *str, char *value, char *ptr);
@@ -82,7 +76,7 @@ char					*get_env_name(char *arg, t_env_list *env_lst);
 char					*find_unquoted_dollar(char *str);
 void					fill_env_lst(t_env_list **env_lst, char **envp);
 char					*get_env_value(t_env_list *env_lst, char *name);
-int 					changevalue(t_env_list *env_lst, char *name_value);
+int						changevalue(t_env_list *env_lst, char *name_value);
 void					delete_env_value(t_env_list *env_lst, char *name);
 void					free_env_lst(t_env_list *env_lst);
 t_env_list				*duplicate_list(t_env_list *env_lst);
