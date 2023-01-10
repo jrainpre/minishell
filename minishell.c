@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/05 14:43:37 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/10 10:44:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,93 +19,199 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int put_to_table(char **str, t_com *table)
+int count_pipes(char **split)
+{
+    int count;
+    int i;
+    
+    i = 0;
+    count = 0;
+    while (split[i])
+    {
+        if (split[i][0] == '|')
+            count++;
+        i++;
+    }
+    return count;
+}
+
+void free_prompt(t_prompt *struc)
+{
+    t_parse *head;
+    t_parse *help;
+
+    head = struc->cmds;
+    help = head;
+    while (help)
+    {
+        free(help->full_cmd);
+        help = help->next;
+    }
+    help = head->next;
+    while (head)
+    {
+        if (head)
+            free(head);
+        head = help;
+        if (help)
+            help = help->next;
+    }
+    head = NULL;
+    help = NULL;
+}
+
+void init_node(t_parse *node)
+{
+    node->full_cmd = NULL;
+    node->full_path = NULL;
+    node->next = NULL;
+    node->in = 0;
+    node->out = 0;
+}
+
+void add_nodes(t_prompt *struc, int ammount)
+{
+    t_parse *node;
+    t_parse *head;
+    int i;
+    int first;
+    
+    first = 0;
+    i = ammount;
+    while (i >= 0)
+    {
+        node = malloc(sizeof(t_parse));
+        init_node(node);
+        if(first == 0)
+        {
+            struc->cmds = node;
+            head = struc->cmds;
+            first++;
+        }
+        else
+        {
+            head->next = node;
+            head = head->next;
+        }  
+        i--;
+    }
+    node = NULL;
+}
+
+int put_to_table(char **str, t_prompt *struc)
 {
     int i;
-    int k;
-    int last_cmd;
+    int j;
+    int count;
+    t_parse *temp;
 
-    k = 0;
+    count = count_pipes(str);
     i = 0;
-    last_cmd = 0;
+    j = 0;
+    add_nodes(struc, count);
+    temp = struc->cmds;
+    temp->full_cmd = malloc(100);
     while (str[i])
     {
-        if (k > 0 && str[i][0] == '-')
-            if (!table->arguments[last_cmd].flag)
-                table->arguments[last_cmd].flag = ft_strjoin(str[i], "\0");
-            else
-                table->arguments[last_cmd].flag = ft_strjoin(table->arguments[last_cmd].flag, str[i]);
-        else if (k > 0 && str[i][0] == '>')
-            if (!table->arguments[last_cmd].redir.out)
-                table->arguments[last_cmd].redir.out = ft_strjoin(str[i], "\0");
-            else 
-                table->arguments[last_cmd].redir.out = ft_strjoin(table->arguments[last_cmd].redir.out, str[i]);
-        else if (k > 0 && str[i][0] == '<')
-            if (!table->arguments[last_cmd].redir.in)
-                table->arguments[last_cmd].redir.in = ft_strjoin(str[i], "\0");
-            else
-                table->arguments[last_cmd].redir.in = ft_strjoin(table->arguments[last_cmd].redir.in, str[i]);
-        else 
+        if (str[i][0] != '|')
         {
-            table->arguments[k].command = str[i];
-            table->numberOfArguments++;
-            last_cmd = k;
-            k++;
+            temp->full_cmd[j] = str[i];
+            j++;
+            i++;
         }
-        i++;
+        else if (str[i][0] == '|')
+        {
+            temp = temp->next;
+            if (temp != NULL)
+                temp->full_cmd = malloc(100);
+            i++;
+            j = 0;
+        }
     }
     return (0);
 }
 
-int main(int argc, char *argv[], char **envp)
+void free_input_output(t_input *input)
+{
+    int i;
+    
+    i = 0;
+    while (input->output[i])
+    {
+        free(input->output[i]);
+        input->output[i] = NULL;
+        i++;
+    }
+    free(input->output);
+    input->output = NULL;
+}
+
+void init_prompt(t_prompt *struc, char **env)
+{
+    struc->cmds = NULL;
+    struc->envp = env;
+    struc->pid = 0;
+}
+
+char** copie_env(char **env)
+{
+    int i;
+    int j;
+    char **new_env;
+
+    i = 0;
+    j = 0;
+    while (env[i])
+        i++;
+    new_env = malloc(sizeof(char*) * (i + 1));
+    while (j < i)
+    {
+        new_env[j] = ft_strjoin(env[j], "\0");
+        j++;
+    }
+    new_env[j] = NULL;
+    return (new_env);
+}
+
+int main(int argc, char **argv, char **envp)
 {
     int i = 0;
     t_input input;
-    t_com *table;
-    t_env_list *env_lst;
+    t_prompt struc;
+    t_parse *temp;
     
+    init_prompt(&struc, copie_env(envp));
+    temp = NULL;
     (void)argc;
 	(void)argv;
     (void)envp;
-    
-    // env_lst = NULL;
-     fill_env_lst(&env_lst, envp);
-         char *str[3];
-    str[0] = "1Hallo";
-    str[1] = "Test=123";
-    str[2] = NULL;
-    export(env_lst, str);
-        str[0] = NULL;
-    export(env_lst, str);
-    
-    table = malloc(sizeof(t_com));
-    table->arguments = malloc(sizeof(t_parse_com) * 100);
-    input.str= malloc(100);
-    input.c = ' ';
-    input.str = readline("minishell $> ");
-    ft_split_input(&input);
-    include_env(&input, env_lst);
-    // print_export_list(env_lst);
-    put_to_table(input.output, table);
-
-        // print_export_list(env_lst);
-
-    while (i < 2)
+   
+    while (1)
     {
-        printf("Command: %s, ", table->arguments[i].command);
-        printf("Flags: %s, ", table->arguments[i].flag);
-        printf("In: %s, ", table->arguments[i].redir.in);
-        printf("Out: %s", table->arguments[i].redir.out);
-        printf("\n");
-        i++;
+        input.c = ' ';
+        input.str = readline("minishell $> ");
+        add_history(input.str);
+        ft_split_input(&input);
+        put_to_table(input.output, &struc);
+        temp = struc.cmds;
+        while (temp)
+        {
+            printf("\nFull cmd: ");
+            while (temp->full_cmd[i])
+            {
+                printf("%s ", temp->full_cmd[i]);
+                i++;
+            }
+            printf("\nFull path: %s\n", temp->full_path);
+            printf("In: %d\n", temp->in);
+            printf("Out: %d\n", temp->out);
+            printf("\n");
+            temp = temp->next;
+            i = 0;
+        }
+        free_prompt(&struc);
+        free_input_output(&input);
+        i = 0;
     }
-
-    // while (envp[i])
-    // {
-    //     printf("%s\n", envp[i]);
-    //     i++;
-    // }
-
-    
-       free_env_lst(env_lst); 
+    return(0);
 }
