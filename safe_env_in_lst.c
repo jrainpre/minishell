@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_env_in_lst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/05 15:12:45 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/10 10:49:34 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ char	*get_env_value(t_env_list *env_lst, char *name)
 	}
 	return (NULL);
 }
-
-// int	change_env_value(t_env_list *env_lst, char *name, char *value)
-// {
-// 	t_env_list	*temp;
-
-// 	temp = env_lst;
-// 	while (temp)
-// 	{
-// 		if (ft_strcmp(temp->name, name) == 0)
-// 		{
-// 			free(temp->value);
-// 			temp->value = ft_strdup(value);
-// 			return (1);
-// 		}
-// 		temp = temp->next;
-// 	}
-// 	return (0);
-// }
 
 int	changevalue(t_env_list *env_lst, char *name_value)
 {
@@ -236,7 +218,7 @@ int	is_valid_env(const char *env)
 		i++;
 	}
 	if (env[i] != '=')
-		return (0);
+		return (2);
 	return (1);
 }
 
@@ -258,11 +240,29 @@ int	add_env_entry(t_env_list *env, char *str)
 	temp->next = NULL;
 	return (1);
 }
+int	add_env_no_value(t_env_list *env, char *str)
+{
+	t_env_list	*temp;
+	char		*name;
+	char		*value;
+
+	temp = env;
+	name = ft_strdup(str);
+	value = ft_strdup("\'\'");
+	while (temp->next)
+		temp = temp->next;
+	temp->next = malloc(sizeof(t_env_list));
+	temp = temp->next;
+	temp->name = name;
+	temp->value = value;
+	temp->next = NULL;
+	return (1);
+}
 
 int	export_env(t_env_list *env, char **args)
 {
-	int i;
-	char *name;
+	int		i;
+	char	*name;
 
 	i = 0;
 	while (args[i])
@@ -276,15 +276,57 @@ int	export_env(t_env_list *env, char **args)
 		{
 			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 			if (is_valid_env(args[i]) == 0)
-				printf(EXPORT_ERROR, args[i]);
+				printf(EXPORT, args[i]);
 			if (is_valid_env(args[i]) == 0)
 				return (1);
-			if (get_env_value(env, name) == NULL)
+			if (is_valid_env(args[i]) == 2)
+				add_env_no_value(env, args[i]);
+			else if (get_env_value(env, name) == NULL)
 				add_env_entry(env, args[i]);
 			else
 				changevalue(env, args[i]);
 			free(name);
 		}
 	}
-	return (0);
+}
+
+int	export_helper(t_env_list *env, char **args)
+{
+	int		i;
+	char	*name;
+
+	name = NULL;
+	i = 0;
+	while (args[i])
+	{
+		name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
+		if (is_valid_env(args[i]) == 0)
+		{
+			printf(EXPORT, args[i]);
+			free(name);
+			i++;
+			continue ;
+		}
+		if (is_valid_env(args[i]) == 2)
+			add_env_no_value(env, args[i]);
+		else if (get_env_value(env, name) == NULL)
+			add_env_entry(env, args[i]);
+		else
+			changevalue(env, args[i]);
+		free(name);
+		i++;
+	}
+}
+
+int	export(t_env_list *env, char **args)
+{
+	char *name;
+	int i;
+
+	i = 0;
+	if (args[i] == NULL)
+		print_export_list(env);
+	else
+		export_helper(env, args);
+	return (1);
 }

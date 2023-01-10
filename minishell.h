@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/09 14:32:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/10 10:47:31 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ int						is_valid_env(const char *env);
 int						add_env_entry(t_env_list *env, char *str);
 int						add_env_list(t_env_list *env, char **envp);
 int						export_env(t_env_list *env, char **args);
+int						add_env_no_value(t_env_list *env, char *str);
+int						export(t_env_list *env, char **args);
 
 #endif
