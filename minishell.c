@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/10 10:50:12 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:13:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ int main(int argc, char **argv, char **envp)
             temp = temp->next;
             i = 0;
         }
+        do_echo(struc.cmds);
         free_prompt(&struc);
         free_input_output(&input);
         i = 0;

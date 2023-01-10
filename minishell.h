@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/10 10:47:31 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:10:02 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ typedef struct s_prompt
 	char				**envp;
 	pid_t				pid;
 }						t_prompt;
-
-// typedef struct s_com
-// {
-// 	char				*word;
-// 	char				*pipe;
-// 	char				*redir;
-// 	struct s_com		*next;
-// }						t_com;
 
 typedef struct s_read_input
 {
@@ -89,5 +81,7 @@ int						add_env_list(t_env_list *env, char **envp);
 int						export_env(t_env_list *env, char **args);
 int						add_env_no_value(t_env_list *env, char *str);
 int						export(t_env_list *env, char **args);
+int						line_count(char **str);
+int						do_echo(t_parse *node);
 
 #endif

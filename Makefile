@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
+#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/04 10:45:53 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/10 17:12:00 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRCS        :=      libft/ft_printf.c \
                           env_replace.c \
                           safe_env_in_lst.c \
                           minishell.c \
+                          echo.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
