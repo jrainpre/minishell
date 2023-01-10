@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/09 17:16:32 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/10 09:58:34 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ void free_prompt(t_prompt *struc)
     help = head->next;
     while (head)
     {
-        free(head);
+        if (head)
+            free(head);
         head = help;
+        if (help)
+            help = help->next;
     }
     head = NULL;
     help = NULL;
-    free(struc);
 }
 
 void init_node(t_parse *node)
@@ -113,7 +115,6 @@ int put_to_table(char **str, t_prompt *struc)
     {
         if (str[i][0] != '|')
         {
-            //temp->full_cmd[j] = malloc(ft_strlen(str[i]));
             temp->full_cmd[j] = str[i];
             j++;
             i++;
@@ -127,8 +128,6 @@ int put_to_table(char **str, t_prompt *struc)
             j = 0;
         }
     }
-    // temp->full_cmd[j] = malloc(1);
-    // temp->full_cmd[j] = "\0";
     return (0);
 }
 
