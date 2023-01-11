@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/10 17:13:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/11 10:20:14 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void init_prompt(t_prompt *struc, char **env)
     struc->cmds = NULL;
     struc->envp = env;
     struc->pid = 0;
+    struc->exit_flag = 0;
 }
 
 char** copie_env(char **env)
@@ -173,6 +174,38 @@ char** copie_env(char **env)
     return (new_env);
 }
 
+char *find_user(char **envp)
+{
+    int i;
+    char *str;
+
+    i = 0;
+    str = NULL;
+    while (envp[i])
+    {
+        if (!ft_strncmp(envp[i], USER, 4))
+        {
+            str = ft_strdup(envp[i]);
+            break;
+        } 
+        i++;
+    }
+    str = ft_substr(str, 5, (ft_strlen(str) - 5));
+    return str;
+}
+
+char *user_prompt(char **envp)
+{
+    char *str;
+    
+    str = GREEN;
+    str = ft_strjoin(str, find_user(envp));
+    str = ft_strjoin(str, "@");
+    str = ft_strjoin(str, PROMPT);
+    str = ft_strjoin(str, WHITE);
+    return str;
+}
+
 int main(int argc, char **argv, char **envp)
 {
     int i = 0;
@@ -189,7 +222,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         input.c = ' ';
-        input.str = readline("minishell $> ");
+        input.str = readline(user_prompt(envp));
         add_history(input.str);
         ft_split_input(&input);
         put_to_table(input.output, &struc);
@@ -210,6 +243,19 @@ int main(int argc, char **argv, char **envp)
             i = 0;
         }
         do_echo(struc.cmds);
+        i = 0;
+        while (input.output[i])
+        {
+            if (!ft_strcmp(input.output[i], EXIT))
+                do_exit(&struc);
+            i++;
+        }
+        if (struc.exit_flag == 1)
+        {
+            free_prompt(&struc);
+            free_input_output(&input);
+            break;
+        }
         free_prompt(&struc);
         free_input_output(&input);
         i = 0;

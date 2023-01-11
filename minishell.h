@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/10 17:10:02 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/11 10:10:35 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # define EXIT "exit"
 # define ERROR "ERROR"
 # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+# define GREEN "\001\033[1;92m\002"
+# define WHITE "\033[0;37m"
+# define PROMPT "minishell $> "
+# define USER "USER"
 
 typedef struct s_parse
 {
@@ -39,7 +43,8 @@ typedef struct s_prompt
 {
 	t_parse				*cmds;
 	char				**envp;
-	pid_t				pid;
+	int					pid;
+	int					exit_flag;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -83,5 +88,6 @@ int						add_env_no_value(t_env_list *env, char *str);
 int						export(t_env_list *env, char **args);
 int						line_count(char **str);
 int						do_echo(t_parse *node);
+int						do_exit(t_prompt *struc);
 
 #endif
