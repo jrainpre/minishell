@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/11 10:10:35 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/11 14:48:47 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <fcntl.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <unistd.h>
+
 # define ECHO "echo"
 # define CD "cd"
 # define PWD "pwd"
@@ -43,7 +49,7 @@ typedef struct s_prompt
 {
 	t_parse				*cmds;
 	char				**envp;
-	int					pid;
+	pid_t				pid;
 	int					exit_flag;
 }						t_prompt;
 
@@ -89,5 +95,7 @@ int						export(t_env_list *env, char **args);
 int						line_count(char **str);
 int						do_echo(t_parse *node);
 int						do_exit(t_prompt *struc);
+int						get_all_fd(t_prompt *struc);
+int						builtin(t_parse *node, t_prompt *struc);
 
 #endif

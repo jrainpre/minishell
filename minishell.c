@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/11 10:20:14 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/11 14:49:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void init_node(t_parse *node)
     node->full_path = NULL;
     node->next = NULL;
     node->in = 0;
-    node->out = 0;
+    node->out = 1;
 }
 
 void add_nodes(t_prompt *struc, int ammount)
@@ -226,30 +226,25 @@ int main(int argc, char **argv, char **envp)
         add_history(input.str);
         ft_split_input(&input);
         put_to_table(input.output, &struc);
+        //check if buildin
+        get_all_fd(&struc);
         temp = struc.cmds;
-        while (temp)
-        {
-            printf("\nFull cmd: ");
-            while (temp->full_cmd[i])
-            {
-                printf("%s ", temp->full_cmd[i]);
-                i++;
-            }
-            printf("\nFull path: %s\n", temp->full_path);
-            printf("In: %d\n", temp->in);
-            printf("Out: %d\n", temp->out);
-            printf("\n");
-            temp = temp->next;
-            i = 0;
-        }
-        do_echo(struc.cmds);
-        i = 0;
-        while (input.output[i])
-        {
-            if (!ft_strcmp(input.output[i], EXIT))
-                do_exit(&struc);
-            i++;
-        }
+        builtin(temp, &struc);
+        // while (temp)
+        // {
+        //     printf("\nFull cmd: ");
+        //     while (temp->full_cmd[i])
+        //     {
+        //         printf("%s ", temp->full_cmd[i]);
+        //         i++;
+        //     }
+        //     printf("\nFull path: %s\n", temp->full_path);
+        //     printf("In: %d\n", temp->in);
+        //     printf("Out: %d\n", temp->out);
+        //     printf("\n");
+        //     temp = temp->next;
+        //     i = 0;
+        // }
         if (struc.exit_flag == 1)
         {
             free_prompt(&struc);
