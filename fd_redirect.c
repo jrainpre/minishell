@@ -6,11 +6,27 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/11 11:46:51 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/11 16:00:12 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+int trim_white(t_parse *node)
+{
+    int i;
+
+    i = 0;
+    if (**node->full_cmd == '\0')
+    {   
+        while (node->full_cmd[i])
+        {
+            node->full_cmd[i] = node->full_cmd[i+1];
+            i++;
+        }  
+    }
+    return (0);
+}
 
 int get_all_fd(t_prompt *struc)
 {
@@ -55,6 +71,7 @@ int get_all_fd(t_prompt *struc)
             }
             i++;
         }
+        trim_white(temp);
         temp = temp->next;
     }
     return (0);
