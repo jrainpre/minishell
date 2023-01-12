@@ -6,7 +6,7 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/11 14:45:48 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/12 13:43:10 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,8 @@ SRCS        :=      libft/ft_printf.c \
                           minishell.c \
                           echo.c \
                           exit.c \
-                          fd_redirect.c \
+                          fd_redirect_out.c \
+                          fd_redirect_in.c \
                           builtin.c \
                           
 OBJS        := $(SRCS:.c=.o)
