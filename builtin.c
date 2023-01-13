@@ -6,13 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 15:18:36 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 15:21:19 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strchr_i(const char *s, int c)
+int	ft_strchr(const char *s, int c)
 {
 	unsigned char	c_unsigned;
 	int				i;
