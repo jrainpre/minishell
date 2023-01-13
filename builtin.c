@@ -6,13 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 15:21:19 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 15:22:42 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strchr(const char *s, int c)
+int	ft_strchr_int(const char *s, int c)
 {
 	unsigned char	c_unsigned;
 	int				i;
@@ -71,8 +71,8 @@ char	*getenvp(char *var, char **envp, int n)
 	while (!ft_strchr(var, '=') && envp && envp[i])
 	{
 		n2 = n;
-		if (n2 < ft_strchr_i(envp[i], '='))
-			n2 = ft_strchr_i(envp[i], '=');
+		if (n2 < ft_strchr_int(envp[i], '='))
+			n2 = ft_strchr_int(envp[i], '=');
 		if (!ft_strncmp(envp[i], var, n2))
 			return (ft_substr(envp[i], n2 + 1, ft_strlen(envp[i])));
 		i++;
