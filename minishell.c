@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/12 13:49:56 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 10:27:49 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,46 +247,46 @@ int main(int argc, char **argv, char **envp)
         get_all_fd_in(&struc);
         temp = struc.cmds;
         builtin(temp, &struc);
-        while (temp)
-        {
-            //////////////////////////////////////////////////////////////////
-            printf("\nFull cmd: "); 
-            while (temp->full_cmd[i])
-            {
-                printf("%s ", temp->full_cmd[i]);
-                i++;
-            }
-            //////////////////////////////////////////////////////////////////
-            printf("\nFull path: %s\n", temp->full_path);
-            //////////////////////////////////////////////////////////////////
-            i = 0;
-            if (temp->in)
-            {
-                while (temp->in[i])
-                {
-                    printf("In: %d\n", temp->in[i]);
-                    i++;
-                }
-            }
-            else
-                printf("In: %p\n", temp->in);
-            //////////////////////////////////////////////////////////////////
-            i = 0;
-            if (temp->out)
-            {
-                while (temp->out[i])
-                {
-                    printf("Out: %d\n", temp->out[i]);
-                    i++;
-                }
-            }
-            else
-                printf("Out: %p\n", temp->out);
-            ////////////////////////////////////////////////////////////////////
-            printf("\n");
-            temp = temp->next;
-            i = 0;
-        }
+        // while (temp)
+        // {
+        //     //////////////////////////////////////////////////////////////////
+        //     printf("\nFull cmd: "); 
+        //     while (temp->full_cmd[i])
+        //     {
+        //         printf("%s ", temp->full_cmd[i]);
+        //         i++;
+        //     }
+        //     //////////////////////////////////////////////////////////////////
+        //     printf("\nFull path: %s\n", temp->full_path);
+        //     //////////////////////////////////////////////////////////////////
+        //     i = 0;
+        //     if (temp->in)
+        //     {
+        //         while (temp->in[i])
+        //         {
+        //             printf("In: %d\n", temp->in[i]);
+        //             i++;
+        //         }
+        //     }
+        //     else
+        //         printf("In: %p\n", temp->in);
+        //     //////////////////////////////////////////////////////////////////
+        //     i = 0;
+        //     if (temp->out)
+        //     {
+        //         while (temp->out[i])
+        //         {
+        //             printf("Out: %d\n", temp->out[i]);
+        //             i++;
+        //         }
+        //     }
+        //     else
+        //         printf("Out: %p\n", temp->out);
+        //     ////////////////////////////////////////////////////////////////////
+        //     printf("\n");
+        //     temp = temp->next;
+        //     i = 0;
+        // }
         if (struc.exit_flag == 1)
         {
             free_prompt(&struc);

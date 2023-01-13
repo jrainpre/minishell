@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/12 13:42:57 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 10:37:58 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,7 @@ int						get_all_fd_out(t_prompt *struc);
 int						trim_white(t_parse *node);
 void					alloc_fd_in(t_parse *node, int cnt);
 int						get_all_fd_in(t_prompt *struc);
+void					restore_stdout(int saved);
+void					check_dup(t_parse *node, int i);
 
 #endif
