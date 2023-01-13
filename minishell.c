@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 10:27:49 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 11:45:27 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ void init_node(t_parse *node)
     node->full_cmd = NULL;
     node->full_path = NULL;
     node->next = NULL;
-    node->in = NULL;
-    node->out = NULL;
+    node->in = malloc(sizeof(int));
+    *node->in = 0;
+    node->out = malloc(sizeof(int));
+    *node->out = 1;
 }
 
 void add_nodes(t_prompt *struc, int ammount)

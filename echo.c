@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 10:38:37 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 12:19:02 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,54 @@ void restore_stdout(int saved)
     close(saved);
 }
 
+void put_to_stdout(t_parse *node, int *i, int *j)
+{
+    int flag;
+    
+    flag = 1;
+    if (!ft_strncmp(node->full_cmd[*i], "-n", 2))
+    {
+        flag = 0;
+        *i += 1;
+    }
+    while (node->full_cmd[*i])
+    {
+        ft_putstr_fd(node->full_cmd[*i], 1);
+        if (node->full_cmd[*i+1] != NULL)
+            ft_putstr_fd(" ", 1);
+        *i += 1;
+    }
+    *i = 1;
+    *j += 1;
+    if (flag)
+        ft_putstr_fd("\n", 1);
+}
+
 int do_echo(t_parse *node)
 {
     int i;
     int j;
     int len;
-    int flag;
     int saved;
     
-    flag = 1;
-    saved = 1;
     j = 0;
     i = 1;
+    saved = 1;
     len = line_count(node->full_cmd);
     if (len >= 2)
     {
         while (node->out[j])
         {
-            saved = dup(STDOUT_FILENO);
-            check_dup(node, j);
-            if (!ft_strncmp(node->full_cmd[i], "-n", 2))
+            if (node->out[j] >= 3)
             {
-                flag = 0;
-                i++;
+                saved = dup(STDOUT_FILENO);
+                check_dup(node, j);
+                put_to_stdout(node, &i, &j);
+                restore_stdout(saved);
             }
-            while (node->full_cmd[i])
-            {
-                ft_putstr_fd(node->full_cmd[i], 1);
-                if (node->full_cmd[i+1] != NULL)
-                    ft_putstr_fd(" ", 1);
-                i++;
-            }
-            i = 1;
-            j++;
-            if (flag)
-                ft_putstr_fd("\n", 1);
-            restore_stdout(saved);
+            else
+                put_to_stdout(node, &i, &j);
         }
     }
-    return (0);   
+    return (0);
 }
