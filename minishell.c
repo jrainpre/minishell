@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 12:24:25 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/13 14:43:04 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int main(int argc, char **argv, char **envp)
         get_all_fd_in(&struc);
         temp = struc.cmds;
         // fork();
-        builtin(temp, &struc);
+        builtin(temp, &struc, envp);
         // while (temp)
         // {
         //     //////////////////////////////////////////////////////////////////
