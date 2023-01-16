@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 16:25:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 16:27:07 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,7 @@ void exec_cmd(t_parse *node, char **envp)
 		node->full_path = find_command(split, node->full_cmd[0], node->full_path);
     pid = fork();
     if (pid == 0)
-    {
         execve(node->full_path, node->full_cmd, envp);
-    }
     else 
         wait();
 }
