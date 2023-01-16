@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 14:43:28 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 16:09:36 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define PROMPT "minishell $> "
 # define USER "USER"
 
+struct s_env_list;
 typedef struct s_parse
 {
 	char				**full_cmd;
@@ -43,6 +44,7 @@ typedef struct s_parse
 	struct s_parse		*next;
 	int					*in;
 	int					*out;
+	struct s_env_list	*env;
 }						t_parse;
 
 typedef struct s_prompt
@@ -105,5 +107,10 @@ void					alloc_fd_in(t_parse *node, int cnt);
 int						get_all_fd_in(t_prompt *struc);
 void					restore_stdout(int saved);
 void					check_dup(t_parse *node, int i);
+
+//pwd
+int						do_pwd(t_parse *node);
+int						pwd(void);
+void	do_cd(t_parse *node);
 
 #endif
