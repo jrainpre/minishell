@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 09:29:45 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 16:25:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,17 @@ char	*getenvp(char *var, char **envp, int n)
 	return (NULL);
 }
 
+void trim_full_cmd(t_parse *node)
+{
+	int i;
+
+	i = ft_strlen(node->full_cmd[0]) - 1;
+	while (node->full_cmd[0][i] != '/')
+		i--;
+	i++;
+	node->full_cmd[0] = ft_strdup(&node->full_cmd[0][i]);
+}
+
 void exec_cmd(t_parse *node, char **envp)
 {
     char *path;
@@ -92,7 +103,13 @@ void exec_cmd(t_parse *node, char **envp)
     path = getenvp("PATH", envp, 4);
 	split = ft_split(path, ':');
 	free(path);
-	node->full_path = find_command(split, node->full_cmd[0], node->full_path);
+	if (node->full_cmd[0][0] == '/')
+	{
+		node->full_path = ft_strdup(node->full_cmd[0]);
+		trim_full_cmd(node);
+	}
+	else
+		node->full_path = find_command(split, node->full_cmd[0], node->full_path);
     pid = fork();
     if (pid == 0)
     {
