@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 12:19:02 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 13:07:51 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,32 @@ void restore_stdout(int saved)
     close(saved);
 }
 
+int only_n(char  *str)
+{
+    int i;
+
+    i = 0;
+    if (str[i] == '-')
+    {
+        i++;
+        while (str[i])
+        {
+            if (str[i] != 'n')
+                return (0);
+            i++;
+        }
+    }
+    else
+        return (0);
+    return (1);
+}
+
 void put_to_stdout(t_parse *node, int *i, int *j)
 {
     int flag;
     
     flag = 1;
-    if (!ft_strncmp(node->full_cmd[*i], "-n", 2))
+    if (!ft_strncmp(node->full_cmd[*i], "-n", 2) && only_n(node->full_cmd[*i]))
     {
         flag = 0;
         *i += 1;
