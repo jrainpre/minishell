@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 11:51:24 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 14:20:12 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,33 +192,11 @@ char** copie_env(char **env)
     return (new_env);
 }
 
-char *find_user(char **envp)
-{
-    int i;
-    char *str;
-
-    i = 0;
-    str = NULL;
-    while (envp[i])
-    {
-        if (!ft_strncmp(envp[i], USER, 4))
-        {
-            str = ft_strdup(envp[i]);
-            break;
-        } 
-        i++;
-    }
-    str = ft_substr(str, 5, (ft_strlen(str) - 5));
-    return str;
-}
-
 char *user_prompt(char **envp)
 {
     char *str;
     
     str = GREEN;
-    str = ft_strjoin(str, find_user(envp));
-    str = ft_strjoin(str, "@");
     str = ft_strjoin(str, PROMPT);
     str = ft_strjoin(str, WHITE);
     return str;
@@ -244,11 +222,12 @@ int main(int argc, char **argv, char **envp)
         add_history(input.str);
         ft_split_input(&input);
         put_to_table(input.output, &struc);
-        //check if builtin
-        get_all_fd_out(&struc);
-        get_all_fd_in(&struc);
+        
+        //check if filename are valid & create
+        if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
+            break;
+        
         temp = struc.cmds;
-        // fork();
         builtin(temp, &struc, envp);
         // while (temp)
         // {

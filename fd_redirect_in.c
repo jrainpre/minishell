@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 12:32:01 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 14:13:46 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ int get_all_fd_in(t_prompt *struc)
     i = 0;
     j = 0;
     temp = struc->cmds;
+    if (!check_valid_filename(temp))
+    {
+        ft_putstr_fd(PARSE_ERROR, 1);
+        ft_putstr_fd("\n", 1);
+        return (0);
+    }
     while (temp)
     {
         alloc_fd_in(temp, count_redirect(temp->full_cmd));
@@ -84,5 +90,5 @@ int get_all_fd_in(t_prompt *struc)
         trim_white(temp);
         temp = temp->next;
     }
-    return (0);
+    return (1);
 }
