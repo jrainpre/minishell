@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 09:38:59 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 09:48:22 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int						line_count(char **str);
 int						do_echo(t_parse *node);
 int						do_exit(t_prompt *struc);
 int						get_all_fd(t_prompt *struc);
-int						builtin(t_parse *node, t_prompt *struc, char **envp);
+int						builtin(t_parse *node, t_prompt *struc);
 int						count_redirect(char **split);
 void					alloc_fd_out(t_parse *node, int cnt);
 int						get_all_fd_out(t_prompt *struc);

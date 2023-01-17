@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 09:43:18 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 09:47:38 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void init_node(t_parse *node)
 {
     node->full_cmd = NULL;
     node->full_path = NULL;
+    node->env = NULL;
     node->next = NULL;
     node->in = malloc(sizeof(int));
     *node->in = 0;
@@ -230,9 +231,9 @@ int main(int argc, char **argv, char **envp)
             break;
         
         temp = struc.cmds;
-        temp->env= env_lst;
+        temp->env = env_lst;
         // fork();
-        builtin(temp, &struc, envp);
+        builtin(temp, &struc);
         // while (temp)
         // {
         //     //////////////////////////////////////////////////////////////////

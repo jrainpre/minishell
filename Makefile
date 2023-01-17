@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
+#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/16 13:10:52 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/17 09:44:52 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ SRCS        :=      libft/ft_printf.c \
                           fd_redirect_out.c \
                           fd_redirect_in.c \
                           builtin.c \
-                          pwd.c \
+                          pwd_cd.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
