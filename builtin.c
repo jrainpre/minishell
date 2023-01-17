@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
 /*   Updated: 2023/01/17 11:06:09 by jrainpre         ###   ########.fr       */
@@ -60,49 +60,72 @@ static char	*find_command(char **env_path, char *cmd, char *full_path)
 	return (full_path);
 }
 
-char	*getenvp(char *var, char **envp, int n)
+void	trim_full_cmd(t_parse *node)
 {
 	int	i;
-	int	n2;
+
+	i = ft_strlen(node->full_cmd[0]) - 1;
+	while (node->full_cmd[0][i] != '/')
+		i--;
+	i++;
+	node->full_cmd[0] = ft_strdup(&node->full_cmd[0][i]);
+}
+
+char	**env_list_to_array(t_env_list *env_lst)
+{
+	char		**envp;
+	int			i;
+	t_env_list	*temp;
 
 	i = 0;
-	if (n < 0)
-		n = ft_strlen(var);
-	while (!ft_strchr(var, '=') && envp && envp[i])
+	temp = env_lst;
+	while (temp)
 	{
-		n2 = n;
-		if (n2 < ft_strchr_int(envp[i], '='))
-			n2 = ft_strchr_int(envp[i], '=');
-		if (!ft_strncmp(envp[i], var, n2))
-			return (ft_substr(envp[i], n2 + 1, ft_strlen(envp[i])));
 		i++;
+		temp = temp->next;
 	}
-	return (NULL);
+	envp = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	temp = env_lst;
+	while (temp)
+	{
+		envp[i] = ft_strjoin(temp->name, "=");
+		envp[i] = ft_strjoin(envp[i], temp->value);
+		i++;
+		temp = temp->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
 
-void exec_cmd(t_parse *node, char **envp)
+void	exec_cmd(t_parse *node)
 {
-    char *path;
-    char **split;
-    int pid;
-    int t;
-    
-    pid = 0;
-    path = NULL;
-    path = getenvp("PATH", envp, 4);
+	char	*path;
+	char	**split;
+	int		pid;
+	int		t;
+
+	pid = 0;
+	path = NULL;
+	path = get_env_value(node->env, "PATH");
 	split = ft_split(path, ':');
-	free(path);
-	node->full_path = find_command(split, node->full_cmd[0], node->full_path);
-    pid = fork();
-    if (pid == 0)
-    {
-        execve(node->full_path, node->full_cmd, envp);
-    }
-    else 
-        wait();
+	//free(path);
+	if (node->full_cmd[0][0] == '/')
+	{
+		node->full_path = ft_strdup(node->full_cmd[0]);
+		trim_full_cmd(node);
+	}
+	else
+		node->full_path = find_command(split, node->full_cmd[0],
+				node->full_path);
+	pid = fork();
+	if (pid == 0)
+		execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
+	else
+		wait();
 }
 
-int builtin(t_parse *node, t_prompt *struc, char **envp)
+int	builtin(t_parse *node, t_prompt *struc)
 {
     if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
         do_echo(node);
@@ -120,7 +143,7 @@ int builtin(t_parse *node, t_prompt *struc, char **envp)
         do_unset(node);
     else
     {
-        exec_cmd(node, envp);
+        exec_cmd(node);
         // printf("Right now command is unknown!\n");   
     }
     return (0);

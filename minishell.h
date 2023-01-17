@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
 /*   Updated: 2023/01/17 11:08:08 by jrainpre         ###   ########.fr       */
@@ -31,9 +31,10 @@
 # define EXIT "exit"
 # define ERROR "ERROR"
 # define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+# define PARSE_ERROR "minishell: parse error near \'\\n'"
 # define GREEN "\001\033[1;92m\002"
 # define WHITE "\033[0;37m"
-# define PROMPT "minishell $> "
+# define PROMPT "\001\033[1;92m\002 minishell $> \033[0;37m"
 # define USER "USER"
 
 struct s_env_list;
@@ -98,7 +99,7 @@ int						line_count(char **str);
 int						do_echo(t_parse *node);
 int						do_exit(t_prompt *struc);
 int						get_all_fd(t_prompt *struc);
-int						builtin(t_parse *node, t_prompt *struc, char **envp);
+int						builtin(t_parse *node, t_prompt *struc);
 int						count_redirect(char **split);
 void					alloc_fd_out(t_parse *node, int cnt);
 int						get_all_fd_out(t_prompt *struc);
@@ -107,13 +108,10 @@ void					alloc_fd_in(t_parse *node, int cnt);
 int						get_all_fd_in(t_prompt *struc);
 void					restore_stdout(int saved);
 void					check_dup(t_parse *node, int i);
-
-//pwd
+int						check_valid_filename(t_parse *node);
 int						do_pwd(t_parse *node);
 int						pwd(void);
-void	do_cd(t_parse *node);
-
-//do env
+void					do_cd(t_parse *node);
 int do_unset(t_parse *node);
 int do_env(t_parse *node);
 int do_export(t_parse *node);

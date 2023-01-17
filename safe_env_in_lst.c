@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   safe_env_in_lst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
 /*   Updated: 2023/01/17 12:52:23 by jrainpre         ###   ########.fr       */

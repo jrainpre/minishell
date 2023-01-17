@@ -6,19 +6,20 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/05 11:44:35 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:02:25 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void include_env(t_input *input, t_env_list *env_list)
+void	include_env(t_input *input, t_env_list *env_list)
 {
-	char *dollar_pos;
-	char *name;
-	char *temp;
-	int i = 0;
+	char	*dollar_pos;
+	char	*name;
+	char	*temp;
+	int		i;
 
+	i = 0;
 	while (input->output[i])
 	{
 		while (find_unquoted_dollar(input->output[i]))
@@ -33,40 +34,40 @@ void include_env(t_input *input, t_env_list *env_list)
 	}
 }
 
-char *get_new_str(char *str, char *envvar, char *ptr)
+char	*get_new_str(char *str, char *envvar, char *ptr)
 {
-	char *new;
-	int i;
-	int j;
+	char	*new;
+	int		i;
+	int		j;
 
 	i = 0;
 	new = ft_calloc((get_new_strlen(str, envvar, ptr) + 1), 1);
-	while(str[i] != '\0' && &str[i] != ptr)
+	while (str[i] != '\0' && &str[i] != ptr)
 		i++;
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while(str[i] != '\0' && str[i] != ' ')
+	while (str[i] != '\0' && str[i] != ' ')
 		i++;
-	while(new[j] != '\0' && new[j] != ' ')
+	while (new[j] != '\0' && new[j] != ' ')
 		j++;
 	ft_strcpy(&new[j], &str[i]);
-	return(new);
+	return (new);
 }
-	
-int get_new_strlen(char *str, char *value, char *ptr)
+
+int	get_new_strlen(char *str, char *value, char *ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(*str != '\0' && str != ptr)
+	while (*str != '\0' && str != ptr)
 	{
 		str++;
 		i++;
 	}
-	while(*str != '\0' && *str != ' ')
+	while (*str != '\0' && *str != ' ')
 		str++;
-	while(*str != '\0')
+	while (*str != '\0')
 	{
 		str++;
 		i++;
@@ -75,11 +76,11 @@ int get_new_strlen(char *str, char *value, char *ptr)
 	return (i);
 }
 
-char *get_env_name(char *arg, t_env_list *env_lst)
+char	*get_env_name(char *arg, t_env_list *env_lst)
 {
-	int i;
-	char *env_name;
-	char *env_val;
+	int		i;
+	char	*env_name;
+	char	*env_val;
 
 	i = 0;
 	while (arg[i] && arg[i] != ' ')
@@ -96,34 +97,34 @@ char *get_env_name(char *arg, t_env_list *env_lst)
 	if (!env_val)
 		env_val = ft_calloc(1, 1);
 	free(env_name);
-	return(env_val);
+	return (env_val);
 }
 
-char *find_unquoted_dollar(char *str)
+char	*find_unquoted_dollar(char *str)
 {
-  int in_single_quotes;
-  char *q;
+	int		in_single_quotes;
+	char	*q;
 
 	in_single_quotes = 0;
- 	while (*str != '\0')
+	while (*str != '\0')
 	{
-    if (*str == '\'')
-    	in_single_quotes = !in_single_quotes;
-	else if (*str == '$')
-	{
-      if (in_single_quotes)
-	  {
-        q = str + 1;
-        while (*q != '\0' && *q != '\'')
-			q++;
-        if (*q != '\'')
-			return (str);
-        str = --q;
-      }
-	  else
-    	return (str);
-    }
-    str++;
-  }
-  return (NULL);
+		if (*str == '\'')
+			in_single_quotes = !in_single_quotes;
+		else if (*str == '$')
+		{
+			if (in_single_quotes)
+			{
+				q = str + 1;
+				while (*q != '\0' && *q != '\'')
+					q++;
+				if (*q != '\'')
+					return (str);
+				str = --q;
+			}
+			else
+				return (str);
+		}
+		str++;
+	}
+	return (NULL);
 }

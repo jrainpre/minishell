@@ -83,9 +83,9 @@ void	cd_path_not_found(char *path)
 
 void	do_cd(t_parse *node)
 {
-	char *buf;
-	char *temp;
-	int i;
+	char	*buf;
+	char	*temp;
+	int		i;
 
 	pwd_init(node);
 	if (node->full_cmd[1] == NULL)
@@ -99,7 +99,9 @@ void	do_cd(t_parse *node)
 				cd_path_not_found(buf);
 			free(buf);
 		}
-	}else{
+	}
+	else
+	{
 		{
 			if (!chdir(node->full_cmd[1]))
 				update_pwd(node);
