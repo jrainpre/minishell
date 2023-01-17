@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/13 12:32:01 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/16 10:31:19 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int get_all_fd_in(t_prompt *struc)
                 if (temp->full_cmd[i][1] != '\0')
                 {
                     temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], "<");
-                    temp->in[j] = open(temp->full_cmd[i], O_WRONLY | O_TRUNC, 0666);
+                    temp->in[j] = open(temp->full_cmd[i], O_RDONLY, 0666);
                     if (temp->in[j] == -1)
                     {
                         ft_putstr_fd("minishell: no such file or directory: ", 1);
@@ -67,7 +67,7 @@ int get_all_fd_in(t_prompt *struc)
                 }
                 else
                 {
-                    temp->in[j] = open(temp->full_cmd[i+1], O_WRONLY | O_TRUNC, 0666);
+                    temp->in[j] = open(temp->full_cmd[i+1], O_RDONLY, 0666);
                     if (temp->in[j] == -1)
                     {
                         ft_putstr_fd("minishell: no such file or directory: ", 1);
