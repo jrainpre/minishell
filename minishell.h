@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 15:05:21 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 11:08:08 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int						add_env_entry(t_env_list *env, char *str);
 int						add_env_list(t_env_list *env, char **envp);
 int						export_env(t_env_list *env, char **args);
 int						add_env_no_value(t_env_list *env, char *str);
-int						export(t_env_list *env, char **args);
+int						export(t_parse *node);
 int						line_count(char **str);
 int						do_echo(t_parse *node);
 int						do_exit(t_prompt *struc);
@@ -112,5 +112,8 @@ int						check_valid_filename(t_parse *node);
 int						do_pwd(t_parse *node);
 int						pwd(void);
 void					do_cd(t_parse *node);
+int do_unset(t_parse *node);
+int do_env(t_parse *node);
+int do_export(t_parse *node);
 
 #endif

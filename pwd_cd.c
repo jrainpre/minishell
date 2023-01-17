@@ -62,12 +62,17 @@ void	pwd_init(t_parse *node)
 void	update_pwd(t_parse *node)
 {
 	char	*temp;
+	char *join;
 
-	temp = get_env_value(node->env, "PWD");
-	changevalue(node->env, ft_strjoin("OLDPWD=", temp));
 	temp = getcwd(NULL, 0);
-	changevalue(node->env, ft_strjoin("PWD=", temp));
+	join = ft_strjoin("OLDPWD=", temp);
+	changevalue(node->env, join);
+	free(join);
+	temp = getcwd(NULL, 0);
+	join = ft_strjoin("PWD=", temp);
+	changevalue(node->env, join);
 	free(temp);
+	free(join);
 }
 
 void	cd_path_not_found(char *path)

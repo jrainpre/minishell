@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 15:04:09 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 12:52:23 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int	export_env(t_env_list *env, char **args)
 		{
 			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 			if (is_valid_env(args[i]) == 0)
-				printf(EXPORT, args[i]);
+				printf(EXPORT_ERROR, args[i]);
 			if (is_valid_env(args[i]) == 0)
 				return (1);
 			if (is_valid_env(args[i]) == 2)
@@ -302,7 +302,7 @@ int	export_helper(t_env_list *env, char **args)
 		name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 		if (is_valid_env(args[i]) == 0)
 		{
-			printf(EXPORT, args[i]);
+			printf(EXPORT_ERROR, args[i]);
 			free(name);
 			i++;
 			continue ;
@@ -318,15 +318,15 @@ int	export_helper(t_env_list *env, char **args)
 	}
 }
 
-int	export(t_env_list *env, char **args)
+int	export(t_parse *node)
 {
 	char *name;
 	int i;
 
-	i = 0;
-	if (args[i] == NULL)
-		print_export_list(env);
+	i = 1;
+	if (node->full_cmd[i] == NULL || node->full_cmd[i][0] == '\0')
+		print_export_list(node->env);
 	else
-		export_helper(env, args);
+		export_helper(node->env, &node->full_cmd[i]);
 	return (1);
 }
