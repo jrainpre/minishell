@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/12 11:39:34 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:03:39 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 static void	open_close_quotes(t_input *input, int i)
 {
-	if (input->str[i] == '\"' && !input->double_open && !input->single_open &&\
-	 (ft_strchr(&input->str[i + 1], '\"') != NULL))
+	if (input->str[i] == '\"' && !input->double_open && !input->single_open &&
+		(ft_strchr(&input->str[i + 1], '\"') != NULL))
 		input->double_open = 1;
 	else if (input->str[i] == '\"' && input->double_open)
 		input->double_open = 0;
-	else if (input->str[i] == '\'' && !input->double_open &&\
-	 !input->single_open && (ft_strchr(&input->str[i + 1], '\'') != NULL))
+	else if (input->str[i] == '\'' && !input->double_open &&
+				!input->single_open && (ft_strchr(&input->str[i + 1],
+							'\'') != NULL))
 		input->single_open = 1;
 	else if (input->str[i] == '\'' && input->single_open)
 		input->single_open = 0;
@@ -41,8 +42,8 @@ static int	ft_check_str_count(t_input *input)
 			word_count++;
 		input->double_open = 0;
 		input->single_open = 0;
-		while (input->str[i] && ((input->str[i] != input->c) ||\
-		 input->single_open || input->double_open))
+		while (input->str[i] && ((input->str[i] != input->c)
+				|| input->single_open || input->double_open))
 		{
 			open_close_quotes(input, i);
 			i++;
@@ -53,18 +54,18 @@ static int	ft_check_str_count(t_input *input)
 
 static int	ft_strlen_sep(t_input *input, int i)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	input->double_open = 0;
 	input->single_open = 0;
-		while (input->str[i] && ((input->str[i] != input->c) ||\
-		 input->single_open || input->double_open))
-		{
-			open_close_quotes(input, i);
-			i++;
-			j++;
-		}
+	while (input->str[i] && ((input->str[i] != input->c) || input->single_open
+			|| input->double_open))
+	{
+		open_close_quotes(input, i);
+		i++;
+		j++;
+	}
 	return (j);
 }
 
@@ -82,41 +83,41 @@ static char	*ft_word(t_input *input, int i)
 	i = 0;
 	while (i < len_word)
 	{
-		word[i] = temp_str[i];	
+		word[i] = temp_str[i];
 		i++;
 	}
 	word[i] = '\0';
 	return (word);
 }
 
-void ft_split_input(t_input *input)
+void	ft_split_input(t_input *input)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	if (input->str == NULL)
-		return;
-	input->output = (char **)malloc(sizeof(char *) * (ft_check_str_count(input) + 1));
+		return ;
+	input->output = (char **)malloc(sizeof(char *) * (ft_check_str_count(input)
+				+ 1));
 	if (input->output == NULL)
-		return;
+		return ;
 	while (input->str[j])
 	{
 		while (input->str[j] && input->str[j] == input->c)
 			j++;
 		if (input->str[j])
-		{ 
+		{
 			input->output[i] = ft_word(input, j);
 			i++;
 		}
-		while (input->str[j] && ((input->str[j] != input->c) ||\
-		 input->single_open || input->double_open))
+		while (input->str[j] && ((input->str[j] != input->c)
+				|| input->single_open || input->double_open))
 		{
 			open_close_quotes(input, j);
-				j++;
+			j++;
 		}
 	}
 	input->output[i] = 0;
 }
-

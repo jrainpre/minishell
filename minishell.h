@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 13:51:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:05:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,8 @@ int						get_all_fd_in(t_prompt *struc);
 void					restore_stdout(int saved);
 void					check_dup(t_parse *node, int i);
 int						check_valid_filename(t_parse *node);
-
-//pwd
 int						do_pwd(t_parse *node);
 int						pwd(void);
-void	do_cd(t_parse *node);
+void					do_cd(t_parse *node);
 
 #endif

@@ -6,15 +6,15 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 09:57:02 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/11 10:08:26 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:02:36 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-int do_exit(t_prompt *struc)
+int	do_exit(t_prompt *struc)
 {
-    ft_putstr_fd("exit\n", 2);
-    struc->exit_flag = 1;
-    return (0);
+	ft_putstr_fd("exit\n", 2);
+	struc->exit_flag = 1;
+	return (0);
 }
