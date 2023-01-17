@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 14:20:12 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 09:43:18 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,10 @@ int main(int argc, char **argv, char **envp)
     t_input input;
     t_prompt struc;
     t_parse *temp;
+    t_env_list *env_lst;
     
     init_prompt(&struc, copie_env(envp));
+    fill_env_lst(&env_lst, envp);
     temp = NULL;
     (void)argc;
 	(void)argv;
@@ -228,6 +230,8 @@ int main(int argc, char **argv, char **envp)
             break;
         
         temp = struc.cmds;
+        temp->env= env_lst;
+        // fork();
         builtin(temp, &struc, envp);
         // while (temp)
         // {

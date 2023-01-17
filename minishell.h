@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 14:15:02 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 09:38:59 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define PROMPT "minishell $> "
 # define USER "USER"
 
+struct s_env_list;
 typedef struct s_parse
 {
 	char				**full_cmd;
@@ -44,6 +45,7 @@ typedef struct s_parse
 	struct s_parse		*next;
 	int					*in;
 	int					*out;
+	struct s_env_list	*env;
 }						t_parse;
 
 typedef struct s_prompt
@@ -107,5 +109,10 @@ int						get_all_fd_in(t_prompt *struc);
 void					restore_stdout(int saved);
 void					check_dup(t_parse *node, int i);
 int						check_valid_filename(t_parse *node);
+
+//pwd
+int						do_pwd(t_parse *node);
+int						pwd(void);
+void	do_cd(t_parse *node);
 
 #endif
