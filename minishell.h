@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 10:10:07 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:08:08 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,10 @@ void					check_dup(t_parse *node, int i);
 int						do_pwd(t_parse *node);
 int						pwd(void);
 void	do_cd(t_parse *node);
+
+//do env
+int do_unset(t_parse *node);
+int do_env(t_parse *node);
+int do_export(t_parse *node);
 
 #endif

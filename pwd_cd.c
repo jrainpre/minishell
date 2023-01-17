@@ -64,10 +64,9 @@ void	update_pwd(t_parse *node)
 	char	*temp;
 	char *join;
 
-	temp = get_env_value(node->env, "PWD");
+	temp = getcwd(NULL, 0);
 	join = ft_strjoin("OLDPWD=", temp);
 	changevalue(node->env, join);
-	free(temp);
 	free(join);
 	temp = getcwd(NULL, 0);
 	join = ft_strjoin("PWD=", temp);

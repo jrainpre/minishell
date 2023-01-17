@@ -6,20 +6,20 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 09:54:18 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 10:51:47 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:10:53 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int do_unset(t_parse *parse)
+int do_unset(t_parse *node)
 {
 	int i;
 	
 	i = 1;
-	while (parse->full_cmd[i])
+	while (node->full_cmd[i])
 	{
-		delete_env_value(&parse->env, parse->full_cmd[i]);
+		delete_env_value(node->env, node->full_cmd[i]);
 		i++;
 	}
 	return (0);
@@ -67,11 +67,11 @@ int do_env(t_parse *node)
 			{
 				saved = dup(STDOUT_FILENO);
 				check_dup(node, j);
-				print_env(node->env);
+				print_env_list(node->env);
 				restore_stdout(saved);
 			}
 			else
-				print_env(node->env);
+				print_env_list(node->env);
 			j++;
 		}
 	return (0);

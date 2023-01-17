@@ -6,7 +6,7 @@
 #    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/17 09:45:12 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/17 11:07:19 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRCS        :=      libft/ft_printf.c \
                           fd_redirect_in.c \
                           builtin.c \
                           pwd_cd.c \
+                          do_env_stuff.c \
                           
 OBJS        := $(SRCS:.c=.o)
 

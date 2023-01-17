@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 10:31:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:52:23 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int	export_env(t_env_list *env, char **args)
 		{
 			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 			if (is_valid_env(args[i]) == 0)
-				printf(EXPORT, args[i]);
+				printf(EXPORT_ERROR, args[i]);
 			if (is_valid_env(args[i]) == 0)
 				return (1);
 			if (is_valid_env(args[i]) == 2)
@@ -302,7 +302,7 @@ int	export_helper(t_env_list *env, char **args)
 		name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
 		if (is_valid_env(args[i]) == 0)
 		{
-			printf(EXPORT, args[i]);
+			printf(EXPORT_ERROR, args[i]);
 			free(name);
 			i++;
 			continue ;
@@ -324,7 +324,7 @@ int	export(t_parse *node)
 	int i;
 
 	i = 1;
-	if (node->full_cmd[i] == NULL)
+	if (node->full_cmd[i] == NULL || node->full_cmd[i][0] == '\0')
 		print_export_list(node->env);
 	else
 		export_helper(node->env, &node->full_cmd[i]);
