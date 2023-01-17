@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 09:47:38 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 14:23:22 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,21 @@ int count_redirect(char **split)
 
 void free_prompt(t_prompt *struc)
 {
+    int i;
     t_parse *head;
     t_parse *help;
 
+    i = 0;
     head = struc->cmds;
     help = head;
     while (help)
     {
+        while (help->full_cmd[i])
+        {
+            free(help->full_cmd[i]);
+            i++;
+        }
+        i = 0;
         free(help->full_cmd);
         help = help->next;
     }
@@ -117,24 +125,40 @@ void add_nodes(t_prompt *struc, int ammount)
     node = NULL;
 }
 
+int pointer_count(char **str, int *i)
+{
+    int count;
+
+    count = 0;
+    while (str[*i] && str[*i][0] != '|')
+    {
+        count++;
+        *i += 1;
+    }
+    *i += 1;
+    return (count);
+}
+
 int put_to_table(char **str, t_prompt *struc)
 {
     int i;
     int j;
+    int k;
     int count;
     t_parse *temp;
 
     count = count_pipes(str);
     i = 0;
     j = 0;
+    k = 0;
     add_nodes(struc, count);
     temp = struc->cmds;
-    temp->full_cmd = malloc(100);
+    temp->full_cmd = malloc((pointer_count(str, &k) + 1) * sizeof(char*));
     while (str[i])
     {
         if (str[i][0] != '|')
         {
-            temp->full_cmd[j] = str[i];
+            temp->full_cmd[j] = ft_strdup(str[i]);
             j++;
             i++;
         }
@@ -142,7 +166,7 @@ int put_to_table(char **str, t_prompt *struc)
         {
             temp = temp->next;
             if (temp != NULL)
-                temp->full_cmd = malloc(100);
+                temp->full_cmd = malloc((pointer_count(str, &k) + 1) * sizeof(char*));
             i++;
             j = 0;
         }
@@ -193,16 +217,6 @@ char** copie_env(char **env)
     return (new_env);
 }
 
-char *user_prompt(char **envp)
-{
-    char *str;
-    
-    str = GREEN;
-    str = ft_strjoin(str, PROMPT);
-    str = ft_strjoin(str, WHITE);
-    return str;
-}
-
 int main(int argc, char **argv, char **envp)
 {
     int i = 0;
@@ -221,7 +235,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         input.c = ' ';
-        input.str = readline(user_prompt(envp));
+        input.str = readline(PROMPT);
         add_history(input.str);
         ft_split_input(&input);
         put_to_table(input.output, &struc);
@@ -282,7 +296,8 @@ int main(int argc, char **argv, char **envp)
             break;
         }
         free_prompt(&struc);
-        free_input_output(&input);
+        free(input.str);
+        //free_input_output(&input);
         i = 0;
     }
     return(0);

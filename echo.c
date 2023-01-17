@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/16 15:19:49 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/17 13:45:57 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void put_to_stdout(t_parse *node, int *i, int *j)
     *j += 1;
     if (flag)
         ft_putstr_fd("\n", 1);
-}
+    else
+        flag = 1;
+}  
 
 int do_echo(t_parse *node)
 {
