@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:23 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:19:40 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ int	export_env(t_env_list *env, char **args)
 			free(name);
 		}
 	}
+	return(1);
 }
 
 int	export_helper(t_env_list *env, char **args)
@@ -316,6 +317,7 @@ int	export_helper(t_env_list *env, char **args)
 		free(name);
 		i++;
 	}
+	return (1);
 }
 
 int	export(t_parse *node)

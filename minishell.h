@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 14:59:51 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:21:29 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define ECHO "echo"
@@ -75,7 +78,7 @@ typedef struct s_env_list
 
 void					ft_split_input(t_input *input);
 int						put_to_table(char **str, t_prompt *struc);
-void	include_env(t_parse *node);
+void					include_env(t_parse *node);
 char					*get_new_str(char *str, char *envvar, char *ptr);
 int						get_new_strlen(char *str, char *value, char *ptr);
 char					*get_env_name(char *arg, t_env_list *env_lst);
@@ -118,9 +121,6 @@ int						do_export(t_parse *node);
 void					free_table(char **table);
 char					**trim_2d_array(char **table);
 
-
-
-
-char	*prepare_input_string(char *str);
+char					*prepare_input_string(char *str);
 
 #endif

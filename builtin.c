@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 10:03:52 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/18 17:18:17 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	exec_cmd(t_parse *node)
 	if (pid == 0)
 		execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
 	else
-		wait();
+		wait(0);
 }
 
 int	builtin(t_parse *node, t_prompt *struc)
