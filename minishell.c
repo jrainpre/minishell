@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 10:47:06 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/18 15:15:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input.c = ' ';
 		input.str = readline(PROMPT);
+		if (!input.str)
+			continue; ;
+		input.str = prepare_input_string(input.str);
 		add_history(input.str);
 		ft_split_input(&input);
 		put_to_table(input.output, &struc);
@@ -269,6 +272,7 @@ int	main(int argc, char **argv, char **envp)
 		temp = struc.cmds;
 		temp->full_cmd = trim_2d_array(temp->full_cmd);
 		temp->env = env_lst;
+		include_env(temp);
 		builtin(temp, &struc);
 		if (struc.exit_flag == 1)
 		{

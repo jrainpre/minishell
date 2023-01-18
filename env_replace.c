@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 15:02:25 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/18 16:37:54 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	include_env(t_input *input, t_env_list *env_list)
+int not_dollar(char *arg, int i)
+{
+	if (&arg[i] != arg)
+	{
+		if (arg[i] == '$')
+			return (0);
+	}
+	return (1);
+}
+
+void	include_env(t_parse *node)
 {
 	char	*dollar_pos;
 	char	*name;
@@ -20,14 +30,14 @@ void	include_env(t_input *input, t_env_list *env_list)
 	int		i;
 
 	i = 0;
-	while (input->output[i])
+	while (node->full_cmd[i])
 	{
-		while (find_unquoted_dollar(input->output[i]))
+		while (find_unquoted_dollar(node->full_cmd[i]))
 		{
-			dollar_pos = find_unquoted_dollar(input->output[i]);
-			name = get_env_name(dollar_pos, env_list);
-			temp = input->output[i];
-			input->output[i] = get_new_str(input->output[i], name, dollar_pos);
+			dollar_pos = find_unquoted_dollar(node->full_cmd[i]);
+			name = get_env_name(dollar_pos, node->env);
+			temp = node->full_cmd[i];
+			node->full_cmd[i] = get_new_str(node->full_cmd[i], name, dollar_pos);
 			free(temp);
 		}
 		i++;
@@ -47,9 +57,9 @@ char	*get_new_str(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (str[i] != '\0' && str[i] != ' ')
+	while (str[i] != '\0' && str[i] != ' ' && not_dollar(ptr, i))
 		i++;
-	while (new[j] != '\0' && new[j] != ' ')
+	while (new[j] != '\0' && new[j] != ' ' && not_dollar(new, j))
 		j++;
 	ft_strcpy(&new[j], &str[i]);
 	return (new);
@@ -65,7 +75,7 @@ int	get_new_strlen(char *str, char *value, char *ptr)
 		str++;
 		i++;
 	}
-	while (*str != '\0' && *str != ' ')
+	while (*str != '\0' && *str != ' ' && not_dollar(str, i))
 		str++;
 	while (*str != '\0')
 	{
@@ -76,19 +86,21 @@ int	get_new_strlen(char *str, char *value, char *ptr)
 	return (i);
 }
 
+
+
 char	*get_env_name(char *arg, t_env_list *env_lst)
 {
 	int		i;
 	char	*env_name;
 	char	*env_val;
-
+	
 	i = 0;
-	while (arg[i] && arg[i] != ' ')
+	while (arg[i] && (arg[i] != ' ' && arg[i] != '\'' && arg[i] != '\"' && not_dollar(arg, i)))
 		i++;
 	env_name = calloc(i + 1, 1);
 	arg++;
 	i = 0;
-	while (arg[i] && arg[i] != ' ')
+	while (arg[i] && (arg[i] != ' ' && arg[i] != '\'' && arg[i] != '\"' && not_dollar(arg, i)))
 	{
 		env_name[i] = arg[i];
 		i++;

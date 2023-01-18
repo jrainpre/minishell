@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
+#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/17 11:07:19 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/18 14:13:54 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS        :=      libft/ft_printf.c \
                           libft/ft_strcpy.c \
                           libft/ft_strncpy.c \
                           libft/ft_strcmp.c \
+                          libft/ft_insert_substr.c  \
                           parse_input.c \
                           env_replace.c \
                           safe_env_in_lst.c \
@@ -72,6 +73,8 @@ SRCS        :=      libft/ft_printf.c \
                           builtin.c \
                           pwd_cd.c \
                           do_env_stuff.c \
+                          PrepareInputString.c \
+
                           
 OBJS        := $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 10:20:01 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/18 14:59:51 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_env_list
 
 void					ft_split_input(t_input *input);
 int						put_to_table(char **str, t_prompt *struc);
-void					include_env(t_input *input, t_env_list *env_lst);
+void	include_env(t_parse *node);
 char					*get_new_str(char *str, char *envvar, char *ptr);
 int						get_new_strlen(char *str, char *value, char *ptr);
 char					*get_env_name(char *arg, t_env_list *env_lst);
@@ -117,5 +117,10 @@ int						do_env(t_parse *node);
 int						do_export(t_parse *node);
 void					free_table(char **table);
 char					**trim_2d_array(char **table);
+
+
+
+
+char	*prepare_input_string(char *str);
 
 #endif
