@@ -112,9 +112,11 @@ int						check_valid_filename(t_parse *node);
 int						do_pwd(t_parse *node);
 int						pwd(void);
 void					do_cd(t_parse *node);
-int do_unset(t_parse *node);
-int do_env(t_parse *node);
-int do_export(t_parse *node);
+int						do_unset(t_parse *node);
+int						do_env(t_parse *node);
+int						do_export(t_parse *node);
+void					free_table(char **table);
+char					**trim_2d_array(char **table);
 
 
 

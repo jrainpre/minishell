@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 11:06:09 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:03:52 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int	builtin(t_parse *node, t_prompt *struc)
     else
     {
         exec_cmd(node);
-        // printf("Right now command is unknown!\n");   
     }
     return (0);
 }

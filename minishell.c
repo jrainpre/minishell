@@ -62,13 +62,7 @@ void	free_prompt(t_prompt *struc)
 	help = head;
 	while (help)
 	{
-		while (help->full_cmd[i])
-		{
-			free(help->full_cmd[i]);
-			i++;
-		}
-		i = 0;
-		free(help->full_cmd);
+		free_table(help->full_cmd);
 		help = help->next;
 	}
 	help = head->next;
@@ -90,9 +84,9 @@ void	init_node(t_parse *node)
 	node->full_path = NULL;
 	node->env = NULL;
 	node->next = NULL;
-	node->in = malloc(sizeof(int));
+	node->in = ft_calloc(2, sizeof(int*));
 	*node->in = 0;
-	node->out = malloc(sizeof(int));
+	node->out = ft_calloc(2, sizeof(int*));
 	*node->out = 1;
 }
 
@@ -107,7 +101,7 @@ void	add_nodes(t_prompt *struc, int ammount)
 	i = ammount;
 	while (i >= 0)
 	{
-		node = malloc(sizeof(t_parse));
+		node = malloc(sizeof(t_parse) + 1);
 		init_node(node);
 		if (first == 0)
 		{
@@ -153,7 +147,7 @@ int	put_to_table(char **str, t_prompt *struc)
 	k = 0;
 	add_nodes(struc, count);
 	temp = struc->cmds;
-	temp->full_cmd = malloc((pointer_count(str, &k) + 1) * sizeof(char *));
+	temp->full_cmd = ft_calloc(pointer_count(str, &k) + 1, sizeof(char *));
 	while (str[i])
 	{
 		if (str[i][0] != '|')
@@ -173,21 +167,6 @@ int	put_to_table(char **str, t_prompt *struc)
 		}
 	}
 	return (0);
-}
-
-void	free_input_output(t_input *input)
-{
-	int	i;
-
-	i = 0;
-	while (input->output[i])
-	{
-		free(input->output[i]);
-		input->output[i] = NULL;
-		i++;
-	}
-	free(input->output);
-	input->output = NULL;
 }
 
 void	init_prompt(t_prompt *struc, char **env)
@@ -218,14 +197,57 @@ char	**copie_env(char **env)
 	return (new_env);
 }
 
+void free_table(char **table)
+{
+	int i;
+
+	i = 0;
+	while (table[i])
+	{
+		free(table[i]);
+		table[i] = NULL;
+		i++;
+	}
+	free(table);
+	table = NULL;
+}
+
+char **trim_2d_array(char** table)
+{
+	int i;
+	int j;
+	int k;
+	char **new_table;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (table[i])
+		i++;
+	new_table = malloc(sizeof(char *) * (i + 1));
+	while (table[j])
+	{
+		if (table[j][0] != '\0')
+		{
+			new_table[k] = ft_strdup(table[j]);
+			k++;
+		}
+		j++;
+	}
+	free_table(table);
+	new_table[k] = NULL;
+	return (new_table);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int i = 0;
+	int i;
 	t_input input;
 	t_prompt struc;
 	t_parse *temp;
 	t_env_list *env_lst;
 
+	i = 0;
 	init_prompt(&struc, copie_env(envp));
 	fill_env_lst(&env_lst, envp);
 	temp = NULL;
@@ -243,72 +265,24 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input.str);
 		ft_split_input(&input);
 		put_to_table(input.output, &struc);
-
-		//check if filename are valid & create
+		
 		if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
 			break ;
-
+			
 		temp = struc.cmds;
+		temp->full_cmd = trim_2d_array(temp->full_cmd);
 		temp->env = env_lst;
-		// fork();
 		include_env(temp);
 		builtin(temp, &struc);
-		// while (temp)
-		// {
-		//    
-			//////////////////////////////////////////////////////////////////
-		//     printf("\nFull cmd: ");
-		//     while (temp->full_cmd[i])
-		//     {
-		//         printf("%s ", temp->full_cmd[i]);
-		//         i++;
-		//     }
-		//    
-			//////////////////////////////////////////////////////////////////
-		//     printf("\nFull path: %s\n", temp->full_path);
-		//    
-			//////////////////////////////////////////////////////////////////
-		//     i = 0;
-		//     if (temp->in)
-		//     {
-		//         while (temp->in[i])
-		//         {
-		//             printf("In: %d\n", temp->in[i]);
-		//             i++;
-		//         }
-		//     }
-		//     else
-		//         printf("In: %p\n", temp->in);
-		//    
-			//////////////////////////////////////////////////////////////////
-		//     i = 0;
-		//     if (temp->out)
-		//     {
-		//         while (temp->out[i])
-		//         {
-		//             printf("Out: %d\n", temp->out[i]);
-		//             i++;
-		//         }
-		//     }
-		//     else
-		//         printf("Out: %p\n", temp->out);
-		//    
-			////////////////////////////////////////////////////////////////////
-		//     printf("\n");
-		//     temp = temp->next;
-		//     i = 0;
-		// }
-		// wait();
 		if (struc.exit_flag == 1)
 		{
 			free_prompt(&struc);
-			free_input_output(&input);
+			free(input.str);
 			break ;
 		}
 		free_prompt(&struc);
 		free(input.str);
-		//free_input_output(&input);
-		i = 0;
+		//i++;
 	}
 	return (0);
 }
