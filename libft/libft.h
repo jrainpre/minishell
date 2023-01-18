@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/30 16:10:47 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:01:42 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 char *ft_strcpy(char *dest, char *src);
 int	ft_strcmp(const char *s1, const char *s2);
+char *insert_substr(char *str, char *substr, int pos);
 /*printf*/
 int					ft_printstr_fd(char *s, int fd);
 int					ft_printchar_fd(char c, int fd);
