@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 15:03:20 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/18 10:27:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_valid_filename(t_parse *node)
 	{
 		while (temp->full_cmd[i])
 		{
-			if (temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>'
+			if ((ft_strlen(temp->full_cmd[i]) > 1) && temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>'
 				&& !temp->full_cmd[i][2])
 			{
 				if (temp->full_cmd[i + 1] == NULL)
@@ -50,6 +50,7 @@ int	check_valid_filename(t_parse *node)
 		i = 0;
 		temp = temp->next;
 	}
+	temp = NULL;
 	return (1);
 }
 
