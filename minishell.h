@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 11:08:08 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:20:01 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,10 @@ int						check_valid_filename(t_parse *node);
 int						do_pwd(t_parse *node);
 int						pwd(void);
 void					do_cd(t_parse *node);
-int do_unset(t_parse *node);
-int do_env(t_parse *node);
-int do_export(t_parse *node);
+int						do_unset(t_parse *node);
+int						do_env(t_parse *node);
+int						do_export(t_parse *node);
+void					free_table(char **table);
+char					**trim_2d_array(char **table);
 
 #endif
