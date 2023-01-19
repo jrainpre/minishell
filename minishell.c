@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 15:15:00 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 10:50:39 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	init_node(t_parse *node)
 {
 	node->full_cmd = NULL;
 	node->full_path = NULL;
+	node->heredoc = NULL;
 	node->env = NULL;
 	node->next = NULL;
 	node->in = ft_calloc(2, sizeof(int*));

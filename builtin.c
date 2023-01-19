@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 17:18:17 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 14:49:06 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,25 +125,49 @@ void	exec_cmd(t_parse *node)
 		wait(0);
 }
 
+int	do_heredoc(t_parse *node)
+{
+	int	j;
+	int	saved;
+
+	j = 0;
+	saved = 1;
+	while (node->out[j])
+	{
+		if (node->out[j] >= 3)
+		{
+			saved = dup(STDOUT_FILENO);
+			check_dup(node, j);
+			ft_putstr_fd(node->heredoc, 1);
+			restore_stdout(saved);
+		}
+		else
+			ft_putstr_fd(node->heredoc, 1);
+		j++;
+	}
+	return (0);
+}
+
 int	builtin(t_parse *node, t_prompt *struc)
 {
-    if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
-        do_echo(node);
-    else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
-        do_exit(struc);
-     else if (!ft_strcmp(node->full_cmd[0], CD))
-         do_cd(node);
-    else if (!ft_strcmp(node->full_cmd[0], PWD))
-        do_pwd(node);
-    else if (!ft_strcmp(node->full_cmd[0], ENV))
-        do_env(node);
-    else if (!ft_strcmp(node->full_cmd[0], EXPORT))
-        do_export(node);
-    else if (!ft_strcmp(node->full_cmd[0], UNSET))
-        do_unset(node);
-    else
-    {
-        exec_cmd(node);
-    }
-    return (0);
+	if ((!node->full_cmd[0] && node->heredoc) || (!ft_strncmp(node->full_cmd[0],
+				"cat", 3) && node->heredoc))
+		do_heredoc(node);
+	else if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
+		do_echo(node);
+	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
+		do_exit(struc);
+	else if (!ft_strcmp(node->full_cmd[0], CD))
+		do_cd(node);
+	else if (!ft_strcmp(node->full_cmd[0], PWD))
+		do_pwd(node);
+	else if (!ft_strcmp(node->full_cmd[0], ENV))
+		do_env(node);
+	else if (!ft_strcmp(node->full_cmd[0], EXPORT))
+		do_export(node);
+	else if (!ft_strcmp(node->full_cmd[0], UNSET))
+		do_unset(node);
+	else
+		exec_cmd(node);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 09:38:46 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 14:00:28 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int	get_all_fd_out(t_prompt *struc)
 	while (temp)
 	{
 		alloc_fd_out(temp, count_redirect(temp->full_cmd));
+		*temp->out = 1;
 		while (temp->full_cmd[i])
 		{
 			if (temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>')

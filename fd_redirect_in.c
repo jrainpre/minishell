@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 10:39:35 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 11:41:40 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*heredoc(char *limit)
 		str[1] = ft_strjoin(str[1], str[0]);
 		free(temp);
 		free(str[0]);
-		str[0] = readline("heredoc> ");
+ 		str[0] = readline("heredoc> ");
 		if (!str[0])
 		{
 			printf("ERROR!!");
@@ -113,7 +113,7 @@ int	create_heredoc(t_parse *temp, int *i, int *j)
 		str = heredoc(temp->full_cmd[*i]);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
-		ft_putstr_fd(str, 1);
+		temp->heredoc = ft_strjoin(temp->heredoc, str);
 		free(str);
 		*j += 1;
 	}
@@ -123,7 +123,7 @@ int	create_heredoc(t_parse *temp, int *i, int *j)
 		str = heredoc(temp->full_cmd[*i + 1]);
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
 											temp->full_cmd[*i + 1]);
-		ft_putstr_fd(str, 1);
+		temp->heredoc = ft_strjoin(temp->heredoc, str);
 		free(str);
 		*j += 1;
 	}
