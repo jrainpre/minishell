@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 17:21:29 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 10:50:12 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_parse
 {
 	char				**full_cmd;
 	char				*full_path;
+	char				*heredoc;
 	struct s_parse		*next;
 	int					*in;
 	int					*out;
@@ -120,7 +121,7 @@ int						do_env(t_parse *node);
 int						do_export(t_parse *node);
 void					free_table(char **table);
 char					**trim_2d_array(char **table);
-
 char					*prepare_input_string(char *str);
+void					put_error(char *str);
 
 #endif

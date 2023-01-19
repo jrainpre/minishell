@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 16:37:54 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:43:10 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_new_str(char *str, char *envvar, char *ptr)
 	j = i;
 	while (str[i] != '\0' && str[i] != ' ' && not_dollar(ptr, i))
 		i++;
-	while (new[j] != '\0' && new[j] != ' ' && not_dollar(new, j))
+	while (new[j] != '\0' && not_dollar(new, j))
 		j++;
 	ft_strcpy(&new[j], &str[i]);
 	return (new);
@@ -75,7 +75,7 @@ int	get_new_strlen(char *str, char *value, char *ptr)
 		str++;
 		i++;
 	}
-	while (*str != '\0' && *str != ' ' && not_dollar(str, i))
+	while (*str != '\0' && not_dollar(str, i))
 		str++;
 	while (*str != '\0')
 	{
