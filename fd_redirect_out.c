@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 15:13:38 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 09:38:46 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_name(t_parse *temp, int *i)
+{
+	if ((ft_strlen(temp->full_cmd[*i]) > 1) && temp->full_cmd[*i][0] == '>'
+		&& temp->full_cmd[*i][1] == '>' && !temp->full_cmd[*i][2])
+	{
+		if (temp->full_cmd[*i + 1] == NULL)
+			return (0);
+		else if (temp->full_cmd[*i + 1][0] == '|')
+			return (0);
+	}
+	else if (temp->full_cmd[*i][0] == '>' && !temp->full_cmd[*i][1])
+	{
+		if (temp->full_cmd[*i + 1] == NULL)
+			return (0);
+		else if (temp->full_cmd[*i + 1][0] == '|')
+			return (0);
+	}
+	else if (temp->full_cmd[*i][0] == '<' && !temp->full_cmd[*i][1])
+	{
+		if (temp->full_cmd[*i + 1] == NULL)
+			return (0);
+		else if (temp->full_cmd[*i + 1][0] == '|')
+			return (0);
+	}
+	return (1);
+}
 
 int	check_valid_filename(t_parse *node)
 {
@@ -23,28 +50,7 @@ int	check_valid_filename(t_parse *node)
 	{
 		while (temp->full_cmd[i])
 		{
-			if ((ft_strlen(temp->full_cmd[i]) > 1) && temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>'
-				&& !temp->full_cmd[i][2])
-			{
-				if (temp->full_cmd[i + 1] == NULL)
-					return (0);
-				else if (temp->full_cmd[i + 1][0] == '|')
-					return (0);
-			}
-			else if (temp->full_cmd[i][0] == '>' && !temp->full_cmd[i][1])
-			{
-				if (temp->full_cmd[i + 1] == NULL)
-					return (0);
-				else if (temp->full_cmd[i + 1][0] == '|')
-					return (0);
-			}
-			else if (temp->full_cmd[i][0] == '<' && !temp->full_cmd[i][1])
-			{
-				if (temp->full_cmd[i + 1] == NULL)
-					return (0);
-				else if (temp->full_cmd[i + 1][0] == '|')
-					return (0);
-			}
+			check_name(temp, &i);
 			i++;
 		}
 		i = 0;
@@ -76,19 +82,70 @@ int	trim_white(t_parse *node)
 	return (0);
 }
 
+int	create_append_out(t_parse *temp, int *i, int *j)
+{
+	if (temp->full_cmd[*i][2] != '\0')
+	{
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">>");
+		temp->out[*j] = open(temp->full_cmd[*i],
+								O_CREAT | O_WRONLY | O_APPEND,
+								0666);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		*j += 1;
+	}
+	else
+	{
+		temp->out[*j] = open(temp->full_cmd[*i + 1],
+								O_CREAT | O_WRONLY | O_APPEND,
+								0666);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
+											temp->full_cmd[*i + 1]);
+		*j += 1;
+	}
+	return (1);
+}
+
+int	create_trunc_out(t_parse *temp, int *i, int *j)
+{
+	if (temp->full_cmd[*i][1] != '\0')
+	{
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">");
+		temp->out[*j] = open(temp->full_cmd[*i],
+								O_CREAT | O_WRONLY | O_TRUNC,
+								0666);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		*j += 1;
+	}
+	else
+	{
+		temp->out[*j] = open(temp->full_cmd[*i + 1],
+								O_CREAT | O_WRONLY | O_TRUNC,
+								0666);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
+											temp->full_cmd[*i + 1]);
+		*j += 1;
+	}
+	return (1);
+}
+
 int	get_all_fd_out(t_prompt *struc)
 {
-	int i;
-	int j;
-	t_parse *temp;
+	int		i;
+	int		j;
+	t_parse	*temp;
 
 	i = 0;
 	j = 0;
 	temp = struc->cmds;
 	if (!check_valid_filename(temp))
 	{
-		ft_putstr_fd(PARSE_ERROR, 1);
-		ft_putstr_fd("\n", 1);
+		put_error(PARSE_ERROR);
 		return (0);
 	}
 	while (temp)
@@ -97,49 +154,9 @@ int	get_all_fd_out(t_prompt *struc)
 		while (temp->full_cmd[i])
 		{
 			if (temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>')
-			{
-				if (temp->full_cmd[i][2] != '\0')
-				{
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], ">>");
-					temp->out[j] = open(temp->full_cmd[i],
-							O_CREAT | O_WRONLY | O_APPEND, 0666);
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					j++;
-				}
-				else
-				{
-					temp->out[j] = open(temp->full_cmd[i + 1],
-							O_CREAT | O_WRONLY | O_APPEND, 0666);
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					temp->full_cmd[i + 1] = ft_strtrim(temp->full_cmd[i + 1],
-							temp->full_cmd[i + 1]);
-					j++;
-				}
-			}
+				create_append_out(temp, &i, &j);
 			else if (temp->full_cmd[i][0] == '>')
-			{
-				if (temp->full_cmd[i][1] != '\0')
-				{
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], ">");
-					temp->out[j] = open(temp->full_cmd[i],
-							O_CREAT | O_WRONLY | O_TRUNC, 0666);
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					j++;
-				}
-				else
-				{
-					temp->out[j] = open(temp->full_cmd[i + 1],
-							O_CREAT | O_WRONLY | O_TRUNC, 0666);
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					temp->full_cmd[i + 1] = ft_strtrim(temp->full_cmd[i + 1],
-							temp->full_cmd[i + 1]);
-					j++;
-				}
-			}
+				create_trunc_out(temp, &i, &j);
 			i++;
 		}
 		trim_white(temp);

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 11:46:53 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 10:39:35 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,17 @@ int	ft_strncmp_special(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char *heredoc(char *limit)
+char	*heredoc(char *limit)
 {
-	char *str[2];
-	char *temp;
-	int len;
+	char	*str[2];
+	char	*temp;
+	int		len;
 
 	len = 0;
 	str[0] = NULL;
 	str[1] = NULL;
-	while (!str[0] || (ft_strncmp_special(str[0], limit, len)) || (ft_strlen(limit) != len))
+	while (!str[0] || (ft_strncmp_special(str[0], limit, len))
+		|| (ft_strlen(limit) != len))
 	{
 		temp = str[1];
 		str[1] = ft_strjoin(str[1], str[0]);
@@ -68,21 +69,79 @@ char *heredoc(char *limit)
 	return (str[1]);
 }
 
+void	print_file_error(char **str, int i)
+{
+	ft_putstr_fd("minishell: no such file or directory: ",
+					1);
+	ft_putstr_fd(str[i], 1);
+	ft_putstr_fd("\n", 1);
+}
+
+int	create_trunc_in(t_parse *temp, int *i, int *j)
+{
+	if (temp->full_cmd[*i][1] != '\0')
+	{
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
+		temp->in[*j] = open(temp->full_cmd[*i], O_RDONLY, 0666);
+		if (temp->in[*j] == -1)
+			print_file_error(temp->full_cmd, *i);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		*j += 1;
+	}
+	else
+	{
+		temp->in[*j] = open(temp->full_cmd[*i + 1], O_RDONLY, 0666);
+		if (temp->in[*j] == -1)
+			print_file_error(temp->full_cmd, *i + 1);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
+											temp->full_cmd[*i + 1]);
+		*j += 1;
+	}
+	return (1);
+}
+
+int	create_heredoc(t_parse *temp, int *i, int *j)
+{
+	char	*str;
+
+	if (temp->full_cmd[*i][2] != '\0')
+	{
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
+		str = heredoc(temp->full_cmd[*i]);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
+										temp->full_cmd[*i]);
+		ft_putstr_fd(str, 1);
+		free(str);
+		*j += 1;
+	}
+	else
+	{
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
+		str = heredoc(temp->full_cmd[*i + 1]);
+		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
+											temp->full_cmd[*i + 1]);
+		ft_putstr_fd(str, 1);
+		free(str);
+		*j += 1;
+	}
+	return (1);
+}
+
 int	get_all_fd_in(t_prompt *struc)
 {
-	int i;
-	int j;
-	t_parse *temp;
-	char *str;
+	int		i;
+	int		j;
+	t_parse	*temp;
 
 	i = 0;
 	j = 0;
-	str = NULL;
 	temp = struc->cmds;
 	if (!check_valid_filename(temp))
 	{
-		ft_putstr_fd(PARSE_ERROR, 1);
-		ft_putstr_fd("\n", 1);
+		put_error(PARSE_ERROR);
 		return (0);
 	}
 	while (temp)
@@ -91,62 +150,9 @@ int	get_all_fd_in(t_prompt *struc)
 		while (temp->full_cmd[i])
 		{
 			if (temp->full_cmd[i][0] == '<' && temp->full_cmd[i][1] == '<')
-			{
-				if (temp->full_cmd[i][2] != '\0')
-				{
-				    temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], "<<");
-				    str = heredoc(temp->full_cmd[i]);
-				    temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-						temp->full_cmd[i]);
-					ft_putstr_fd(str, 1);
-					free(str);
-				    j++;
-				}
-				else
-				{
-				    temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], "<<");
-					str = heredoc(temp->full_cmd[i+1]);
-				    temp->full_cmd[i+1] = ft_strtrim(temp->full_cmd[i+1],
-						temp->full_cmd[i+1]);
-					ft_putstr_fd(str, 1);
-					free(str);
-				    j++;
-				}
-			}
+				create_heredoc(temp, &i, &j);
 			else if (temp->full_cmd[i][0] == '<')
-			{
-				if (temp->full_cmd[i][1] != '\0')
-				{
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i], "<");
-					temp->in[j] = open(temp->full_cmd[i], O_RDONLY, 0666);
-					if (temp->in[j] == -1)
-					{
-						ft_putstr_fd("minishell: no such file or directory: ",
-								1);
-						ft_putstr_fd(temp->full_cmd[i], 1);
-						ft_putstr_fd("\n", 1);
-					}
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					j++;
-				}
-				else
-				{
-					temp->in[j] = open(temp->full_cmd[i + 1], O_RDONLY, 0666);
-					if (temp->in[j] == -1)
-					{
-						ft_putstr_fd("minishell: no such file or directory: ",
-								1);
-						ft_putstr_fd(temp->full_cmd[i + 1], 1);
-						ft_putstr_fd("\n", 1);
-					}
-					temp->full_cmd[i] = ft_strtrim(temp->full_cmd[i],
-							temp->full_cmd[i]);
-					temp->full_cmd[i + 1] = ft_strtrim(temp->full_cmd[i + 1],
-							temp->full_cmd[i + 1]);
-					j++;
-				}
-			}
+				create_trunc_in(temp, &i, &j);
 			i++;
 		}
 		trim_white(temp);

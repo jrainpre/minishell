@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
+#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/18 14:13:54 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/19 10:36:41 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,8 @@ SRCS        :=      libft/ft_printf.c \
                           pwd_cd.c \
                           do_env_stuff.c \
                           PrepareInputString.c \
+                          error.c \
+                          
 
                           
 OBJS        := $(SRCS:.c=.o)
