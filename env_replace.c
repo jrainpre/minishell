@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 16:37:54 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:00:29 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_new_str(char *str, char *envvar, char *ptr)
 	j = i;
 	while (str[i] != '\0' && str[i] != ' ' && not_dollar(ptr, i))
 		i++;
-	while (new[j] != '\0' && new[j] != ' ' && not_dollar(new, j))
+	while (new[j])
 		j++;
 	ft_strcpy(&new[j], &str[i]);
 	return (new);

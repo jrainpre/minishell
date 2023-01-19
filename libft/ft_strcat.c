@@ -6,9 +6,11 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:00:29 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/12/28 14:06:06 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:52:55 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char *ft_strcat(char *dest, char *src)
 {

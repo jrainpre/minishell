@@ -6,18 +6,11 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:40:41 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 14:29:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/19 10:16:14 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*add_space_before_this_position(char *str, int *index);
-char	*add_space_after_this_position(char *str, int *index);
-int		check_if_unquoted_special_char(char *str, int j, int *s_q, int *d_q);
-int		check_lastpos_is_space(char *str, int i);
-int		check_nextpos_is_space(char *str, int i);
-int		check_if_qoute(int *single_q, int *double_q, char c);
 
 /*this function checks if there are any pipes or redirects in the input string
  and if there are, it adds a space before them

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/18 17:21:29 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/19 15:24:51 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,29 @@ void					free_table(char **table);
 char					**trim_2d_array(char **table);
 
 char					*prepare_input_string(char *str);
+char					*add_space_before_this_position(char *str, int *index);
+char					*add_space_after_this_position(char *str, int *index);
+int						check_if_unquoted_special_char(char *str, int j,
+							int *s_q, int *d_q);
+int						check_lastpos_is_space(char *str, int i);
+int						check_nextpos_is_space(char *str, int i);
+int						check_if_qoute(int *single_q, int *double_q, char c);
+
+int						check_not_in_d_quotes_inpos(char *str, int *double_q);
+int						check_not_in_s_quotes_inpos(char *str, int *double_q);
+int						check_not_in_s_quotes(char *str, char *pos);
+int						check_not_in_d_quotes(char *str, char *pos);
+int						check_pos_not_in_quotes(char *str, char *pos);
+char					*find_unquted_tilde(char *str);
+char					*get_env_tilde_value(t_env_list *env);
+char					*get_new_str_tilde(char *str, char *envvar, char *ptr);
+void					expand_tilde(t_parse *node);
+
+void	delete_closed_quotes(t_parse *node);
+char	*delete_char(char *str, int pos);
+int	get_str_index(char *str, char *pos);
+void	delete_closed_quotes(t_parse *node)
+;
+
 
 #endif
