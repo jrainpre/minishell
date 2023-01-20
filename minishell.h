@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 15:24:51 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:41:14 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <errno.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -49,6 +50,7 @@ typedef struct s_parse
 	int					*in;
 	int					*out;
 	struct s_env_list	*env;
+	int 				exit_status;
 }						t_parse;
 
 typedef struct s_prompt
@@ -79,10 +81,9 @@ typedef struct s_env_list
 void					ft_split_input(t_input *input);
 int						put_to_table(char **str, t_prompt *struc);
 void					include_env(t_parse *node);
-char					*get_new_str(char *str, char *envvar, char *ptr);
-int						get_new_strlen(char *str, char *value, char *ptr);
+char					*get_new_str_env(char *str, char *envvar, char *ptr);
+int						get_new_strlen_env(char *str, char *value, char *ptr);
 char					*get_env_name(char *arg, t_env_list *env_lst);
-char					*find_unquoted_dollar(char *str);
 void					fill_env_lst(t_env_list **env_lst, char **envp);
 char					*get_env_value(t_env_list *env_lst, char *name);
 int						changevalue(t_env_list *env_lst, char *name_value);
@@ -135,16 +136,14 @@ int						check_not_in_s_quotes_inpos(char *str, int *double_q);
 int						check_not_in_s_quotes(char *str, char *pos);
 int						check_not_in_d_quotes(char *str, char *pos);
 int						check_pos_not_in_quotes(char *str, char *pos);
-char					*find_unquted_tilde(char *str);
+char					*find_unquoted_char(char *str, char c);
 char					*get_env_tilde_value(t_env_list *env);
 char					*get_new_str_tilde(char *str, char *envvar, char *ptr);
 void					expand_tilde(t_parse *node);
-
-void	delete_closed_quotes(t_parse *node);
-char	*delete_char(char *str, int pos);
-int	get_str_index(char *str, char *pos);
-void	delete_closed_quotes(t_parse *node)
-;
-
+//delete_closed_quotes.c
+int						new_len_no_quotes(char *str);
+char					*delete_closed_quotes_str(char *str, int s_quotes,
+							int d_quotes);
+void					delete_closed_quotes_cmd(t_parse *node);
 
 #endif

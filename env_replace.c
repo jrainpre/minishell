@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/19 14:00:29 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/20 08:45:10 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,26 @@ void	include_env(t_parse *node)
 	i = 0;
 	while (node->full_cmd[i])
 	{
-		while (find_unquoted_dollar(node->full_cmd[i]))
+		while (find_unquoted_char(node->full_cmd[i], '$'))
 		{
-			dollar_pos = find_unquoted_dollar(node->full_cmd[i]);
+			dollar_pos = find_unquoted_char(node->full_cmd[i], '$');
 			name = get_env_name(dollar_pos, node->env);
 			temp = node->full_cmd[i];
-			node->full_cmd[i] = get_new_str(node->full_cmd[i], name, dollar_pos);
+			node->full_cmd[i] = get_new_str_env(node->full_cmd[i], name, dollar_pos);
 			free(temp);
 		}
 		i++;
 	}
 }
 
-char	*get_new_str(char *str, char *envvar, char *ptr)
+char	*get_new_str_env(char *str, char *envvar, char *ptr)
 {
 	char	*new;
 	int		i;
 	int		j;
 
 	i = 0;
-	new = ft_calloc((get_new_strlen(str, envvar, ptr) + 1), 1);
+	new = ft_calloc((get_new_strlen_env(str, envvar, ptr) + 1), 1);
 	while (str[i] != '\0' && &str[i] != ptr)
 		i++;
 	ft_strncpy(new, str, i);
@@ -65,7 +65,7 @@ char	*get_new_str(char *str, char *envvar, char *ptr)
 	return (new);
 }
 
-int	get_new_strlen(char *str, char *value, char *ptr)
+int	get_new_strlen_env(char *str, char *value, char *ptr)
 {
 	int	i;
 
@@ -110,33 +110,4 @@ char	*get_env_name(char *arg, t_env_list *env_lst)
 		env_val = ft_calloc(1, 1);
 	free(env_name);
 	return (env_val);
-}
-
-char	*find_unquoted_dollar(char *str)
-{
-	int		in_single_quotes;
-	char	*q;
-
-	in_single_quotes = 0;
-	while (*str != '\0')
-	{
-		if (*str == '\'')
-			in_single_quotes = !in_single_quotes;
-		else if (*str == '$')
-		{
-			if (in_single_quotes)
-			{
-				q = str + 1;
-				while (*q != '\0' && *q != '\'')
-					q++;
-				if (*q != '\'')
-					return (str);
-				str = --q;
-			}
-			else
-				return (str);
-		}
-		str++;
-	}
-	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/19 14:53:55 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/20 08:43:24 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,8 @@ SRCS        :=      libft/ft_printf.c \
                           libft/ft_strcmp.c \
                           libft/ft_insert_substr.c  \
                           libft/ft_strcat.c \
+                          libft/ft_delete_char.c \
+                          libft/ft_get_str_index_of_pos.c \
                           parse_input.c \
                           env_replace.c \
                           safe_env_in_lst.c \
@@ -77,6 +79,7 @@ SRCS        :=      libft/ft_printf.c \
                           PrepareInputString.c \
                           expand_tilde.c \
                           delete_closed_quotes.c \
+                          in_quotes.c \
 
                           
 OBJS        := $(SRCS:.c=.o)
