@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 17:18:10 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/20 08:16:25 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ char				*ft_strncpy(char *dest, char *src, unsigned int n);
 char				*ft_strcpy(char *dest, char *src);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*insert_substr(char *str, char *substr, int pos);
+int					ft_get_str_index_of_pos(char *str, char *pos);
+char				*delete_char(char *str, int pos);
+
 /*printf*/
 int					ft_printstr_fd(char *s, int fd);
 int					ft_printchar_fd(char c, int fd);

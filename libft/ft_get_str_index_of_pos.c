@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_get_str_index_of_pos.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/28 14:00:29 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/19 14:52:55 by jrainpre         ###   ########.fr       */
+/*   Created: 2023/01/20 08:12:56 by jrainpre          #+#    #+#             */
+/*   Updated: 2023/01/20 08:14:12 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strcat(char *dest, char *src)
+int	ft_get_str_index_of_pos(char *str, char *pos)
 {
-	int i;
-	int j;
+	int	i;
 
 	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0')
+	while (str[i])
 	{
-		dest[i + j] = src[j];
-		j++;
+		if (&str[i] == pos)
+			return (i);
+		i++;
 	}
-	dest[i + j] = '\0';
-	return (dest);
+	return (-1);
 }

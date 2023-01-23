@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 10:50:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/20 08:38:30 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,8 @@ int	main(int argc, char **argv, char **envp)
 		temp->full_cmd = trim_2d_array(temp->full_cmd);
 		temp->env = env_lst;
 		include_env(temp);
+		expand_tilde(temp);
+		delete_closed_quotes_cmd(temp);
 		builtin(temp, &struc);
 		if (struc.exit_flag == 1)
 		{
