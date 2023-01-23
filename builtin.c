@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 14:49:06 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/23 15:05:32 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,15 +157,15 @@ int	builtin(t_parse *node, t_prompt *struc)
 		do_echo(node);
 	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
 		do_exit(struc);
-	else if (!ft_strcmp(node->full_cmd[0], CD))
+	else if (!ft_strncmp(node->full_cmd[0], CD, 2))
 		do_cd(node);
-	else if (!ft_strcmp(node->full_cmd[0], PWD))
+	else if (!ft_strncmp(node->full_cmd[0], PWD, 3))
 		do_pwd(node);
-	else if (!ft_strcmp(node->full_cmd[0], ENV))
+	else if (!ft_strncmp(node->full_cmd[0], ENV, 3))
 		do_env(node);
-	else if (!ft_strcmp(node->full_cmd[0], EXPORT))
+	else if (!ft_strncmp(node->full_cmd[0], EXPORT, 6))
 		do_export(node);
-	else if (!ft_strcmp(node->full_cmd[0], UNSET))
+	else if (!ft_strncmp(node->full_cmd[0], UNSET, 5))
 		do_unset(node);
 	else
 		exec_cmd(node);
