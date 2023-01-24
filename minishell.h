@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 10:50:12 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 15:49:55 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_parse
 	char				*full_path;
 	char				*heredoc;
 	struct s_parse		*next;
-	int					*in;
-	int					*out;
+	int					in;
+	int					out;
 	struct s_env_list	*env;
 }						t_parse;
 
@@ -103,7 +103,7 @@ int						line_count(char **str);
 int						do_echo(t_parse *node);
 int						do_exit(t_prompt *struc);
 int						get_all_fd(t_prompt *struc);
-int						builtin(t_parse *node, t_prompt *struc);
+int						builtin(t_parse *node, t_prompt *struc, int fork);
 int						count_redirect(char **split);
 void					alloc_fd_out(t_parse *node, int cnt);
 int						get_all_fd_out(t_prompt *struc);
@@ -111,7 +111,8 @@ int						trim_white(t_parse *node);
 void					alloc_fd_in(t_parse *node, int cnt);
 int						get_all_fd_in(t_prompt *struc);
 void					restore_stdout(int saved);
-void					check_dup(t_parse *node, int i);
+void					check_dup_out(t_parse *node);
+void					check_dup_in(t_parse *node);
 int						check_valid_filename(t_parse *node);
 int						do_pwd(t_parse *node);
 int						pwd(void);
@@ -123,5 +124,12 @@ void					free_table(char **table);
 char					**trim_2d_array(char **table);
 char					*prepare_input_string(char *str);
 void					put_error(char *str);
+int						is_builtin(t_parse *node);
+void					restore_stdin(int saved);
+void					do_parent(t_parse *node, int *fd, int *backup);
+void					do_child(t_parse *node, t_prompt *struc, int *fd,
+							int *backup);
+int						piper(t_parse *node, t_prompt *struc);
+int						executer(t_parse *node, t_prompt *struc);
 
 #endif
