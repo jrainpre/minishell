@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_env_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 09:54:18 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 11:10:53 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:05:11 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int do_export(t_parse *node)
     j = 0;
     i = 1;
     saved = 1;
-    while (node->out[j])
+    while (node->out)
         {
-            if (node->out[j] >= 3)
+            if (node->out >= 3)
             {
                 saved = dup(STDOUT_FILENO);
-                check_dup(node, j);
+                check_dup_out(node);
 				export(node);
                 restore_stdout(saved);
             }
@@ -61,12 +61,12 @@ int do_env(t_parse *node)
 	j = 0;
 	i = 1;
 	saved = 1;
-		while (node->out[j])
+		while (node->out)
 		{
-			if (node->out[j] >= 3)
+			if (node->out >= 3)
 			{
 				saved = dup(STDOUT_FILENO);
-				check_dup(node, j);
+				check_dup_out(node);
 				print_env_list(node->env);
 				restore_stdout(saved);
 			}

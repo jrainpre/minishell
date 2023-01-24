@@ -6,11 +6,38 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/23 15:05:32 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:25:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_builtin(t_parse *node)
+{
+	int		l;
+
+	if (!node->full_cmd)
+		return (0);
+	if ((node->full_cmd && ft_strchr(*node->full_cmd, '/')) || (node->full_path && \
+		ft_strchr(node->full_path, '/')))
+		return (0);
+	l = ft_strlen(*node->full_cmd);
+	if (!ft_strncmp(*node->full_cmd, "pwd", l) && l == 3)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "env", l) && l == 3)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "cd", l) && l == 2)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "export", l) && l == 6)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "unset", l) && l == 5)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "echo", l) && l == 4)
+		return (1);
+	if (!ft_strncmp(*node->full_cmd, "exit", l) && l == 4)
+		return (1);
+	return (0);
+}
 
 int	ft_strchr_int(const char *s, int c)
 {
@@ -98,18 +125,23 @@ char	**env_list_to_array(t_env_list *env_lst)
 	return (envp);
 }
 
-void	exec_cmd(t_parse *node)
+void dup_fds(t_parse *node)
+{
+	if (node->out >= 3)
+		check_dup_out(node);
+		
+	if (node->in >= 3)
+		check_dup_in(node);
+}
+
+int build_path(t_parse *node)
 {
 	char	*path;
 	char	**split;
-	int		pid;
-	int		t;
-
-	pid = 0;
+	
 	path = NULL;
 	path = get_env_value(node->env, "PATH");
 	split = ft_split(path, ':');
-	//free(path);
 	if (node->full_cmd[0][0] == '/')
 	{
 		node->full_path = ft_strdup(node->full_cmd[0]);
@@ -118,42 +150,34 @@ void	exec_cmd(t_parse *node)
 	else
 		node->full_path = find_command(split, node->full_cmd[0],
 				node->full_path);
-	pid = fork();
-	if (pid == 0)
-		execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
+	if(!node->full_path)
+		return (0);
 	else
-		wait(0);
+		return (1);
 }
 
-int	do_heredoc(t_parse *node)
+void	exec_cmd(t_parse *node, int to_fork)
 {
-	int	j;
-	int	saved;
-
-	j = 0;
-	saved = 1;
-	while (node->out[j])
+	int		pid;
+	
+	if (!build_path(node))
+		ft_putstr_fd("ERROR! : Not able to build path!\n", 2);
+	else
 	{
-		if (node->out[j] >= 3)
+		pid = fork();
+		if (pid == 0)
 		{
-			saved = dup(STDOUT_FILENO);
-			check_dup(node, j);
-			ft_putstr_fd(node->heredoc, 1);
-			restore_stdout(saved);
+			dup_fds(node);
+			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
 		}
 		else
-			ft_putstr_fd(node->heredoc, 1);
-		j++;
+			wait(0);	
 	}
-	return (0);
 }
 
-int	builtin(t_parse *node, t_prompt *struc)
+int	builtin(t_parse *node, t_prompt *struc, int to_fork)
 {
-	if ((!node->full_cmd[0] && node->heredoc) || (!ft_strncmp(node->full_cmd[0],
-				"cat", 3) && node->heredoc))
-		do_heredoc(node);
-	else if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
+	if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
 		do_echo(node);
 	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
 		do_exit(struc);
@@ -168,6 +192,6 @@ int	builtin(t_parse *node, t_prompt *struc)
 	else if (!ft_strncmp(node->full_cmd[0], UNSET, 5))
 		do_unset(node);
 	else
-		exec_cmd(node);
+		exec_cmd(node, to_fork);
 	return (0);
 }

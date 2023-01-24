@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 14:00:28 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:34:07 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,6 @@ int	check_valid_filename(t_parse *node)
 	return (1);
 }
 
-void	alloc_fd_out(t_parse *node, int cnt)
-{
-	if (cnt > 0)
-		node->out = calloc(cnt, sizeof(int));
-}
-
 int	trim_white(t_parse *node)
 {
 	int	i;
@@ -82,54 +76,50 @@ int	trim_white(t_parse *node)
 	return (0);
 }
 
-int	create_append_out(t_parse *temp, int *i, int *j)
+int	create_append_out(t_parse *temp, int *i)
 {
 	if (temp->full_cmd[*i][2] != '\0')
 	{
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">>");
-		temp->out[*j] = open(temp->full_cmd[*i],
+		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_APPEND,
 								0666);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
-		*j += 1;
 	}
 	else
 	{
-		temp->out[*j] = open(temp->full_cmd[*i + 1],
+		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_APPEND,
 								0666);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
 											temp->full_cmd[*i + 1]);
-		*j += 1;
 	}
 	return (1);
 }
 
-int	create_trunc_out(t_parse *temp, int *i, int *j)
+int	create_trunc_out(t_parse *temp, int *i)
 {
 	if (temp->full_cmd[*i][1] != '\0')
 	{
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">");
-		temp->out[*j] = open(temp->full_cmd[*i],
+		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_TRUNC,
 								0666);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
-		*j += 1;
 	}
 	else
 	{
-		temp->out[*j] = open(temp->full_cmd[*i + 1],
+		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_TRUNC,
 								0666);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
 											temp->full_cmd[*i + 1]);
-		*j += 1;
 	}
 	return (1);
 }
@@ -137,11 +127,9 @@ int	create_trunc_out(t_parse *temp, int *i, int *j)
 int	get_all_fd_out(t_prompt *struc)
 {
 	int		i;
-	int		j;
 	t_parse	*temp;
 
 	i = 0;
-	j = 0;
 	temp = struc->cmds;
 	if (!check_valid_filename(temp))
 	{
@@ -150,18 +138,17 @@ int	get_all_fd_out(t_prompt *struc)
 	}
 	while (temp)
 	{
-		alloc_fd_out(temp, count_redirect(temp->full_cmd));
-		*temp->out = 1;
 		while (temp->full_cmd[i])
 		{
 			if (temp->full_cmd[i][0] == '>' && temp->full_cmd[i][1] == '>')
-				create_append_out(temp, &i, &j);
+				create_append_out(temp, &i);
 			else if (temp->full_cmd[i][0] == '>')
-				create_trunc_out(temp, &i, &j);
+				create_trunc_out(temp, &i);
 			i++;
 		}
 		trim_white(temp);
 		temp = temp->next;
+		i = 0;
 	}
 	return (1);
 }
