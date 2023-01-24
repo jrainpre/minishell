@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 14:44:50 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:34:07 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,6 @@ int	check_valid_filename(t_parse *node)
 	}
 	temp = NULL;
 	return (1);
-}
-
-void	alloc_fd_out(t_parse *node, int cnt)
-{
-	if (cnt > 0)
-		node->out = calloc(cnt, sizeof(int));
 }
 
 int	trim_white(t_parse *node)
@@ -154,6 +148,7 @@ int	get_all_fd_out(t_prompt *struc)
 		}
 		trim_white(temp);
 		temp = temp->next;
+		i = 0;
 	}
 	return (1);
 }

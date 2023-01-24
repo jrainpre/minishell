@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:02:15 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:25:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,17 +134,11 @@ void dup_fds(t_parse *node)
 		check_dup_in(node);
 }
 
-void	exec_cmd(t_parse *node, int to_fork)
+int build_path(t_parse *node)
 {
 	char	*path;
 	char	**split;
-	int		pid;
-	int saved_out;
-	int saved_in;
 	
-	saved_out = dup(STDOUT_FILENO);
-	saved_in = dup(STDIN_FILENO);
-	pid = 0;
 	path = NULL;
 	path = get_env_value(node->env, "PATH");
 	split = ft_split(path, ':');
@@ -156,14 +150,29 @@ void	exec_cmd(t_parse *node, int to_fork)
 	else
 		node->full_path = find_command(split, node->full_cmd[0],
 				node->full_path);
-	dup_fds(node);
-	pid = fork();
-	if (pid == 0)
-		execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
+	if(!node->full_path)
+		return (0);
 	else
-		wait(0);
-	restore_stdout(saved_out);
-	restore_stdin(saved_in);
+		return (1);
+}
+
+void	exec_cmd(t_parse *node, int to_fork)
+{
+	int		pid;
+	
+	if (!build_path(node))
+		ft_putstr_fd("ERROR! : Not able to build path!\n", 2);
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			dup_fds(node);
+			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
+		}
+		else
+			wait(0);	
+	}
 }
 
 int	builtin(t_parse *node, t_prompt *struc, int to_fork)

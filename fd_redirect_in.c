@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 14:47:53 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:38:45 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int	get_all_fd_in(t_prompt *struc)
 		}
 		trim_white(temp);
 		temp = temp->next;
+		i = 0;
 	}
 	return (1);
 }

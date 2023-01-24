@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:06:00 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:17:37 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input.str);
 		ft_split_input(&input);
 		put_to_table(input.output, &struc);
+		
 		if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
 			break ;
 		temp = struc.cmds;
