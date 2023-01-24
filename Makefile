@@ -62,6 +62,9 @@ SRCS        :=      libft/ft_printf.c \
                           libft/ft_strncpy.c \
                           libft/ft_strcmp.c \
                           libft/ft_insert_substr.c  \
+                          libft/ft_strcat.c \
+                          libft/ft_delete_char.c \
+                          libft/ft_get_str_index_of_pos.c \
                           parse_input.c \
                           env_replace.c \
                           safe_env_in_lst.c \
@@ -74,6 +77,9 @@ SRCS        :=      libft/ft_printf.c \
                           pwd_cd.c \
                           do_env_stuff.c \
                           PrepareInputString.c \
+                          expand_tilde.c \
+                          delete_closed_quotes.c \
+                          in_quotes.c \
                           error.c \
                           executer.c \
                           

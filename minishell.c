@@ -279,6 +279,8 @@ int	main(int argc, char **argv, char **envp)
             temp2 = temp2->next;
         }
 		include_env(temp);
+    expand_tilde(temp);
+		delete_closed_quotes_cmd(temp);
 		if (temp->full_cmd[0] != NULL && temp->full_cmd[0][0] != '\0' && temp->full_cmd[0][0] != '\n')
 			executer(temp, &struc);
 		if (struc.exit_flag == 1)
