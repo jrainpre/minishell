@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:17:37 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:50:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ int	main(int argc, char **argv, char **envp)
             temp2 = temp2->next;
         }
 		include_env(temp);
-    expand_tilde(temp);
+    	expand_tilde(temp);
 		delete_closed_quotes_cmd(temp);
 		if (temp->full_cmd[0] != NULL && temp->full_cmd[0][0] != '\0' && temp->full_cmd[0][0] != '\n')
 			executer(temp, &struc);

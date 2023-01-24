@@ -25,27 +25,19 @@ int	pwd(void)
 
 int	do_pwd(t_parse *node)
 {
-	int	i;
-	int	j;
 	int	len;
 	int	saved;
 
-	j = 0;
-	i = 1;
 	saved = 1;
-	while (node->out)
+	if (node->out >= 3)
 	{
-		if (node->out >= 3)
-		{
-			saved = dup(STDOUT_FILENO);
-			check_dup_out(node);
-			pwd();
-			restore_stdout(saved);
-		}
-		else
-			pwd();
-		j++;
+		saved = dup(STDOUT_FILENO);
+		check_dup_out(node);
+		pwd();
+		restore_stdout(saved);
 	}
+	else
+		pwd();
 	return (0);
 }
 
