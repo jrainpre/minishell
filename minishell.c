@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/20 08:38:30 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:17:37 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ void	init_node(t_parse *node)
 	node->heredoc = NULL;
 	node->env = NULL;
 	node->next = NULL;
-	node->in = ft_calloc(2, sizeof(int*));
-	*node->in = 0;
-	node->out = ft_calloc(2, sizeof(int*));
-	*node->out = 1;
+	node->in = 0;
+	node->out = 1;
 }
 
 void	add_nodes(t_prompt *struc, int ammount)
@@ -246,12 +244,14 @@ int	main(int argc, char **argv, char **envp)
 	t_input input;
 	t_prompt struc;
 	t_parse *temp;
+	t_parse *temp2;
 	t_env_list *env_lst;
 
 	i = 0;
 	init_prompt(&struc, copie_env(envp));
 	fill_env_lst(&env_lst, envp);
 	temp = NULL;
+	temp2 = NULL;
 	(void)argc;
 	(void)argv;
 	(void)envp;
@@ -269,14 +269,20 @@ int	main(int argc, char **argv, char **envp)
 		
 		if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
 			break ;
-			
 		temp = struc.cmds;
 		temp->full_cmd = trim_2d_array(temp->full_cmd);
 		temp->env = env_lst;
+		temp2 = temp;
+        while (temp2)
+        {
+            temp2->env = env_lst;
+            temp2 = temp2->next;
+        }
 		include_env(temp);
-		expand_tilde(temp);
+    expand_tilde(temp);
 		delete_closed_quotes_cmd(temp);
-		builtin(temp, &struc);
+		if (temp->full_cmd[0] != NULL && temp->full_cmd[0][0] != '\0' && temp->full_cmd[0][0] != '\n')
+			executer(temp, &struc);
 		if (struc.exit_flag == 1)
 		{
 			free_prompt(&struc);

@@ -33,12 +33,12 @@ int	do_pwd(t_parse *node)
 	j = 0;
 	i = 1;
 	saved = 1;
-	while (node->out[j])
+	while (node->out)
 	{
-		if (node->out[j] >= 3)
+		if (node->out >= 3)
 		{
 			saved = dup(STDOUT_FILENO);
-			check_dup(node, j);
+			check_dup_out(node);
 			pwd();
 			restore_stdout(saved);
 		}

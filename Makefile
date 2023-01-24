@@ -6,11 +6,11 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/19 10:36:41 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/24 15:19:45 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME        := minishell_test
+NAME        := minishell
 CC        := cc
 FLAGS    :=  -g
 READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
@@ -81,6 +81,7 @@ SRCS        :=      libft/ft_printf.c \
                           delete_closed_quotes.c \
                           in_quotes.c \
                           error.c \
+                          executer.c \
                           
 
                           

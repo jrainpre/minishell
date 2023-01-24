@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/17 15:02:20 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/24 14:46:53 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,27 @@ int	line_count(char **str)
 	return (i);
 }
 
-void	check_dup(t_parse *node, int i)
+void	check_dup_out(t_parse *node)
 {
-	dup2(node->out[i], STDOUT_FILENO);
-	close(node->out[i]);
+	dup2(node->out, STDOUT_FILENO);
+	close(node->out);
+}
+
+void	check_dup_in(t_parse *node)
+{
+	dup2(node->in, STDIN_FILENO);
+	close(node->in);
 }
 
 void	restore_stdout(int saved)
 {
 	dup2(saved, STDOUT_FILENO);
+	close(saved);
+}
+
+void	restore_stdin(int saved)
+{
+	dup2(saved, STDIN_FILENO);
 	close(saved);
 }
 
@@ -54,7 +66,7 @@ int	only_n(char *str)
 	return (1);
 }
 
-void	put_to_stdout(t_parse *node, int *i, int *j)
+void	put_to_stdout(t_parse *node, int *i)
 {
 	int	flag;
 	int	k;
@@ -87,7 +99,6 @@ void	put_to_stdout(t_parse *node, int *i, int *j)
 		*i += 1;
 	}
 	*i = 1;
-	*j += 1;
 	if (flag)
 		ft_putstr_fd("\n", 1);
 	else
@@ -107,18 +118,15 @@ int	do_echo(t_parse *node)
 	len = line_count(node->full_cmd);
 	if (len >= 2)
 	{
-		while (node->out[j])
+		if (node->out >= 3)
 		{
-			if (node->out[j] >= 3)
-			{
-				saved = dup(STDOUT_FILENO);
-				check_dup(node, j);
-				put_to_stdout(node, &i, &j);
-				restore_stdout(saved);
-			}
-			else
-				put_to_stdout(node, &i, &j);
+			saved = dup(STDOUT_FILENO);
+			check_dup_out(node);
+			put_to_stdout(node, &i);
+			restore_stdout(saved);
 		}
+		else
+			put_to_stdout(node, &i);
 	}
 	return (0);
 }
