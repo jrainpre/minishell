@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:25:30 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:53:22 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,9 @@ void	exec_cmd(t_parse *node, int to_fork)
 		ft_putstr_fd("ERROR! : Not able to build path!\n", 2);
 	else
 	{
+		run_signals(2);
 		pid = fork();
-		if (pid == 0)
+		if (pid == 0) 
 		{
 			dup_fds(node);
 			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));

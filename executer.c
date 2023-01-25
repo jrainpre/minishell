@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:27:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:50:40 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int    piper(t_parse *node, t_prompt *struc)
             pipe(fd);
             if ((pid = fork()) == -1)
             {
-                perror("fork");
+                perror("ERROR: Fork!!");
                 exit(1);
             }
             else if (pid == 0)

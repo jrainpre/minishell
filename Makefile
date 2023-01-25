@@ -6,7 +6,7 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/24 15:19:45 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/25 10:52:44 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ SRCS        :=      libft/ft_printf.c \
                           in_quotes.c \
                           error.c \
                           executer.c \
+                          signals.c \
                           
 
                           

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:50:30 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:55:10 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	init_node(t_parse *node)
 	node->heredoc = NULL;
 	node->env = NULL;
 	node->next = NULL;
-	node->in = 0;
-	node->out = 1;
+	node->in = STDIN_FILENO;
+	node->out = STDOUT_FILENO;
 }
 
 void	add_nodes(t_prompt *struc, int ammount)
@@ -196,9 +196,9 @@ char	**copie_env(char **env)
 	return (new_env);
 }
 
-void free_table(char **table)
+void	free_table(char **table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (table[i])
@@ -211,12 +211,12 @@ void free_table(char **table)
 	table = NULL;
 }
 
-char **trim_2d_array(char** table)
+char	**trim_2d_array(char **table)
 {
-	int i;
-	int j;
-	int k;
-	char **new_table;
+	int		i;
+	int		j;
+	int		k;
+	char	**new_table;
 
 	i = 0;
 	j = 0;
@@ -238,60 +238,70 @@ char **trim_2d_array(char** table)
 	return (new_table);
 }
 
+void	check_exit_flag(t_prompt *struc)
+{
+	if (struc->exit_flag == 1)
+	{
+		free_table(struc->envp);
+		//free_parse(struc);
+		exit(0);
+	}
+}
+
+t_parse	*set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
+{
+	t_parse	*temp2;
+
+	temp = struc->cmds;
+	temp->full_cmd = trim_2d_array(temp->full_cmd);
+	temp->env = env_lst;
+	temp2 = temp;
+	while (temp2)
+	{
+		temp2->env = env_lst;
+		temp2 = temp2->next;
+	}
+	return (temp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int i;
-	t_input input;
-	t_prompt struc;
-	t_parse *temp;
-	t_parse *temp2;
-	t_env_list *env_lst;
+	t_input		input;
+	t_prompt	struc;
+	t_parse		*temp;
+	t_env_list	*env_lst;
 
-	i = 0;
 	init_prompt(&struc, copie_env(envp));
 	fill_env_lst(&env_lst, envp);
 	temp = NULL;
-	temp2 = NULL;
 	(void)argc;
 	(void)argv;
 	(void)envp;
-
 	while (1)
 	{
 		input.c = ' ';
+		run_signals(1);
 		input.str = readline(PROMPT);
-		if (!input.str)
-			continue; ;
+		if (input.str == NULL)
+			run_signals(3);
+		if (input.str[0] == '\0' || input.str[0] == '\n'
+			|| input.str[0] == '\t' || input.str[0] == ' ')
+			continue ;
 		input.str = prepare_input_string(input.str);
 		add_history(input.str);
 		ft_split_input(&input);
 		put_to_table(input.output, &struc);
-		
 		if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
 			break ;
-		temp = struc.cmds;
-		temp->full_cmd = trim_2d_array(temp->full_cmd);
-		temp->env = env_lst;
-		temp2 = temp;
-        while (temp2)
-        {
-            temp2->env = env_lst;
-            temp2 = temp2->next;
-        }
+		temp = set_env_lst(env_lst, temp, &struc);
 		include_env(temp);
-    	expand_tilde(temp);
+		expand_tilde(temp);
 		delete_closed_quotes_cmd(temp);
-		if (temp->full_cmd[0] != NULL && temp->full_cmd[0][0] != '\0' && temp->full_cmd[0][0] != '\n')
+		if (temp->full_cmd[0] != NULL)
 			executer(temp, &struc);
-		if (struc.exit_flag == 1)
-		{
-			free_prompt(&struc);
-			free(input.str);
-			break ;
-		}
+		check_exit_flag(&struc);
 		free_prompt(&struc);
 		free(input.str);
-		//i++;
 	}
 	return (0);
 }
