@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/20 13:54:01 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:49:43 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,25 @@ void expand_tilde(t_parse *node)
 	}
 }
 	
+
+
+char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	new = ft_calloc((get_new_strlen_env(str, envvar, ptr) + 1), 1);
+	while (str[i] != '\0' && &str[i] != ptr)
+		i++;
+	ft_strncpy(new, str, i);
+	ft_strcpy(&new[i], envvar);
+	j = i;
+	i++;
+	i++;
+	while (new[j])
+		j++;
+	ft_strcpy(&new[j], &str[i]);
+	return (new);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:27:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:50:10 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void    do_parent(t_parse *node, int *fd, int *backup)
 {
-    wait(NULL);
-    close(fd[1]);
+    wrapper_wait(NULL);
+    wrapper_close(&fd[1]);
     if (*backup != STDIN_FILENO)
-        close(*backup);
+        wrapper_close(backup);
     *backup = fd[0];
 }
 
 void    do_child(t_parse *node, t_prompt *struc, int *fd, int *backup)
 {
-    dup2(*backup, STDIN_FILENO);
+    wrapper_dup2(backup, STDIN_FILENO);
     if (node->next != NULL)
-        dup2(fd[1], STDOUT_FILENO);
-    close(fd[0]);
+        wrapper_dup2(&fd[1], STDOUT_FILENO);
+    wrapper_close(&fd[0]);
     builtin(node, struc, 1);
     exit(1);
 }
@@ -39,13 +39,9 @@ int    piper(t_parse *node, t_prompt *struc)
         backup = STDIN_FILENO;
         while (node != NULL)
         {
-            pipe(fd);
-            if ((pid = fork()) == -1)
-            {
-                perror("fork");
-                exit(1);
-            }
-            else if (pid == 0)
+            wrapper_pipe(fd);
+            wrapper_fork(&pid);
+            if (pid == 0)
                 do_child(node, struc, fd, &backup);
             else
             {
@@ -54,7 +50,7 @@ int    piper(t_parse *node, t_prompt *struc)
             }
         }
         if (backup != STDIN_FILENO)
-            close(backup);
+            wrapper_close(&backup);
     return (1);
 }
 
@@ -69,6 +65,8 @@ int    executer(t_parse *node, t_prompt *struc)
         piper(node, struc);
     return (1);
 }
+
+
 
 
 /*

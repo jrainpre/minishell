@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 15:49:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 13:33:55 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define PROMPT "\001\033[1;92m\002 minishell $> \033[0;37m"
 # define USER "USER"
 
+
 struct s_env_list;
 typedef struct s_parse
 {
@@ -60,6 +61,7 @@ typedef struct s_prompt
 	char				**envp;
 	pid_t				pid;
 	int					exit_flag;
+	int 				exit_return_val;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -78,6 +80,11 @@ typedef struct s_env_list
 	char				*value;
 	struct s_env_list	*next;
 }						t_env_list;
+
+typedef struct s_global
+{
+	int 		exit_status;
+}						t_global;
 
 void					ft_split_input(t_input *input);
 int						put_to_table(char **str, t_prompt *struc);
@@ -102,7 +109,7 @@ int						add_env_no_value(t_env_list *env, char *str);
 int						export(t_parse *node);
 int						line_count(char **str);
 int						do_echo(t_parse *node);
-int						do_exit(t_prompt *struc);
+void					do_exit(t_prompt *struc, t_parse *node);
 int						get_all_fd(t_prompt *struc);
 int						builtin(t_parse *node, t_prompt *struc, int fork);
 int						count_redirect(char **split);
@@ -155,4 +162,13 @@ void					do_child(t_parse *node, t_prompt *struc, int *fd,
 int						piper(t_parse *node, t_prompt *struc);
 int						executer(t_parse *node, t_prompt *struc);
 
+char *find_not_in_squoutes_char(char *str, char c);
+char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr);
+
+//wraper.c
+void	wrapper_fork(int *pid);
+void	wrapper_pipe(int *fd);
+void	wrapper_dup2(int *oldfd, int newfd);
+void	wrapper_close(int *fd);
+void 	wrapper_wait(int *status);
 #endif

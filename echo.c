@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 14:46:53 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 09:50:41 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_global g_global;
 
 int	line_count(char **str)
 {
@@ -112,6 +114,7 @@ int	do_echo(t_parse *node)
 	int len;
 	int saved;
 
+	g_global.exit_status = 0;
 	j = 0;
 	i = 1;
 	saved = 1;
