@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 13:53:22 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 14:12:18 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int	builtin(t_parse *node, t_prompt *struc, int to_fork)
 	if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
 		do_echo(node);
 	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
-		do_exit(struc);
+		do_exit(struc, node);
 	else if (!ft_strncmp(node->full_cmd[0], CD, 2))
 		do_cd(node);
 	else if (!ft_strncmp(node->full_cmd[0], PWD, 3))

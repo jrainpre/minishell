@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 08:32:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/20 08:33:20 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:35:17 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,24 @@ char	*find_unquoted_char(char *str, char c)
 	while (str[i] != '\0')
 	{
 		if(str[i] == c && check_pos_not_in_quotes(str, &str[i]))
+			return(&str[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+
+
+char *find_not_in_squoutes_char(char *str, char c)
+{
+	int	i;
+	int	in_s_q;
+
+	i = 0;
+	in_s_q = 0;
+	while (str[i] != '\0')
+	{
+		if(str[i] == c && check_not_in_s_quotes(str, &str[i]))
 			return(&str[i]);
 		i++;
 	}
