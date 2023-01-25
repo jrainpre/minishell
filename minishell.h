@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 15:49:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 10:51:02 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,7 +26,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <errno.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -51,7 +52,7 @@ typedef struct s_parse
 	int					in;
 	int					out;
 	struct s_env_list	*env;
-	int 				exit_status;
+	int					exit_status;
 }						t_parse;
 
 typedef struct s_prompt
@@ -154,5 +155,6 @@ void					do_child(t_parse *node, t_prompt *struc, int *fd,
 							int *backup);
 int						piper(t_parse *node, t_prompt *struc);
 int						executer(t_parse *node, t_prompt *struc);
+void					run_signals(int sig);
 
 #endif
