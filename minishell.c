@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 14:15:44 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:37:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	free_prompt(t_prompt *struc)
 	while (help)
 	{
 		free_table(help->full_cmd);
+		free(help->full_path);
 		help = help->next;
 	}
 	help = head->next;
@@ -76,6 +77,7 @@ void	free_prompt(t_prompt *struc)
 		if (help)
 			help = help->next;
 	}
+	free_table(struc->envp);
 	head = NULL;
 	help = NULL;
 }
@@ -166,6 +168,7 @@ int	put_to_table(char **str, t_prompt *struc)
 			i++;
 			j = 0;
 		}
+		temp->full_cmd[j] = NULL;
 	}
 	return (0);
 }
@@ -272,14 +275,16 @@ int	main(int argc, char **argv, char **envp)
 	t_prompt	struc;
 	t_parse		*temp;
 	t_env_list	*env_lst;
+	int i;
 
+	i = 0;
 	init_prompt(&struc, copie_env(envp));
 	fill_env_lst(&env_lst, envp);
 	temp = NULL;
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	while (1)
+	while (i < 1)
 	{
 		input.c = ' ';
 		run_signals(1);
@@ -304,6 +309,9 @@ int	main(int argc, char **argv, char **envp)
 		check_exit_flag(&struc);
 		free_prompt(&struc);
 		free(input.str);
+		free_table(input.output);
+		free_env_lst(env_lst);
+		i++;
 	}
 	return (0);
 }

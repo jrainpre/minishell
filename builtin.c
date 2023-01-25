@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 14:12:18 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:55:14 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int build_path(t_parse *node)
 	else
 		node->full_path = find_command(split, node->full_cmd[0],
 				node->full_path);
+	free_table(split);
 	if(!node->full_path)
 		return (0);
 	else
