@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_level.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:23:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 18:22:42 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:35:50 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ void	shell_level_plus_one(t_prompt *struc)
 {
 	int		shell_level;
 	char	*temp;
+	char	*str;
 
 	shell_level = get_shelvl(struc->env_lst) + 1;
 	temp = ft_itoa(shell_level);
-	changevalue(struc->env_lst, ft_strjoin("SHLVL=", temp));
+	str = ft_strjoin("SHLVL=", temp);
+	changevalue(struc->env_lst, str);
 	free(temp);
+	free(str);
 }

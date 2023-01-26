@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 18:39:05 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:18:35 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -26,7 +27,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -42,7 +42,6 @@
 # define WHITE "\033[0;37m"
 # define PROMPT "\001\033[1;92m\002 minishell $> \033[0;37m"
 # define USER "USER"
-
 
 struct s_env_list;
 typedef struct s_parse
@@ -60,10 +59,11 @@ typedef struct s_parse
 typedef struct s_prompt
 {
 	t_parse				*cmds;
-	struct s_env_list	*env_lst;				;
+	struct s_env_list	*env_lst;
+	;
 	pid_t				pid;
 	int					exit_flag;
-	int 				exit_return_val;
+	int					exit_return_val;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -85,7 +85,7 @@ typedef struct s_env_list
 
 typedef struct s_global
 {
-	int 		exit_status;
+	int					exit_status;
 }						t_global;
 
 void					ft_split_input(t_input *input);
@@ -164,19 +164,18 @@ void					do_child(t_parse *node, t_prompt *struc, int *fd,
 int						piper(t_parse *node, t_prompt *struc);
 int						executer(t_parse *node, t_prompt *struc);
 
-
-char *find_not_in_squoutes_char(char *str, char c);
-char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr);
+char					*find_not_in_squoutes_char(char *str, char c);
+char					*get_new_str_exitstatus(char *str, char *envvar,
+							char *ptr);
 void					run_signals(int sig);
 //wraper.c
-void	wrapper_fork(int *pid);
-void	wrapper_pipe(int *fd);
-void	wrapper_dup2(int *oldfd, int newfd);
-void	wrapper_close(int *fd);
-void 	wrapper_wait(int *status);
+void					wrapper_fork(int *pid);
+void					wrapper_pipe(int *fd);
+void					wrapper_dup2(int *oldfd, int newfd);
+void					wrapper_close(int *fd);
+void					wrapper_wait(int *status);
 
-int	ft_strisnum(char *str);
-void	shell_level_plus_one(t_prompt *struc);
-
+int						ft_strisnum(char *str);
+void					shell_level_plus_one(t_prompt *struc);
 
 #endif

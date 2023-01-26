@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:49:14 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 13:04:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,21 +182,19 @@ int build_path(t_parse *node)
 		trim_full_cmd(node);
 	}
 	else
-		node->full_path = find_command(split, node->full_cmd[0],
+ 		node->full_path = find_command(split, node->full_cmd[0],
 				node->full_path);
 	free_table(split);
-	if(!node->full_path)
-		return (0);
-	else
-		return (1);
+	return(1);
 }
 
 void	exec_cmd(t_parse *node, int to_fork)
 {
 	int		pid;
 	
-	if (!build_path(node))
-		ft_putstr_fd("ERROR! : Not able to build path!\n", 2);
+	build_path(node);
+	if (check_error(node))
+		return ;
 	else
 	{
 		run_signals(2);
@@ -207,7 +205,7 @@ void	exec_cmd(t_parse *node, int to_fork)
 			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
 
 		}
-			wait(&g_global.exit_status);	
+		wait(&g_global.exit_status);	
 	}
 }
 
