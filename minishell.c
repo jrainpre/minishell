@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 11:34:42 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 16:49:05 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int	put_to_table(char **str, t_prompt *struc)
 		}
 		else if (str[i][0] == '|')
 		{
+			// free_table(temp->full_cmd);
 			temp = temp->next;
 			if (temp != NULL)
 				temp->full_cmd = malloc((pointer_count(str, &k) + 1)
@@ -205,7 +206,7 @@ void	free_table(char **table)
 	int	i;
 
 	i = 0;
-	if (!table)
+	if (table != NULL)
 	{
 		while (table[i])
 		{
@@ -249,12 +250,10 @@ void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
-		//free_parse(struc);
-		free_prompt(&struc);
+		free_prompt(struc);
 		free(input->str);
 		free_table(input->output);
 		free_env_lst(env_lst);
-		free_env_lst(struc->env_lst);
 		exit(0);
 	}
 }
@@ -281,6 +280,7 @@ int	main(int argc, char **argv, char **envp)
 	t_prompt	struc;
 	t_parse		*temp;
 	t_env_list	*env_lst;
+	char *str;
 	int i;
 
 	i = 0;

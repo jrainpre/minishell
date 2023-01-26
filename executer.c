@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 14:13:38 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:45:35 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void    do_child(t_parse *node, t_prompt *struc, int *fd, int *backup)
     if (node->next != NULL)
         wrapper_dup2(&fd[1], STDOUT_FILENO);
     wrapper_close(&fd[0]);
-    builtin(node, struc, 1);
-    exit(1);
+    cmd_exec(node, struc, 0);
+    // exit(1);
 }
 int    piper(t_parse *node, t_prompt *struc)
 {
@@ -56,11 +56,9 @@ int    piper(t_parse *node, t_prompt *struc)
 
 int    executer(t_parse *node, t_prompt *struc)
 {
-    int to_fork;
 
-    to_fork = 0;
     if (node->next == NULL)
-        builtin(node, struc, to_fork);
+        cmd_exec(node, struc, 1);
     else
         piper(node, struc);
     return (1);

@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 13:04:21 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:43:18 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
 int	is_builtin(t_parse *node)
 {
-	int		l;
+	int	l;
 
 	if (!node->full_cmd)
 		return (0);
-	if ((node->full_cmd && ft_strchr(*node->full_cmd, '/')) || (node->full_path && \
-		ft_strchr(node->full_path, '/')))
+	if ((node->full_cmd && ft_strchr(*node->full_cmd, '/')) || (node->full_path
+			&& ft_strchr(node->full_path, '/')))
 		return (0);
 	l = ft_strlen(*node->full_cmd);
 	if (!ft_strncmp(*node->full_cmd, "pwd", l) && l == 3)
@@ -91,9 +91,9 @@ static char	*find_command(char **env_path, char *cmd, char *full_path)
 
 void	trim_full_cmd(t_parse *node)
 {
-	int	i;
+	int		i;
 	char	*temp;
-	
+
 	temp = node->full_cmd[0];
 	i = ft_strlen(node->full_cmd[0]) - 1;
 	while (node->full_cmd[0][i] != '/')
@@ -108,6 +108,7 @@ char	**env_list_to_array(t_env_list *env_lst)
 	char		**envp;
 	int			i;
 	t_env_list	*temp;
+	char		*to_free;
 
 	i = 0;
 	temp = env_lst;
@@ -122,7 +123,9 @@ char	**env_list_to_array(t_env_list *env_lst)
 	while (temp)
 	{
 		envp[i] = ft_strjoin(temp->name, "=");
+		to_free = envp[i];
 		envp[i] = ft_strjoin(envp[i], temp->value);
+		free(to_free);
 		i++;
 		temp = temp->next;
 	}
@@ -130,11 +133,10 @@ char	**env_list_to_array(t_env_list *env_lst)
 	return (envp);
 }
 
-void dup_fds(t_parse *node)
+void	dup_fds(t_parse *node)
 {
 	if (node->out >= 3)
 		check_dup_out(node);
-		
 	if (node->in >= 3)
 		check_dup_in(node);
 }
@@ -167,45 +169,53 @@ void dup_fds(t_parse *node)
 // 	return (ret);
 // }
 
-int build_path(t_parse *node)
+int	build_path(t_parse *node)
 {
 	char	*path;
 	char	**split;
-	
+
 	path = NULL;
 	path = get_env_value(node->env, "PATH");
 	split = ft_split(path, ':');
 	if (node->full_cmd[0][0] == '/' || node->full_cmd[0][0] == '.')
 	{
-		
 		node->full_path = ft_strdup(node->full_cmd[0]);
 		trim_full_cmd(node);
 	}
 	else
- 		node->full_path = find_command(split, node->full_cmd[0],
+		node->full_path = find_command(split, node->full_cmd[0],
 				node->full_path);
 	free_table(split);
-	return(1);
+	return (1);
 }
 
 void	exec_cmd(t_parse *node, int to_fork)
 {
-	int		pid;
-	
+	int	pid;
+
 	build_path(node);
-	if (check_error(node))
-		return ;
-	else
+	// if (check_error(node))
+	// 	return ;
+	// else
 	{
 		run_signals(2);
-		pid = fork();
-		if (pid == 0) 
+		if (to_fork)
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				dup_fds(node);
+				execve(node->full_path, node->full_cmd,
+						env_list_to_array(node->env));
+			}
+			wait(&g_global.exit_status);
+		}
+		else
 		{
 			dup_fds(node);
-			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
-
+			execve(node->full_path, node->full_cmd,
+					env_list_to_array(node->env));
 		}
-		wait(&g_global.exit_status);	
 	}
 }
 
@@ -225,7 +235,33 @@ int	builtin(t_parse *node, t_prompt *struc, int to_fork)
 		do_export(node);
 	else if (!ft_strncmp(node->full_cmd[0], UNSET, 5))
 		do_unset(node);
+	return (0);
+}
+
+int	is_bultin(t_parse *node)
+{
+	if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], CD, 2))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], PWD, 3))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], ENV, 3))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], EXPORT, 6))
+		return (1);
+	else if (!ft_strncmp(node->full_cmd[0], UNSET, 5))
+		return (1);
+	else
+		return (0);
+}
+
+void	cmd_exec(t_parse *node, t_prompt *struc, int to_fork)
+{
+	if (is_bultin(node))
+		builtin(node, struc, to_fork);
 	else
 		exec_cmd(node, to_fork);
-	return (0);
 }
