@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_env_in_lst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/26 16:59:16 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 16:28:59 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	fill_env_lst(t_env_list **env_lst, char **envp)
 	while (envp[i])
 	{
 		new = malloc(sizeof(t_env_list));
+		
 		new->name = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') - envp[i]);
 		new->value = ft_substr(envp[i], ft_strchr(envp[i], '=') - envp[i] + 1,
 				ft_strlen(envp[i]));

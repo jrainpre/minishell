@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 17:02:13 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:43:54 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,8 @@ void					shell_level_plus_one(t_prompt *struc);
 int						check_error(t_parse *node);
 void					clean_exit(t_prompt *struc, t_env_list *env_lst,
 							t_input *input);
+
+void	cmd_exec(t_parse *node, t_prompt *struc, int to_fork);
+int	is_bultin(t_parse *node);
 
 #endif

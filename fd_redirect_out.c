@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 16:16:03 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 14:51:10 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,23 @@ int	check_valid_filename(t_parse *node)
 int	trim_white(t_parse *node)
 {
 	int	i;
-
+	char	*old;
+	
 	i = 0;
 	if (**node->full_cmd == '\0')
 	{
 		while (node->full_cmd[i])
 		{
-			node->full_cmd[i] = node->full_cmd[i + 1];
+			if (node->full_cmd[i + 1])
+			{
+				old = node->full_cmd[i];
+				node->full_cmd[i] = ft_strdup(node->full_cmd[i + 1]);
+			}
+			else
+			{
+				old = node->full_cmd[i];
+				node->full_cmd[i] = ft_strdup("");
+			}
 			i++;
 		}
 	}
@@ -76,48 +86,68 @@ int	trim_white(t_parse *node)
 
 int	create_append_out(t_parse *temp, int *i)
 {
+	char 	*old;
+	
 	if (temp->full_cmd[*i][2] != '\0')
 	{
+		old =temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">>");
+		free(old);
 		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_APPEND,
 								0666);
+		old =temp->full_cmd[*i];						
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
+		free(old);
 	}
 	else
 	{
+		old =temp->full_cmd[*i + 1];
 		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_APPEND,
 								0666);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
+		free(old);
+		old =temp->full_cmd[*i + 1];
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
 											temp->full_cmd[*i + 1]);
+		free(old);
 	}
 	return (1);
 }
 
 int	create_trunc_out(t_parse *temp, int *i)
 {
+	char 	*old;
+	
 	if (temp->full_cmd[*i][1] != '\0')
 	{
+		old=temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">");
 		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_TRUNC,
 								0666);
+		free(old);
+		old =temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
+		free(old);
 	}
 	else
 	{
 		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_TRUNC,
 								0666);
+		old =temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
+		free(old);
+		old =temp->full_cmd[*i + 1];
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
 											temp->full_cmd[*i + 1]);
+		free(old);
 	}
 	return (1);
 }

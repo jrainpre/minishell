@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:40:41 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/19 10:16:14 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:56:03 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*prepare_input_string(char *str)
 	int	in_s_q;
 	int	in_d_q;
 	int	i;
+	char *temp;
+	temp = str;
 
 	i = -1;
 	in_s_q = 0;
