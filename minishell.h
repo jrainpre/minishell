@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 11:18:35 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 13:11:46 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,6 @@ void					wrapper_wait(int *status);
 
 int						ft_strisnum(char *str);
 void					shell_level_plus_one(t_prompt *struc);
+int						check_error(t_parse *node);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:38:45 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 15:04:22 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*heredoc(char *limit)
  		str[0] = readline("heredoc> ");
 		if (!str[0])
 		{
-			printf("ERROR!!");
+			put_error("ERROR!!");
 			break ;
 		}
 		temp = str[0];
@@ -66,9 +66,9 @@ char	*heredoc(char *limit)
 void	print_file_error(char **str, int i)
 {
 	ft_putstr_fd("minishell: no such file or directory: ",
-					1);
-	ft_putstr_fd(str[i], 1);
-	ft_putstr_fd("\n", 1);
+					2);
+	ft_putstr_fd(str[i], 2);
+	ft_putstr_fd("\n", 2);
 }
 
 int	create_trunc_in(t_parse *temp, int *i)
@@ -120,6 +120,23 @@ int	create_heredoc(t_parse *temp, int *i)
 	return (1);
 }
 
+int heredoc_file(t_parse *node)
+{
+	int		fd;
+
+	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		put_error("ERROR!!");
+		return (0);
+	}
+	write(fd, node->heredoc, ft_strlen(node->heredoc));
+	close(fd);
+	fd = open(".tmp", O_RDONLY, 0777);
+	node->in = fd;
+	return (0);
+}
+
 int	get_all_fd_in(t_prompt *struc)
 {
 	int		i;
@@ -137,7 +154,10 @@ int	get_all_fd_in(t_prompt *struc)
 		while (temp->full_cmd[i])
 		{
 			if (temp->full_cmd[i][0] == '<' && temp->full_cmd[i][1] == '<')
+			{
 				create_heredoc(temp, &i);
+				heredoc_file(temp);
+			}
 			else if (temp->full_cmd[i][0] == '<')
 				create_trunc_in(temp, &i);
 			i++;

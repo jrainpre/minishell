@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 11:34:42 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 15:06:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	put_to_table(char **str, t_prompt *struc)
 	k = 0;
 	add_nodes(struc, count);
 	temp = struc->cmds;
-	temp->full_cmd = ft_calloc(pointer_count(str, &k) + 1, sizeof(char *));
+	temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 	while (str[i])
 	{
 		if (str[i][0] != '|')
@@ -162,12 +162,11 @@ int	put_to_table(char **str, t_prompt *struc)
 		{
 			temp = temp->next;
 			if (temp != NULL)
-				temp->full_cmd = malloc((pointer_count(str, &k) + 1)
-						* sizeof(char *));
+				temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 			i++;
 			j = 0;
 		}
-		temp->full_cmd[j] = NULL;
+		//temp->full_cmd[j] = NULL;
 	}
 	return (0);
 }
@@ -250,7 +249,8 @@ void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
 	if (struc->exit_flag == 1)
 	{
 		//free_parse(struc);
-		free_prompt(&struc);
+		unlink(".tmp");
+		free_prompt(struc);
 		free(input->str);
 		free_table(input->output);
 		free_env_lst(env_lst);
@@ -317,6 +317,7 @@ int	main(int argc, char **argv, char **envp)
 		free_prompt(&struc);
 		free(input.str);
 		free_table(input.output);
+		unlink(".tmp");
 		//i++;
 	}
 	return (0);

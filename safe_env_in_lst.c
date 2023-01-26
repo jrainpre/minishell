@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/26 11:33:20 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 13:42:21 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void	print_export_list(t_env_list *env_lst)
 	temp = sort_copy;
 	while (temp)
 	{
-		printf("declare -x %s=%s\n", temp->name, temp->value);
+		ft_printf("declare -x %s=%s\n", temp->name, temp->value);
 		temp = temp->next;
 	}
 	free_env_lst(sort_copy);
