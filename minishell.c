@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 18:41:40 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:43:44 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,14 +160,12 @@ int	put_to_table(char **str, t_prompt *struc)
 		}
 		else if (str[i][0] == '|')
 		{
-			// free_table(temp->full_cmd);
 			temp = temp->next;
 			if (temp != NULL)
 				temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 			i++;
 			j = 0;
 		}
-		//temp->full_cmd[j] = NULL;
 	}
 	return (0);
 }
@@ -294,9 +292,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parse		*temp;
 	t_env_list	*env_lst;
 	char *str;
-	int i;
 
-	i = 0;
 	fill_env_lst(&env_lst, envp);
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
@@ -334,7 +330,6 @@ int	main(int argc, char **argv, char **envp)
 		free(input.str);
 		free_table(input.output);
 		unlink(".tmp");
-		//i++;
 	}
 	return (0);
 }
