@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 15:06:21 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 16:05:28 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void	free_table(char **table)
 	int	i;
 
 	i = 0;
-	if (!table)
+	if (table != NULL)
 	{
 		while (table[i])
 		{
