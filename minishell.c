@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 17:37:21 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 10:34:50 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,14 +206,17 @@ void	free_table(char **table)
 	int	i;
 
 	i = 0;
-	while (table[i])
+	if (!table)
 	{
-		free(table[i]);
-		table[i] = NULL;
-		i++;
+		while (table[i])
+		{
+			free(table[i]);
+			table[i] = NULL;
+			i++;
+		}
+		free(table);
+		table = NULL;
 	}
-	free(table);
-	table = NULL;
 }
 
 char	**trim_2d_array(char **table)
@@ -284,7 +287,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	while (i < 1)
+	while (1)
 	{
 		input.c = ' ';
 		run_signals(1);
@@ -311,7 +314,7 @@ int	main(int argc, char **argv, char **envp)
 		free(input.str);
 		free_table(input.output);
 		free_env_lst(env_lst);
-		i++;
+		//i++;
 	}
 	return (0);
 }

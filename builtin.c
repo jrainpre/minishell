@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 14:55:14 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 10:20:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,15 @@ static char	*find_command(char **env_path, char *cmd, char *full_path)
 void	trim_full_cmd(t_parse *node)
 {
 	int	i;
-
+	char	*temp;
+	
+	temp = node->full_cmd[0];
 	i = ft_strlen(node->full_cmd[0]) - 1;
 	while (node->full_cmd[0][i] != '/')
 		i--;
 	i++;
 	node->full_cmd[0] = ft_strdup(&node->full_cmd[0][i]);
+	free(temp);
 }
 
 char	**env_list_to_array(t_env_list *env_lst)
@@ -142,7 +145,7 @@ int build_path(t_parse *node)
 	path = NULL;
 	path = get_env_value(node->env, "PATH");
 	split = ft_split(path, ':');
-	if (node->full_cmd[0][0] == '/')
+	if (node->full_cmd[0][0] == '/' || node->full_cmd[0][0] == '.')
 	{
 		node->full_path = ft_strdup(node->full_cmd[0]);
 		trim_full_cmd(node);
