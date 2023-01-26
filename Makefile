@@ -6,13 +6,13 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/26 16:01:52 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/26 16:40:05 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell
 CC        := cc
-FLAGS    :=  -g #-fsanitize=address
+FLAGS    :=  -g#-fsanitize=address
 READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
 
 SRCS        :=      libft/ft_printf.c \

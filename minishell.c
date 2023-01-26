@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 16:05:28 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:07:31 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,17 +244,30 @@ char	**trim_2d_array(char **table)
 	return (new_table);
 }
 
+void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
+{
+	//free_parse(struc);
+	unlink(".tmp");
+	free(input->str);
+	free_env_lst(env_lst);
+}
+
+void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
+{
+	//free_parse(struc);
+	unlink(".tmp");
+	free_prompt(struc);
+	free(input->str);
+	free_table(input->output);
+	free_env_lst(env_lst);
+	free_env_lst(struc->env_lst);
+}
+
 void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
-		//free_parse(struc);
-		unlink(".tmp");
-		free_prompt(struc);
-		free(input->str);
-		free_table(input->output);
-		free_env_lst(env_lst);
-		free_env_lst(struc->env_lst);
+		clean_exit(struc, env_lst, input);
 		exit(0);
 	}
 }
@@ -297,7 +310,10 @@ int	main(int argc, char **argv, char **envp)
 		run_signals(1);
 		input.str = readline(PROMPT);
 		if (input.str == NULL)
+		{
+			clean_interrupt(&struc, env_lst, &input);
 			run_signals(3);
+		}
 		if (input.str[0] == '\0' || input.str[0] == '\n'
 			|| input.str[0] == '\t' || input.str[0] == ' ')
 			continue ;
