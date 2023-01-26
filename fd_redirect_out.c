@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/24 16:34:07 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/25 16:16:03 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,19 @@ int	check_name(t_parse *temp, int *i)
 int	check_valid_filename(t_parse *node)
 {
 	int		i;
-	t_parse	*temp;
 
 	i = 0;
-	temp = node;
-	while (temp)
+	while (node)
 	{
-		while (temp->full_cmd[i])
+		while (node->full_cmd[i])
 		{
-			check_name(temp, &i);
+			if (!check_name(node, &i))
+				return (0);
 			i++;
 		}
 		i = 0;
-		temp = temp->next;
+		node = node->next;
 	}
-	temp = NULL;
 	return (1);
 }
 
