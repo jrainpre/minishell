@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:34:50 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 10:49:56 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,10 +173,10 @@ int	put_to_table(char **str, t_prompt *struc)
 	return (0);
 }
 
-void	init_prompt(t_prompt *struc, char **env)
+void	init_prompt(t_prompt *struc, t_env_list *env_lst)
 {
 	struc->cmds = NULL;
-	struc->envp = env;
+	struc->env_lst = env_lst;
 	struc->pid = 0;
 	struc->exit_flag = 0;
 }
@@ -250,7 +250,6 @@ void	check_exit_flag(t_prompt *struc)
 {
 	if (struc->exit_flag == 1)
 	{
-		free_table(struc->envp);
 		//free_parse(struc);
 		exit(0);
 	}
@@ -283,6 +282,8 @@ int	main(int argc, char **argv, char **envp)
 	i = 0;
 	init_prompt(&struc, copie_env(envp));
 	fill_env_lst(&env_lst, envp);
+	init_prompt(&struc, env_lst);
+	shell_level_plus_one(&struc);
 	temp = NULL;
 	(void)argc;
 	(void)argv;

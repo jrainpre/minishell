@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:20:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 10:49:14 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_global g_global;
 
 int	is_builtin(t_parse *node)
 {
@@ -137,6 +139,34 @@ void dup_fds(t_parse *node)
 		check_dup_in(node);
 }
 
+// int			error_message(char *path)
+// {
+// 	DIR	*folder;
+// 	int	fd;
+// 	int	ret;
+
+// 	fd = open(path, O_WRONLY);
+// 	folder = opendir(path);
+// 	ft_putstr_fd("minishell: ", 2);
+// 	ft_putstr_fd(path, 2);
+// 	if (ft_strchr(path, '/') == NULL)
+// 		ft_putendl_fd(": command not found", 2);
+// 	else if (fd == -1 && folder == NULL)
+// 		ft_putendl_fd(": No such file or directory", 2);
+// 	else if (fd == -1 && folder != NULL)
+// 		ft_putendl_fd(": is a directory", 2);
+// 	else if (fd != -1 && folder == NULL)
+// 		ft_putendl_fd(": Permission denied", 2);
+// 	if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
+// 		ret = 1;
+// 	else
+// 		ret = 2;
+// 	if (folder)
+// 		closedir(folder);
+// 	close(fd);
+// 	return (ret);
+// }
+
 int build_path(t_parse *node)
 {
 	char	*path;
@@ -147,6 +177,7 @@ int build_path(t_parse *node)
 	split = ft_split(path, ':');
 	if (node->full_cmd[0][0] == '/' || node->full_cmd[0][0] == '.')
 	{
+		
 		node->full_path = ft_strdup(node->full_cmd[0]);
 		trim_full_cmd(node);
 	}
@@ -174,9 +205,9 @@ void	exec_cmd(t_parse *node, int to_fork)
 		{
 			dup_fds(node);
 			execve(node->full_path, node->full_cmd, env_list_to_array(node->env));
+
 		}
-		else
-			wait(0);	
+			wait(&g_global.exit_status);	
 	}
 }
 
