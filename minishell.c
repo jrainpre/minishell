@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:53:13 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:54:07 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,6 @@ int	main(int argc, char **argv, char **envp)
 	int i;
 
 	i = 0;
-	init_prompt(&struc, env_lst);
 	fill_env_lst(&env_lst, envp);
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
