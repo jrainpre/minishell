@@ -177,6 +177,9 @@ void					wrapper_wait(int *status);
 
 int						ft_strisnum(char *str);
 void					shell_level_plus_one(t_prompt *struc);
+int						check_error(t_parse *node);
+void					clean_exit(t_prompt *struc, t_env_list *env_lst,
+							t_input *input);
 
 void	cmd_exec(t_parse *node, t_prompt *struc, int to_fork);
 int	is_bultin(t_parse *node);

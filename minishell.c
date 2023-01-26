@@ -149,7 +149,7 @@ int	put_to_table(char **str, t_prompt *struc)
 	k = 0;
 	add_nodes(struc, count);
 	temp = struc->cmds;
-	temp->full_cmd = ft_calloc(pointer_count(str, &k) + 1, sizeof(char *));
+	temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 	while (str[i])
 	{
 		if (str[i][0] != '|')
@@ -163,12 +163,11 @@ int	put_to_table(char **str, t_prompt *struc)
 			// free_table(temp->full_cmd);
 			temp = temp->next;
 			if (temp != NULL)
-				temp->full_cmd = malloc((pointer_count(str, &k) + 1)
-						* sizeof(char *));
+				temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 			i++;
 			j = 0;
 		}
-		temp->full_cmd[j] = NULL;
+		//temp->full_cmd[j] = NULL;
 	}
 	return (0);
 }
@@ -246,14 +245,30 @@ char	**trim_2d_array(char **table)
 	return (new_table);
 }
 
+void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
+{
+	//free_parse(struc);
+	unlink(".tmp");
+	free(input->str);
+	free_env_lst(env_lst);
+}
+
+void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
+{
+	//free_parse(struc);
+	unlink(".tmp");
+	free_prompt(struc);
+	free(input->str);
+	free_table(input->output);
+	free_env_lst(env_lst);
+	free_env_lst(struc->env_lst);
+}
+
 void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
-		free_prompt(struc);
-		free(input->str);
-		free_table(input->output);
-		free_env_lst(env_lst);
+		clean_exit(struc, env_lst, input);
 		exit(0);
 	}
 }
@@ -297,7 +312,10 @@ int	main(int argc, char **argv, char **envp)
 		run_signals(1);
 		input.str = readline(PROMPT);
 		if (input.str == NULL)
+		{
+			clean_interrupt(&struc, env_lst, &input);
 			run_signals(3);
+		}
 		if (input.str[0] == '\0' || input.str[0] == '\n'
 			|| input.str[0] == '\t' || input.str[0] == ' ')
 			continue ;
@@ -317,6 +335,7 @@ int	main(int argc, char **argv, char **envp)
 		free_prompt(&struc);
 		free(input.str);
 		free_table(input.output);
+		unlink(".tmp");
 		//i++;
 	}
 	return (0);

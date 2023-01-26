@@ -201,7 +201,7 @@ void	print_export_list(t_env_list *env_lst)
 	temp = sort_copy;
 	while (temp)
 	{
-		printf("declare -x %s=%s\n", temp->name, temp->value);
+		ft_printf("declare -x %s=%s\n", temp->name, temp->value);
 		temp = temp->next;
 	}
 	free_env_lst(sort_copy);
