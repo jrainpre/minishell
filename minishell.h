@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 14:15:20 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:39:05 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -59,7 +60,7 @@ typedef struct s_parse
 typedef struct s_prompt
 {
 	t_parse				*cmds;
-	char				**envp;
+	struct s_env_list	*env_lst;				;
 	pid_t				pid;
 	int					exit_flag;
 	int 				exit_return_val;
@@ -173,4 +174,9 @@ void	wrapper_pipe(int *fd);
 void	wrapper_dup2(int *oldfd, int newfd);
 void	wrapper_close(int *fd);
 void 	wrapper_wait(int *status);
+
+int	ft_strisnum(char *str);
+void	shell_level_plus_one(t_prompt *struc);
+
+
 #endif
