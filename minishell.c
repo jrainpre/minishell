@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:49:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:53:13 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	free_prompt(t_prompt *struc)
 		if (help)
 			help = help->next;
 	}
-	free_table(struc->envp);
 	head = NULL;
 	help = NULL;
 }
@@ -280,7 +279,7 @@ int	main(int argc, char **argv, char **envp)
 	int i;
 
 	i = 0;
-	init_prompt(&struc, copie_env(envp));
+	init_prompt(&struc, env_lst);
 	fill_env_lst(&env_lst, envp);
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
