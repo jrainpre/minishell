@@ -6,11 +6,16 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:22:06 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/19 10:35:58 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/26 11:44:01 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int check_error(t_parse *node)
+{
+	
+}
 
 void	put_error(char *str)
 {

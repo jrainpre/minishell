@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 10:54:07 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:34:42 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,11 +245,16 @@ char	**trim_2d_array(char **table)
 	return (new_table);
 }
 
-void	check_exit_flag(t_prompt *struc)
+void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
 		//free_parse(struc);
+		free_prompt(&struc);
+		free(input->str);
+		free_table(input->output);
+		free_env_lst(env_lst);
+		free_env_lst(struc->env_lst);
 		exit(0);
 	}
 }
@@ -308,11 +313,10 @@ int	main(int argc, char **argv, char **envp)
 		delete_closed_quotes_cmd(temp);
 		if (temp->full_cmd[0] != NULL)
 			executer(temp, &struc);
-		check_exit_flag(&struc);
+		check_exit_flag(&struc, env_lst, &input);
 		free_prompt(&struc);
 		free(input.str);
 		free_table(input.output);
-		free_env_lst(env_lst);
 		//i++;
 	}
 	return (0);
