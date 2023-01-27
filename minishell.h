@@ -6,7 +6,7 @@
 /*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 16:59:19 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/27 19:01:17 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void					expand_tilde(t_parse *node);
 int						new_len_no_quotes(char *str);
 char					*delete_closed_quotes_str(char *str, int s_quotes,
 							int d_quotes);
-void					delete_closed_quotes_cmd(t_parse *node);
+void					delete_closed_quotes_node(t_parse *node);
 void					put_error(char *str);
 int						is_builtin(t_parse *node);
 void					restore_stdin(int saved);
@@ -185,6 +185,14 @@ int						is_bultin(t_parse *node);
 int						error_message(char *path);
 
 int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst);
+
+ void include_env_struc(t_prompt *struc);
+ void expand_tilde_struc(t_prompt *struc);
+void delete_closed_quotes_struc(t_prompt *struc);
+
+
+int check_pos_not_in_quotes_test(char *str, char *pos);
+
 
 
 
