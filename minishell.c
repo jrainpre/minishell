@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+#/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
@@ -250,7 +250,7 @@ void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
 	free_env_lst(env_lst);
 }
 
-void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
+void clean_exit(t_prompt *struc, t_input *input)
 {
 	unlink(".tmp");
 	free_prompt(struc);
@@ -259,16 +259,24 @@ void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
 	free_env_lst(struc->env_lst);
 }
 
-void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
+void clean_loop(t_prompt *struc, t_input *input)
+{
+	unlink(".tmp");
+	free_prompt(struc);
+	free(input->str);
+	free_table(input->output);
+}
+
+void	check_exit_flag(t_prompt *struc, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
-		clean_exit(struc, env_lst, input);
+		clean_exit(struc, input);
 		exit(0);
 	}
 }
 
-t_parse	*set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
+void	set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
 {
 	t_parse	*temp2;
 
@@ -281,7 +289,6 @@ t_parse	*set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
 		temp2->env = env_lst;
 		temp2 = temp2->next;
 	}
-	return (temp);
 }
 
 
@@ -290,47 +297,63 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_input		input;
 	t_prompt	struc;
-	t_parse		*temp;
+	t_parse		*node;
 	t_env_list	*env_lst;
-	char *str;
 
 	fill_env_lst(&env_lst, envp);
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
-	temp = NULL;
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	while (1)
-	{
-		input.c = ' ';
+  	minishell(&struc, struc.cmds, env_lst);
+	return (0);
+}
+
+
+int read_line_take_input(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input *input)
+{
 		run_signals(1);
-		input.str = readline(PROMPT);
-		if (input.str == NULL)
+		input->str = readline(PROMPT);
+		if (!input->str)
 		{
-			clean_interrupt(&struc, env_lst, &input);
+			clean_interrupt(struc, env_lst, input);
 			run_signals(3);
 		}
-		if (input.str[0] == '\0' || input.str[0] == '\n'
-			|| input.str[0] == '\t' || input.str[0] == ' ')
-			continue ;
-		input.str = prepare_input_string(input.str);
-		add_history(input.str);
-		ft_split_input(&input);
-		put_to_table(input.output, &struc);
-		if (!get_all_fd_out(&struc) || !get_all_fd_in(&struc))
-			break ;
-		temp = set_env_lst(env_lst, temp, &struc);
-		include_env(temp);
-		expand_tilde(temp);
-		delete_closed_quotes_cmd(temp);
-		if (temp->full_cmd[0] != NULL)
-			executer(temp, &struc);
-		check_exit_flag(&struc, env_lst, &input);
-		free_prompt(&struc);
-		free(input.str);
-		free_table(input.output);
-		unlink(".tmp");
-	}
+		if (ft_is_whitespace(input->str[0]))
+			return(1);
+		input->str = prepare_input_string(input->str);
+		add_history(input->str);
+		ft_split_input(input);
+		return (0);
+}
+
+int process_intput(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input *input)
+{
+	put_to_table(input->output, struc);
+	set_env_lst(env_lst, struc->cmds, struc);
+	include_env(struc->cmds);
+	expand_tilde(struc->cmds);
+	if (!get_all_fd_out(struc) || !get_all_fd_in(struc))
+		return (1);
+	delete_closed_quotes_cmd(struc->cmds);
 	return (0);
+}
+
+int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst)
+{
+	t_input		input;
+	while (1)
+	{
+		if (read_line_take_input(struc, node, env_lst, &input))
+			continue ;
+		if (process_intput(struc, struc->cmds, env_lst, &input))
+			{
+				clean_loop(struc, &input);
+				 continue ;
+			}
+		executer(struc->cmds, struc);
+		check_exit_flag(struc, &input);
+		clean_loop(struc, &input);
+	}
 }

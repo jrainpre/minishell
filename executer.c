@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 13:26:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:11:58 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ int    piper(t_parse *node, t_prompt *struc, int backup)
     return (1);
 }
 
-int    executer(t_parse *node, t_prompt *struc)
+void    executer(t_parse *node, t_prompt *struc)
 {
-
-    if (node->next == NULL)
-        cmd_exec(node, struc, 1);
-    else
-        piper(node, struc, STDIN_FILENO);
-    return (1);
+    if (node->full_cmd[0])
+    {
+        if (node->next == NULL)
+            cmd_exec(node, struc, 1);
+        else
+            piper(node, struc, STDIN_FILENO);
+    }
 }
 
 

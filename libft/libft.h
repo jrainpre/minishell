@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:08:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/20 08:16:25 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:49:35 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 char				*insert_substr(char *str, char *substr, int pos);
 int					ft_get_str_index_of_pos(char *str, char *pos);
 char				*delete_char(char *str, int pos);
+int					ft_is_whitespace(char c);
 
 /*printf*/
 int					ft_printstr_fd(char *s, int fd);

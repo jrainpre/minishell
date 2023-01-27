@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:23:08 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 10:47:45 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 13:54:20 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	restore_prompt(int sig)
 {
 	g_global.exit_status = 130;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	(void)sig;

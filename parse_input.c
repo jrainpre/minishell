@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/17 15:03:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:47:41 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	ft_check_str_count(t_input *input)
 	i = 0;
 	while (input->str[i])
 	{
-		while (input->str[i] && input->str[i] == input->c)
+		while (input->str[i] && input->str[i] == ' ')
 			i++;
 		if (input->str[i])
 			word_count++;
 		input->double_open = 0;
 		input->single_open = 0;
-		while (input->str[i] && ((input->str[i] != input->c)
+		while (input->str[i] && ((input->str[i] != ' ')
 				|| input->single_open || input->double_open))
 		{
 			open_close_quotes(input, i);
@@ -59,7 +59,7 @@ static int	ft_strlen_sep(t_input *input, int i)
 	j = 0;
 	input->double_open = 0;
 	input->single_open = 0;
-	while (input->str[i] && ((input->str[i] != input->c) || input->single_open
+	while (input->str[i] && ((input->str[i] != ' ') || input->single_open
 			|| input->double_open))
 	{
 		open_close_quotes(input, i);
@@ -105,14 +105,14 @@ void	ft_split_input(t_input *input)
 		return ;
 	while (input->str[j])
 	{
-		while (input->str[j] && input->str[j] == input->c)
+		while (input->str[j] && input->str[j] == ' ')
 			j++;
 		if (input->str[j])
 		{
 			input->output[i] = ft_word(input, j);
 			i++;
 		}
-		while (input->str[j] && ((input->str[j] != input->c)
+		while (input->str[j] && ((input->str[j] != ' ')
 				|| input->single_open || input->double_open))
 		{
 			open_close_quotes(input, j);
