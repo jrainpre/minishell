@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 12:54:20 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 13:26:04 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    do_parent(t_parse *node, int *fd, int *backup)
 {
-    wrapper_wait(NULL);
+    // wrapper_wait(NULL);
     wrapper_close(&fd[1]);
     if (*backup != STDIN_FILENO)
         wrapper_close(backup);
@@ -29,13 +29,12 @@ void    do_child(t_parse *node, t_prompt *struc, int *fd, int *backup)
     wrapper_close(&fd[0]);
     cmd_exec(node, struc, 0);
 }
-int    piper(t_parse *node, t_prompt *struc)
+int    piper(t_parse *node, t_prompt *struc, int backup)
 {
     int        fd[2];
     pid_t    pid;
-    int        backup;
+    t_parse *temp;
 
-        backup = STDIN_FILENO;
         while (node != NULL)
         {
             run_signals(2);
@@ -49,6 +48,12 @@ int    piper(t_parse *node, t_prompt *struc)
                 node = node->next;
             }
         }
+        temp = struc->cmds;
+        while (temp != 0)
+        {
+            wrapper_wait(NULL);
+            temp = temp->next;
+        }
         if (backup != STDIN_FILENO)
             wrapper_close(&backup);
     return (1);
@@ -60,7 +65,7 @@ int    executer(t_parse *node, t_prompt *struc)
     if (node->next == NULL)
         cmd_exec(node, struc, 1);
     else
-        piper(node, struc);
+        piper(node, struc, STDIN_FILENO);
     return (1);
 }
 
