@@ -6,7 +6,7 @@
 /*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 16:11:58 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/27 18:07:04 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int    piper(t_parse *node, t_prompt *struc, int backup)
         temp = struc->cmds;
         while (temp != 0)
         {
-            wrapper_wait(NULL);
+            wait(NULL);
             temp = temp->next;
         }
         if (backup != STDIN_FILENO)

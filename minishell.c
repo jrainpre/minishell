@@ -334,10 +334,10 @@ int process_intput(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input 
 	set_env_lst(env_lst, struc->cmds, struc);
 	include_env(struc->cmds);
 	expand_tilde(struc->cmds);
-	if (!get_all_fd_out(struc) || !get_all_fd_in(struc))
-		return (1);
-	delete_closed_quotes_cmd(struc->cmds);
-	return (0);
+		if (!get_all_fd_out(struc) || !get_all_fd_in(struc))
+			return (1);
+		delete_closed_quotes_cmd(struc->cmds);
+		return (0);
 }
 
 int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst)
