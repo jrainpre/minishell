@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 15:04:22 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:21:14 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	create_trunc_in(t_parse *temp, int *i)
 	if (temp->full_cmd[*i][1] != '\0')
 	{
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
-		temp->in = open(temp->full_cmd[*i], O_RDONLY, 0666);
+		temp->in = open(temp->full_cmd[*i], O_RDONLY, 0644);
 		if (temp->in == -1)
 			print_file_error(temp->full_cmd, *i);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
@@ -84,7 +84,7 @@ int	create_trunc_in(t_parse *temp, int *i)
 	}
 	else
 	{
-		temp->in = open(temp->full_cmd[*i + 1], O_RDONLY, 0666);
+		temp->in = open(temp->full_cmd[*i + 1], O_RDONLY, 0644);
 		if (temp->in == -1)
 			print_file_error(temp->full_cmd, *i + 1);
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],

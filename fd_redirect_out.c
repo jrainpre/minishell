@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 09:36:13 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 10:19:42 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	create_append_out(t_parse *temp, int *i)
 		free(old);
 		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_APPEND,
-								0666);
+								0644);
 		old =temp->full_cmd[*i];						
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
@@ -105,7 +105,7 @@ int	create_append_out(t_parse *temp, int *i)
 	{
 		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_APPEND,
-								0666);
+								0644);
 		old =temp->full_cmd[*i];						
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
@@ -128,7 +128,7 @@ int	create_trunc_out(t_parse *temp, int *i)
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">");
 		temp->out = open(temp->full_cmd[*i],
 								O_CREAT | O_WRONLY | O_TRUNC,
-								0666);
+								0644);
 		free(old);
 		old =temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
@@ -139,7 +139,7 @@ int	create_trunc_out(t_parse *temp, int *i)
 	{
 		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_TRUNC,
-								0666);
+								0644);
 		old =temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
