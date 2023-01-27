@@ -6,14 +6,14 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/27 09:42:48 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/27 14:39:56 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell
 CC        := cc
 FLAGS    :=  -g
-READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include 
+READ_INCLUDE := -lreadline -L/usr/local/lib -I/usr/local/include
 
 SRCS        :=      libft/ft_printf.c \
                           libft/ft_lstadd_back.c \
