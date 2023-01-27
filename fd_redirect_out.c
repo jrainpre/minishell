@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 14:51:10 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 09:36:13 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int	create_append_out(t_parse *temp, int *i)
 	}
 	else
 	{
-		old =temp->full_cmd[*i + 1];
 		temp->out = open(temp->full_cmd[*i + 1],
 								O_CREAT | O_WRONLY | O_APPEND,
 								0666);
+		old =temp->full_cmd[*i];						
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
 										temp->full_cmd[*i]);
 		free(old);
