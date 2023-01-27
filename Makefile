@@ -6,7 +6,7 @@
 #    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/26 16:40:05 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/27 09:24:25 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,6 +124,12 @@ fclean:		clean
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 
 re:			fclean all
+
+run:		all
+			./${NAME}
+
+val: 		all
+			valgrind --leak-check=full --show-leak-kinds=all ./${NAME}
 
 .PHONY:		all clean fclean re
 

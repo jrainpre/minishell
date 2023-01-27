@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 18:43:44 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 09:25:07 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,8 @@ t_parse	*set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
 	return (temp);
 }
 
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_input		input;
@@ -294,6 +296,7 @@ int	main(int argc, char **argv, char **envp)
 	char *str;
 
 	fill_env_lst(&env_lst, envp);
+	
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
 	temp = NULL;
