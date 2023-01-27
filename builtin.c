@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 13:25:23 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 13:30:44 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,6 @@ void	dup_fds(t_parse *node)
 		check_dup_in(node);
 }
 
-int			error_message(char *path)
-{
-	DIR	*folder;
-	int	fd;
-	int	ret;
 int			error_message(char *path)
 {
 	DIR	*folder;
