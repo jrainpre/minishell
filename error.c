@@ -6,11 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:22:06 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 10:17:30 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 19:20:10 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_global g_global;
 
 int check_error(t_parse *node)
 {
@@ -27,15 +29,18 @@ int check_error(t_parse *node)
 			put_error("minishell: command not found");
 			put_error("\n");
 		}
+		g_global.exit_status = 127;
 		return (1);
 	}
 	else if (node->full_cmd[0] == NULL)
 	{
 		put_error("minishell: command not found");
+		g_global.exit_status = 127;
 		return (1);
 	}
 	else if (error_message(node->full_path) != 0)
 	{
+		g_global.exit_status = 127;
 		return (1);
 	}
 	return (0);

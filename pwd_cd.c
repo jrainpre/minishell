@@ -126,7 +126,6 @@ void	do_cd(t_parse *node)
 		{
 			print_cd_error(node);
 			g_global.exit_status = 1;
-
 		}
 	}
 }
