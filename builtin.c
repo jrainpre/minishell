@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 17:43:18 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 13:04:34 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,33 +141,34 @@ void	dup_fds(t_parse *node)
 		check_dup_in(node);
 }
 
-// int			error_message(char *path)
-// {
-// 	DIR	*folder;
-// 	int	fd;
-// 	int	ret;
+int			error_message(char *path)
+{
+	DIR	*folder;
+	int	fd;
+	int	ret;
 
-// 	fd = open(path, O_WRONLY);
-// 	folder = opendir(path);
-// 	ft_putstr_fd("minishell: ", 2);
-// 	ft_putstr_fd(path, 2);
-// 	if (ft_strchr(path, '/') == NULL)
-// 		ft_putendl_fd(": command not found", 2);
-// 	else if (fd == -1 && folder == NULL)
-// 		ft_putendl_fd(": No such file or directory", 2);
-// 	else if (fd == -1 && folder != NULL)
-// 		ft_putendl_fd(": is a directory", 2);
-// 	else if (fd != -1 && folder == NULL)
-// 		ft_putendl_fd(": Permission denied", 2);
-// 	if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
-// 		ret = 1;
-// 	else
-// 		ret = 2;
-// 	if (folder)
-// 		closedir(folder);
-// 	close(fd);
-// 	return (ret);
-// }
+	ret = 0;
+	fd = open(path, O_WRONLY);
+	folder = opendir(path);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(path, 2);
+	if (ft_strchr(path, '/') == NULL)
+		ft_putendl_fd(": command not found", 2);
+	else if (fd == -1 && folder == NULL)
+		ft_putendl_fd(": No such file or directory", 2);
+	else if (fd == -1 && folder != NULL)
+		ft_putendl_fd(": is a directory", 2);
+	else if (fd != -1 && folder == NULL)
+		ft_putendl_fd(": Permission denied", 2);
+	if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
+		ret = 1;
+	else
+		ret = 2;
+	if (folder)
+		closedir(folder);
+	close(fd);
+	return (ret);
+}
 
 int	build_path(t_parse *node)
 {
@@ -194,9 +195,9 @@ void	exec_cmd(t_parse *node, int to_fork)
 	int	pid;
 
 	build_path(node);
-	// if (check_error(node))
-	// 	return ;
-	// else
+	if (check_error(node))
+		return ;
+	else
 	{
 		run_signals(2);
 		if (to_fork)

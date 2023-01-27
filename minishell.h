@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 17:43:54 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 13:15:53 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void					restore_stdin(int saved);
 void					do_parent(t_parse *node, int *fd, int *backup);
 void					do_child(t_parse *node, t_prompt *struc, int *fd,
 							int *backup);
-int						piper(t_parse *node, t_prompt *struc);
+int						piper(t_parse *node, t_prompt *struc, int backup);
 int						executer(t_parse *node, t_prompt *struc);
 
 char					*find_not_in_squoutes_char(char *str, char c);
