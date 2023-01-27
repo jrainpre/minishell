@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 09:25:07 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 09:45:44 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,6 @@ char	**trim_2d_array(char **table)
 
 void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
 {
-	//free_parse(struc);
 	unlink(".tmp");
 	free(input->str);
 	free_env_lst(env_lst);
@@ -296,7 +295,6 @@ int	main(int argc, char **argv, char **envp)
 	char *str;
 
 	fill_env_lst(&env_lst, envp);
-	
 	init_prompt(&struc, env_lst);
 	shell_level_plus_one(&struc);
 	temp = NULL;
