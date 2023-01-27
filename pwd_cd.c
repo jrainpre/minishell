@@ -83,13 +83,12 @@ void print_cd_error(t_parse *node)
         ft_putstr_fd("string not in pwd: ", 2);
     else
     {
-		ft_putnbr_fd(errno, 2);
-        ft_putstr_fd(strerror(errno), 2);
+    	ft_putstr_fd(node->full_cmd[1], 2);
         ft_putstr_fd(": ", 2);
 		g_global.exit_status = 1;
 
     }
-    ft_putendl_fd(node->full_cmd[1], 2);
+	ft_putendl_fd(strerror(errno), 2);
 }
 
 int	cd_into_home(t_parse *node)

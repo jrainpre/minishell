@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 10:00:02 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 11:05:06 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define PARSE_ERROR "minishell: parse error near \'\\n'"
 # define GREEN "\001\033[1;92m\002"
 # define WHITE "\033[0;37m"
-# define PROMPT "\001\033[1;92m\002 minishell $> \033[0;37m"
+# define PROMPT "\001\033[1;92m\002minishell $> \033[0;37m"
 # define USER "USER"
 
 struct s_env_list;

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 17:31:43 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 12:54:20 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int    piper(t_parse *node, t_prompt *struc)
         backup = STDIN_FILENO;
         while (node != NULL)
         {
+            run_signals(2);
             wrapper_pipe(fd);
             wrapper_fork(&pid);
             if (pid == 0)

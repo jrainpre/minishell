@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/25 09:50:41 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 10:25:44 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,26 @@ int	line_count(char **str)
 
 void	check_dup_out(t_parse *node)
 {
-	dup2(node->out, STDOUT_FILENO);
-	close(node->out);
+	wrapper_dup2(&node->out, STDOUT_FILENO);
+	wrapper_close(&node->out);
 }
 
 void	check_dup_in(t_parse *node)
 {
-	dup2(node->in, STDIN_FILENO);
-	close(node->in);
+	wrapper_dup2(&node->in, STDIN_FILENO);
+	wrapper_close(&node->in);
 }
 
 void	restore_stdout(int saved)
 {
-	dup2(saved, STDOUT_FILENO);
-	close(saved);
+	wrapper_dup2(&saved, STDOUT_FILENO);
+	wrapper_close(&saved);
 }
 
 void	restore_stdin(int saved)
 {
-	dup2(saved, STDIN_FILENO);
-	close(saved);
+	wrapper_dup2(&saved, STDIN_FILENO);
+	wrapper_close(&saved);
 }
 
 int	only_n(char *str)

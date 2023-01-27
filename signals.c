@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:23:08 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/26 18:24:07 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 10:47:45 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	run_signals(int sig)
 	{
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, back_slash);
+		//signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 3)
 	{
