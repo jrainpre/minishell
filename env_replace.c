@@ -6,7 +6,7 @@
 /*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/27 19:06:39 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/27 22:36:20 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (str[i] != '\0' && str[i] != ' ' && str[i] != '"' && not_dollar(ptr, i))
+	while (str[i] != '\0' && str[i] != ' ' && str[i] != '"' && str[i] != '\'' && not_dollar(ptr, i))
 		i++;
 	while (new[j])
 		j++;

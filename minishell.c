@@ -300,12 +300,12 @@ int	main(int argc, char **argv, char **envp)
 	t_parse		*node;
 	t_env_list	*env_lst;
 
-	fill_env_lst(&env_lst, envp);
-	init_prompt(&struc, env_lst);
-	shell_level_plus_one(&struc);
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	fill_env_lst(&env_lst, envp);
+	init_prompt(&struc, env_lst);
+	shell_level_plus_one(&struc);
   	minishell(&struc, struc.cmds, env_lst);
 	return (0);
 }
