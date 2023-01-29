@@ -291,7 +291,17 @@ void	set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
 	}
 }
 
+void	trim_nodes(t_prompt *struc)
+{
+	t_parse	*node;
 
+	node = struc->cmds;
+	while (node)
+	{
+		node->full_cmd = trim_2d_array(node->full_cmd);
+		node = node->next;
+	}
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -337,6 +347,7 @@ int process_intput(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input 
 	if (!get_all_fd_out(struc) || !get_all_fd_in(struc))
 		return (1);
 	delete_closed_quotes_struc(struc);
+	trim_nodes(struc);
 		return (0);
 }
 
