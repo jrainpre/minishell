@@ -6,7 +6,7 @@
 /*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 20:31:46 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/29 21:51:59 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void	exec_cmd(t_parse *node, int to_fork)
 	else
 	{
 		run_signals(2);
+		// node->full_cmd[1] = NULL;
 		if (to_fork)
 		{
 			pid = fork();
@@ -213,7 +214,7 @@ void	exec_cmd(t_parse *node, int to_fork)
 			{
 				dup_fds(node);
 				execve(node->full_path, node->full_cmd,
-						env_list_to_array(node->env));
+				env_list_to_array(node->env));
 			}
 			wait(&g_global.exit_status);
 		}
