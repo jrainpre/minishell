@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 20:29:42 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 
-t_global g_global;
+t_global	g_global;
 
 int	count_pipes(char **split)
 {
@@ -251,14 +251,14 @@ char	**trim_2d_array(char **table)
 	return (new_table);
 }
 
-void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
+void	clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
 {
 	unlink(".tmp");
 	free(input->str);
 	free_env_lst(env_lst);
 }
 
-void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
+void	clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
 {
 	unlink(".tmp");
 	free_prompt(struc);
@@ -267,7 +267,7 @@ void clean_exit(t_prompt *struc, t_env_list *env_lst, t_input *input)
 	free_env_lst(struc->env_lst);
 }
 
-void	check_exit_flag(t_prompt *struc, t_env_list	*env_lst, t_input *input)
+void	check_exit_flag(t_prompt *struc, t_env_list *env_lst, t_input *input)
 {
 	if (struc->exit_flag == 1)
 	{
@@ -292,14 +292,12 @@ t_parse	*set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
 	return (temp);
 }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
-	t_input		input;
-	t_prompt	struc;
-	t_parse		*temp;
-	t_env_list	*env_lst;
+	t_input input;
+	t_prompt struc;
+	t_parse *temp;
+	t_env_list *env_lst;
 	char *str;
 
 	fill_env_lst(&env_lst, envp);
@@ -319,8 +317,8 @@ int	main(int argc, char **argv, char **envp)
 			clean_interrupt(&struc, env_lst, &input);
 			run_signals(3);
 		}
-		if (input.str[0] == '\0' || input.str[0] == '\n'
-			|| input.str[0] == '\t' || input.str[0] == ' ')
+		if (input.str[0] == '\0' || input.str[0] == '\n' || input.str[0] == '\t'
+			|| input.str[0] == ' ')
 			continue ;
 		input.str = prepare_input_string(input.str);
 		add_history(input.str);

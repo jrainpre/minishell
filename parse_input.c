@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/29 20:35:49 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:36 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	split_input_helper(t_input *input, int *i, int *j)
 		input->output[*i] = ft_word(input, *j);
 		*i += 1;
 	}
-	while (input->str[*j] && ((input->str[*j] != input->c)
-			|| input->single_open || input->double_open))
+	while (input->str[*j] && ((input->str[*j] != input->c) || input->single_open
+			|| input->double_open))
 	{
 		open_close_quotes(input, *j);
 		*j += 1;

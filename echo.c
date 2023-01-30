@@ -6,13 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 19:05:15 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:47:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
 int	line_count(char **str)
 {
@@ -81,7 +81,7 @@ void	put_to_stdout_extend(t_parse *node, int *i, int *flag, int *k)
 				&& only_n(node->full_cmd[*k]))
 			{
 				node->full_cmd[*k] = ft_strtrim(node->full_cmd[*k],
-						node->full_cmd[*k]);
+												node->full_cmd[*k]);
 				trim_white(node);
 				*i += 1;
 			}
@@ -114,10 +114,10 @@ void	put_to_stdout(t_parse *node, int *i)
 
 int	do_echo(t_parse *node)
 {
-	int i;
-	int j;
-	int len;
-	int saved;
+	int	i;
+	int	j;
+	int	len;
+	int	saved;
 
 	g_global.exit_status = 0;
 	j = 0;

@@ -6,15 +6,16 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/29 19:18:51 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_env_tilde_value(t_env_list *env)
+char	*get_env_tilde_value(t_env_list *env)
 {
-	char *value;
+	char	*value;
+
 	while (env)
 	{
 		if (ft_strcmp(env->name, "HOME") == 0)
@@ -22,7 +23,7 @@ char *get_env_tilde_value(t_env_list *env)
 		env = env->next;
 	}
 	value = getcwd(NULL, 0);
-	return(value);
+	return (value);
 }
 
 char	*get_new_str_tilde(char *str, char *envvar, char *ptr)
@@ -45,7 +46,7 @@ char	*get_new_str_tilde(char *str, char *envvar, char *ptr)
 	return (new);
 }
 
-void expand_tilde(t_parse *node)
+void	expand_tilde(t_parse *node)
 {
 	char	*tilde_pos;
 	char	*name;
@@ -58,10 +59,10 @@ void expand_tilde(t_parse *node)
 		while (find_unquoted_char(node->full_cmd[i], '~'))
 		{
 			tilde_pos = find_unquoted_char(node->full_cmd[i], '~');
-			
 			name = get_env_tilde_value(node->env);
 			temp = node->full_cmd[i];
-			node->full_cmd[i] = get_new_str_tilde(node->full_cmd[i], name, tilde_pos);
+			node->full_cmd[i] = get_new_str_tilde(node->full_cmd[i], name,
+					tilde_pos);
 			free(temp);
 			free(name);
 		}

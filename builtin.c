@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 18:59:44 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:46:26 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,16 +144,16 @@ void	dup_fds(t_parse *node)
 void	error_to_fd(int fd, char *path, DIR *folder)
 {
 	if (ft_strchr(path, '/') == NULL)
-			ft_putendl_fd(": command not found", 2);
+		ft_putendl_fd(": command not found", 2);
 	else if (fd == -1 && folder == NULL)
-			ft_putendl_fd(": No such file or directory", 2);
+		ft_putendl_fd(": No such file or directory", 2);
 	else if (fd == -1 && folder != NULL)
-			ft_putendl_fd(": is a directory", 2);
+		ft_putendl_fd(": is a directory", 2);
 	else if (fd != -1 && folder == NULL)
-			ft_putendl_fd(": Permission denied", 2);
+		ft_putendl_fd(": Permission denied", 2);
 }
 
-int			error_message(char *path)
+int	error_message(char *path)
 {
 	DIR	*folder;
 	int	fd;

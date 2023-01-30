@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 19:26:34 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:11 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ int	create_heredoc(t_parse *temp, int *i)
 	return (1);
 }
 
-int heredoc_file(t_parse *node)
+int	heredoc_file(t_parse *node)
 {
-	int		fd;
+	int	fd;
 
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd == -1)

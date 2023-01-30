@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/29 19:13:16 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:47:41 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	not_dollar(char *arg, int i)
 
 void	update_full_cmd(t_parse *node, char *name, char *dollar_pos, int *i)
 {
-	node->full_cmd[*i] = get_new_str_env(node->full_cmd[*i], name,
-					dollar_pos);
+	node->full_cmd[*i] = get_new_str_env(node->full_cmd[*i], name, dollar_pos);
 }
 
 void	include_env(t_parse *node)
@@ -47,7 +46,7 @@ void	include_env(t_parse *node)
 			{
 				temp = node->full_cmd[i];
 				node->full_cmd[i] = get_new_str_exitstatus(node->full_cmd[i],
-						ft_itoa(g_global.exit_status), dollar_pos);
+							ft_itoa(g_global.exit_status), dollar_pos);
 				free(temp);
 				break ;
 			}

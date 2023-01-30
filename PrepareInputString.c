@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:40:41 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:04:29 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:54 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  and if there are, it adds a space before them
   and if its a pipe also after them*/
 
-int prepare_input_string_do(char *str, int *i)
+int	prepare_input_string_do(char *str, int *i)
 {
 	if (check_lastpos_is_space(str, *i))
 	{
@@ -33,12 +33,12 @@ int prepare_input_string_do(char *str, int *i)
 
 char	*prepare_input_string(char *str)
 {
-	int	in_s_q;
-	int	in_d_q;
-	int	i;
-	char *temp;
-	temp = str;
+	int		in_s_q;
+	int		in_d_q;
+	int		i;
+	char	*temp;
 
+	temp = str;
 	i = -1;
 	in_s_q = 0;
 	in_d_q = 0;
@@ -48,7 +48,7 @@ char	*prepare_input_string(char *str)
 		if (check_if_unquoted_special_char(str, i, &in_s_q, &in_d_q))
 		{
 			if (prepare_input_string_do(str, &i) == 1)
-				continue;
+				continue ;
 		}
 	}
 	return (str);

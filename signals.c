@@ -6,19 +6,19 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:23:08 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:42:12 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:49:12 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
-void    ctrl_d(int sig)
+void	ctrl_d(int sig)
 {
 	g_global.exit_status = 1;
-    exit(0);
-    (void)sig;
+	exit(0);
+	(void)sig;
 }
 
 void	restore_prompt(int sig)

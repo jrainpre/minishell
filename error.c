@@ -6,13 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:22:06 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 19:15:46 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:47:49 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
 void	error_command_not_found(t_parse *node)
 {
@@ -29,7 +29,7 @@ void	error_command_not_found(t_parse *node)
 	}
 }
 
-int check_error(t_parse *node)
+int	check_error(t_parse *node)
 {
 	if (node->full_path == NULL)
 	{
