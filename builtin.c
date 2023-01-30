@@ -214,7 +214,7 @@ void	exec_cmd(t_parse *node, int to_fork)
 			{
 				dup_fds(node);
 				execve(node->full_path, node->full_cmd,
-						env_list_to_array(node->env));
+				env_list_to_array(node->env));
 			}
 			wait(&g_global.exit_status);
 		}

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
 /*   Updated: 2023/01/30 09:48:16 by mkoller          ###   ########.fr       */
@@ -60,23 +60,25 @@ int	check_valid_filename(t_parse *node)
 
 int	trim_white(t_parse *node)
 {
-	int		i;
-	char	*old;
-
+	int	i;
+	char *old;
+	
 	i = 0;
 	if (**node->full_cmd == '\0')
 	{
 		while (node->full_cmd[i])
 		{
-			if (node->full_cmd[i + 1])
+		if (node->full_cmd[i + 1])
 			{
 				old = node->full_cmd[i];
 				node->full_cmd[i] = ft_strdup(node->full_cmd[i + 1]);
+				free(old);
 			}
 			else
 			{
 				old = node->full_cmd[i];
 				node->full_cmd[i] = ft_strdup("");
+				free(old);
 			}
 			i++;
 		}

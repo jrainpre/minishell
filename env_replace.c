@@ -58,6 +58,18 @@ void	include_env_node(t_parse *node)
 	}
 }
 
+void include_env_struc(t_prompt *struc)
+{
+	t_parse	*node;
+
+	node = struc->cmds;
+	while (node)
+	{
+		include_env_node(node);
+		node = node->next;
+	}
+}
+
 int is_end_of_env(char c, char *ptr, int i)
 {
 	if (c == ' ' || c == '\0' || c == '"' || c == '\'' || !not_dollar(ptr, i))

@@ -70,6 +70,18 @@ void	expand_tilde_node(t_parse *node)
 	}
 }
 
+void expand_tilde_struc(t_prompt *struc)
+{
+	t_parse *temp;
+
+	temp = struc->cmds;
+	while (temp)
+	{
+		expand_tilde_node(temp);
+		temp = temp->next;
+	}
+}
+
 char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr)
 {
 	char	*new;

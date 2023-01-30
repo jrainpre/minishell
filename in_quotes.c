@@ -86,6 +86,16 @@ int	check_pos_not_in_quotes(char *str, char *pos)
 		return (0);
 }
 
+int check_pos_not_in_quotes_test(char *str, char *pos)
+{
+	if (!check_not_in_d_quotes(str, pos))
+		return (1);
+	if (check_not_in_s_quotes(str, pos))
+		return (1);
+	else
+		return (0);
+}
+
 char	*find_unquoted_char(char *str, char c)
 {
 	int	i;
@@ -113,8 +123,8 @@ char	*find_not_in_squoutes_char(char *str, char c)
 	in_s_q = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == c && check_not_in_s_quotes(str, &str[i]))
-			return (&str[i]);
+		if(str[i] == c && check_pos_not_in_quotes_test(str, &str[i]))
+			return(&str[i]);
 		i++;
 	}
 	return (NULL);
