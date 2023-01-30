@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   wrapper.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:13:47 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:49:17 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:05:36 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	wrapper_fork(int *pid)
 {
-	if ((*pid = fork()) == -1)
+	*pid = fork();
+	if (*pid == -1)
 	{
 		perror("fork");
 		exit(1);

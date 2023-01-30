@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:47:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:04:54 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 extern t_global	g_global;
 
@@ -22,30 +22,6 @@ int	line_count(char **str)
 	while (str && str[i])
 		i++;
 	return (i);
-}
-
-void	check_dup_out(t_parse *node)
-{
-	wrapper_dup2(&node->out, STDOUT_FILENO);
-	wrapper_close(&node->out);
-}
-
-void	check_dup_in(t_parse *node)
-{
-	wrapper_dup2(&node->in, STDIN_FILENO);
-	wrapper_close(&node->in);
-}
-
-void	restore_stdout(int saved)
-{
-	wrapper_dup2(&saved, STDOUT_FILENO);
-	wrapper_close(&saved);
-}
-
-void	restore_stdin(int saved)
-{
-	wrapper_dup2(&saved, STDIN_FILENO);
-	wrapper_close(&saved);
 }
 
 int	only_n(char *str)
@@ -80,8 +56,8 @@ void	put_to_stdout_extend(t_parse *node, int *i, int *flag, int *k)
 			if (!ft_strncmp(node->full_cmd[*k], "-n", 2)
 				&& only_n(node->full_cmd[*k]))
 			{
-				node->full_cmd[*k] = ft_strtrim(node->full_cmd[*k],
-												node->full_cmd[*k]);
+				node->full_cmd[*k] = ft_strtrim(node->full_cmd[*k], \
+				node->full_cmd[*k]);
 				trim_white(node);
 				*i += 1;
 			}

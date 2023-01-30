@@ -6,17 +6,17 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:01:21 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 14:11:05 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:10:57 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *insert_substr(char *str, char *substr, int pos)
+char	*insert_substr(char *str, char *substr, int pos)
 {
-	char *temp;
-	int i;
-	int j;
+	char	*temp;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;

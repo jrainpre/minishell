@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_level.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:23:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:49:08 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:05:21 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-static int	invalid_lvl(const char *str)
+int	invalid_lvl(const char *str)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	invalid_lvl(const char *str)
 	return (0);
 }
 
-static int	get_shelvl(t_env_list *env_lst)
+int	get_shelvl(t_env_list *env_lst)
 {
 	char	*str;
 

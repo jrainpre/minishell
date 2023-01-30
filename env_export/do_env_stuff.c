@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   do_env_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 09:54:18 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:46:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:15:55 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 extern t_global	g_global;
 
@@ -30,7 +30,6 @@ int	do_unset(t_parse *node)
 
 int	do_export(t_parse *node)
 {
-	int	len;
 	int	saved;
 
 	g_global.exit_status = 0;
@@ -49,8 +48,7 @@ int	do_export(t_parse *node)
 
 int	do_env(t_parse *node)
 {
-	int len;
-	int saved;
+	int	saved;
 
 	g_global.exit_status = 0;
 	saved = 1;

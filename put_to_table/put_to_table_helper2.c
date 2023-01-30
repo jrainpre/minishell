@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   put_to_table_helper2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 10:12:04 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 13:13:01 by jrainpre         ###   ########.fr       */
+/*   Created: 2023/01/30 11:36:05 by jrainpre          #+#    #+#             */
+/*   Updated: 2023/01/30 14:06:38 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	i;
+#include "../minishell.h"
 
-	i = 0;
-	while (src[i] != '\0' && i < n)
+void	check_exit_flag(t_prompt *struc, t_input *input)
+{
+	if (struc->exit_flag == 1)
 	{
-		dest[i] = src[i];
-		++i;
+		clean_exit(struc, input);
+		exit(0);
 	}
-	while (i < n)
+}
+
+void	set_env_lst(t_env_list *env_lst, t_parse *temp, t_prompt *struc)
+{
+	t_parse	*temp2;
+
+	temp = struc->cmds;
+	temp->full_cmd = trim_2d_array(temp->full_cmd);
+	temp->env = env_lst;
+	temp2 = temp;
+	while (temp2)
 	{
-		dest[i] = '\0';
-		i++;
+		temp2->env = env_lst;
+		temp2 = temp2->next;
 	}
-	return (dest);
 }

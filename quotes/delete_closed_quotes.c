@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   delete_closed_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:10:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:46:44 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:07:04 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	new_len_no_quotes(char *str)
 {
@@ -55,8 +55,8 @@ char	*delete_closed_quotes_str(char *str, int s_quotes, int d_quotes)
 			s_quotes = !s_quotes;
 		if (check_not_in_s_quotes(str, &str[j]) && str[j] == '\"')
 			d_quotes = !d_quotes;
-		if ((str[j] != '\"' || s_quotes) && (str[j] != '\'' || d_quotes)
-				&& ++i >= 0)
+		if ((str[j] != '\"' || s_quotes) && (str[j] != '\'' || d_quotes) \
+			&& ++i >= 0)
 			new[i] = str[j];
 		j++;
 	}
@@ -78,7 +78,7 @@ void	delete_closed_quotes_node(t_parse *node)
 	}
 }
 
-void delete_closed_quotes_struc(t_prompt *struc)
+void	delete_closed_quotes_struc(t_prompt *struc)
 {
 	t_parse	*temp;
 

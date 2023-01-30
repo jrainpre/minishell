@@ -3,38 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 08:09:03 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/18 15:14:46 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 13:12:26 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-Function name ft_strjoin
-Prototype char *ft_strjoin(char const *s1, char const *s2);
-Turn in files -
-Parameters s1: The prefix string.
-s2: The suffix string.
-Return value The new string.
-NULL if the allocation fails.
-External functs. malloc
-Description Allocates (with malloc(3)) and returns a new
-string, which is the result of the concatenation
-of ’s1’ and ’s2’.
-*/
-/*
-#include <stdlib.h>
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-*/
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -42,7 +17,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*p;
 	int		i;
 	int		j;
-	
+
 	if (!s1 && !s2)
 		return (NULL);
 	else if (!s2)

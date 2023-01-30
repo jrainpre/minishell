@@ -6,11 +6,11 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:48:16 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:44:52 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_name(t_parse *temp, int *i)
 {
@@ -58,67 +58,11 @@ int	check_valid_filename(t_parse *node)
 	return (1);
 }
 
-int	trim_white(t_parse *node)
-{
-	int	i;
-	char *old;
-	
-	i = 0;
-	if (**node->full_cmd == '\0')
-	{
-		while (node->full_cmd[i])
-		{
-		if (node->full_cmd[i + 1])
-			{
-				old = node->full_cmd[i];
-				node->full_cmd[i] = ft_strdup(node->full_cmd[i + 1]);
-				free(old);
-			}
-			else
-			{
-				old = node->full_cmd[i];
-				node->full_cmd[i] = ft_strdup("");
-				free(old);
-			}
-			i++;
-		}
-	}
-	return (0);
-}
-
-void	append_out_case1(char *old, t_parse *temp, int *i)
-{
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">>");
-	free(old);
-	temp->out = open(temp->full_cmd[*i],
-						O_CREAT | O_WRONLY | O_APPEND,
-						0644);
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
-									temp->full_cmd[*i]);
-	free(old);
-}
-
-void	append_out_case2(char *old, t_parse *temp, int *i)
-{
-	temp->out = open(temp->full_cmd[*i + 1],
-						O_CREAT | O_WRONLY | O_APPEND,
-						0644);
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
-									temp->full_cmd[*i]);
-	free(old);
-	old = temp->full_cmd[*i + 1];
-	temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
-										temp->full_cmd[*i + 1]);
-	free(old);
-}
-
 int	create_append_out(t_parse *temp, int *i)
 {
 	char	*old;
 
+	old = NULL;
 	if (temp->full_cmd[*i][2] != '\0')
 		append_out_case1(old, temp, i);
 	else
@@ -126,39 +70,11 @@ int	create_append_out(t_parse *temp, int *i)
 	return (1);
 }
 
-void	trunc_out_case1(char *old, t_parse *temp, int *i)
-{
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], ">");
-	temp->out = open(temp->full_cmd[*i],
-						O_CREAT | O_WRONLY | O_TRUNC,
-						0644);
-	free(old);
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
-									temp->full_cmd[*i]);
-	free(old);
-}
-
-void	trunc_out_case2(char *old, t_parse *temp, int *i)
-{
-	temp->out = open(temp->full_cmd[*i + 1],
-						O_CREAT | O_WRONLY | O_TRUNC,
-						0644);
-	old = temp->full_cmd[*i];
-	temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i],
-									temp->full_cmd[*i]);
-	free(old);
-	old = temp->full_cmd[*i + 1];
-	temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1],
-										temp->full_cmd[*i + 1]);
-	free(old);
-}
-
 int	create_trunc_out(t_parse *temp, int *i)
 {
 	char	*old;
 
+	old = NULL;
 	if (temp->full_cmd[*i][1] != '\0')
 		trunc_out_case1(old, temp, i);
 	else

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tilde.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 10:01:25 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:05:18 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_env_tilde_value(t_env_list *env)
 {
@@ -70,9 +70,9 @@ void	expand_tilde_node(t_parse *node)
 	}
 }
 
-void expand_tilde_struc(t_prompt *struc)
+void	expand_tilde_struc(t_prompt *struc)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	temp = struc->cmds;
 	while (temp)
