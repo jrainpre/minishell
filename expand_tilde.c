@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:48:05 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:01:25 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_new_str_tilde(char *str, char *envvar, char *ptr)
 	return (new);
 }
 
-void	expand_tilde(t_parse *node)
+void	expand_tilde_node(t_parse *node)
 {
 	char	*tilde_pos;
 	char	*name;

@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:47:41 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:59:28 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	update_full_cmd(t_parse *node, char *name, char *dollar_pos, int *i)
 	node->full_cmd[*i] = get_new_str_env(node->full_cmd[*i], name, dollar_pos);
 }
 
-void	include_env(t_parse *node)
+void	include_env_node(t_parse *node)
 {
 	char	*dollar_pos;
 	char	*name;
@@ -58,6 +58,13 @@ void	include_env(t_parse *node)
 	}
 }
 
+int is_end_of_env(char c, char *ptr, int i)
+{
+	if (c == ' ' || c == '\0' || c == '"' || c == '\'' || !not_dollar(ptr, i))
+		return (1);
+	return (0);
+}
+
 char	*get_new_str_env(char *str, char *envvar, char *ptr)
 {
 	char	*new;
@@ -71,7 +78,7 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (str[i] != '\0' && str[i] != ' ' && not_dollar(ptr, i))
+	while (!is_end_of_env(str[i], ptr, i))
 		i++;
 	while (new[j])
 		j++;

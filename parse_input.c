@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:48:36 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:53:53 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	ft_check_str_count(t_input *input)
 	i = 0;
 	while (input->str[i])
 	{
-		while (input->str[i] && input->str[i] == input->c)
+		while (input->str[i] && input->str[i] == ' ')
 			i++;
 		if (input->str[i])
 			word_count++;
 		input->double_open = 0;
 		input->single_open = 0;
-		while (input->str[i] && ((input->str[i] != input->c)
+		while (input->str[i] && ((input->str[i] != ' ')
 				|| input->single_open || input->double_open))
 		{
 			open_close_quotes(input, i);
@@ -59,7 +59,7 @@ static int	ft_strlen_sep(t_input *input, int i)
 	j = 0;
 	input->double_open = 0;
 	input->single_open = 0;
-	while (input->str[i] && ((input->str[i] != input->c) || input->single_open
+	while (input->str[i] && ((input->str[i] != ' ') || input->single_open
 			|| input->double_open))
 	{
 		open_close_quotes(input, i);
@@ -92,14 +92,14 @@ static char	*ft_word(t_input *input, int i)
 
 void	split_input_helper(t_input *input, int *i, int *j)
 {
-	while (input->str[*j] && input->str[*j] == input->c)
+	while (input->str[*j] && input->str[*j] == ' ')
 		*j += 1;
 	if (input->str[*j])
 	{
 		input->output[*i] = ft_word(input, *j);
 		*i += 1;
 	}
-	while (input->str[*j] && ((input->str[*j] != input->c) || input->single_open
+	while (input->str[*j] && ((input->str[*j] != ' ') || input->single_open
 			|| input->double_open))
 	{
 		open_close_quotes(input, *j);

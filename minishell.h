@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 13:34:10 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:00:49 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_prompt
 typedef struct s_read_input
 {
 	char				*str;
-	char				c;
 	int					double_open;
 	int					single_open;
 	char				**output;
@@ -90,7 +89,7 @@ typedef struct s_global
 
 void					ft_split_input(t_input *input);
 int						put_to_table(char **str, t_prompt *struc);
-void					include_env(t_parse *node);
+void					include_env_node(t_parse *node);
 char					*get_new_str_env(char *str, char *envvar, char *ptr);
 int						get_new_strlen_env(char *str, char *value, char *ptr);
 char					*get_env_name(char *arg, t_env_list *env_lst);
@@ -149,7 +148,7 @@ int						check_pos_not_in_quotes(char *str, char *pos);
 char					*find_unquoted_char(char *str, char c);
 char					*get_env_tilde_value(t_env_list *env);
 char					*get_new_str_tilde(char *str, char *envvar, char *ptr);
-void					expand_tilde(t_parse *node);
+void					expand_tilde_node(t_parse *node);
 //delete_closed_quotes.c
 int						new_len_no_quotes(char *str);
 char					*delete_closed_quotes_str(char *str, int s_quotes,
