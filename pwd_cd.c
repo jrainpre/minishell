@@ -13,7 +13,7 @@
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
 int	pwd(void)
 {
@@ -76,18 +76,17 @@ void	cd_path_not_found(char *path)
 	ft_putendl_fd(path, 2);
 }
 
-void print_cd_error(t_parse *node)
+void	print_cd_error(t_parse *node)
 {
-    ft_putstr_fd("cd: ", 2);
-    if (node->full_cmd[2])
-        ft_putstr_fd("string not in pwd: ", 2);
-    else
-    {
-    	ft_putstr_fd(node->full_cmd[1], 2);
-        ft_putstr_fd(": ", 2);
+	ft_putstr_fd("cd: ", 2);
+	if (node->full_cmd[2])
+		ft_putstr_fd("string not in pwd: ", 2);
+	else
+	{
+		ft_putstr_fd(node->full_cmd[1], 2);
+		ft_putstr_fd(": ", 2);
 		g_global.exit_status = 1;
-
-    }
+	}
 	ft_putendl_fd(strerror(errno), 2);
 }
 
@@ -115,6 +114,7 @@ void	do_cd(t_parse *node)
 {
 	char	*buf;
 	char	*temp;
+
 	pwd_init(node);
 	if (cd_into_home(node))
 		return ;

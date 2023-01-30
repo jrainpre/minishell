@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PrepareInputString.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:40:41 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/26 16:56:03 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:54 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,30 @@
 /*this function checks if there are any pipes or redirects in the input string
  and if there are, it adds a space before them
   and if its a pipe also after them*/
+
+int	prepare_input_string_do(char *str, int *i)
+{
+	if (check_lastpos_is_space(str, *i))
+	{
+		str = add_space_before_this_position(str, i);
+		return (1);
+	}
+	if (check_nextpos_is_space(str, *i))
+	{
+		str = add_space_after_this_position(str, i);
+		return (1);
+	}
+	return (0);
+}
+
 char	*prepare_input_string(char *str)
 {
-	int	in_s_q;
-	int	in_d_q;
-	int	i;
-	char *temp;
-	temp = str;
+	int		in_s_q;
+	int		in_d_q;
+	int		i;
+	char	*temp;
 
+	temp = str;
 	i = -1;
 	in_s_q = 0;
 	in_d_q = 0;
@@ -31,16 +47,8 @@ char	*prepare_input_string(char *str)
 		check_if_qoute(&in_s_q, &in_d_q, str[i]);
 		if (check_if_unquoted_special_char(str, i, &in_s_q, &in_d_q))
 		{
-			if (check_lastpos_is_space(str, i))
-			{
-				str = add_space_before_this_position(str, &i);
+			if (prepare_input_string_do(str, &i) == 1)
 				continue ;
-			}
-			if (check_nextpos_is_space(str, i))
-			{
-				str = add_space_after_this_position(str, &i);
-				continue ;
-			}
 		}
 	}
 	return (str);

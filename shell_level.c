@@ -6,15 +6,15 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:23:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/26 11:35:50 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:49:08 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int			invalid_lvl(const char *str)
+static int	invalid_lvl(const char *str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -26,20 +26,20 @@ static int			invalid_lvl(const char *str)
 	return (0);
 }
 
-static int			get_shelvl(t_env_list *env_lst)
+static int	get_shelvl(t_env_list *env_lst)
 {
 	char	*str;
-	
-	// str = get_env_value(env_lst, "SHLVL");
-	// if (!str)
-	// 	changevalue(env_lst, "SHLVL=1");
-	// if (!ft_strisnum(str))
-	// 	changevalue(env_lst, "SHLVL=1");
-	// else if (ft_strlen(str) > 10 || invalid_lvl(str))
-	// 	changevalue(env_lst, "SHLVL=1");
-	// else if (ft_strlen(str) == 10 && ft_strcmp(str, "2147483647") > 0)
-	// 	changevalue(env_lst, "SHLVL=2147483647");
-	// else
+
+	str = get_env_value(env_lst, "SHLVL");
+	if (!str)
+		changevalue(env_lst, "SHLVL=1");
+	if (!ft_strisnum(str))
+		changevalue(env_lst, "SHLVL=1");
+	else if (ft_strlen(str) > 10 || invalid_lvl(str))
+		changevalue(env_lst, "SHLVL=1");
+	else if (ft_strlen(str) == 10 && ft_strcmp(str, "2147483647") > 0)
+		changevalue(env_lst, "SHLVL=2147483647");
+	else
 		return (ft_atoi(get_env_value(env_lst, "SHLVL")));
 	return (1);
 }

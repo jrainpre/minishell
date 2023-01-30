@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/29 22:04:41 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/30 09:46:26 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,19 @@ void	dup_fds(t_parse *node)
 		check_dup_in(node);
 }
 
-int			error_message(char *path)
+void	error_to_fd(int fd, char *path, DIR *folder)
+{
+	if (ft_strchr(path, '/') == NULL)
+		ft_putendl_fd(": command not found", 2);
+	else if (fd == -1 && folder == NULL)
+		ft_putendl_fd(": No such file or directory", 2);
+	else if (fd == -1 && folder != NULL)
+		ft_putendl_fd(": is a directory", 2);
+	else if (fd != -1 && folder == NULL)
+		ft_putendl_fd(": Permission denied", 2);
+}
+
+int	error_message(char *path)
 {
 	DIR	*folder;
 	int	fd;
@@ -154,14 +166,7 @@ int			error_message(char *path)
 		folder = opendir(path);
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
-		if (ft_strchr(path, '/') == NULL)
-			ft_putendl_fd(": command not found", 2);
-		else if (fd == -1 && folder == NULL)
-			ft_putendl_fd(": No such file or directory", 2);
-		else if (fd == -1 && folder != NULL)
-			ft_putendl_fd(": is a directory", 2);
-		else if (fd != -1 && folder == NULL)
-			ft_putendl_fd(": Permission denied", 2);
+		error_to_fd(fd, path, folder);
 		if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
 			ret = 1;
 		else
@@ -201,15 +206,11 @@ void	exec_cmd(t_parse *node, int to_fork)
 	if (check_error(node))
 		return ;
 	else
-	if (check_error(node))
-		return ;
-	else
 	{
 		run_signals(2);
 		if (to_fork)
 		{
-			pid = fork();
-			if (pid == 0)
+			if (fork() == 0)
 			{
 				dup_fds(node);
 				execve(node->full_path, node->full_cmd,

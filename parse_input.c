@@ -6,7 +6,7 @@
 /*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/27 15:47:41 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/30 09:53:53 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,23 @@ static char	*ft_word(t_input *input, int i)
 	return (word);
 }
 
+void	split_input_helper(t_input *input, int *i, int *j)
+{
+	while (input->str[*j] && input->str[*j] == ' ')
+		*j += 1;
+	if (input->str[*j])
+	{
+		input->output[*i] = ft_word(input, *j);
+		*i += 1;
+	}
+	while (input->str[*j] && ((input->str[*j] != ' ') || input->single_open
+			|| input->double_open))
+	{
+		open_close_quotes(input, *j);
+		*j += 1;
+	}
+}
+
 void	ft_split_input(t_input *input)
 {
 	int	i;
@@ -104,20 +121,6 @@ void	ft_split_input(t_input *input)
 	if (input->output == NULL)
 		return ;
 	while (input->str[j])
-	{
-		while (input->str[j] && input->str[j] == ' ')
-			j++;
-		if (input->str[j])
-		{
-			input->output[i] = ft_word(input, j);
-			i++;
-		}
-		while (input->str[j] && ((input->str[j] != ' ')
-				|| input->single_open || input->double_open))
-		{
-			open_close_quotes(input, j);
-			j++;
-		}
-	}
+		split_input_helper(input, &i, &j);
 	input->output[i] = 0;
 }

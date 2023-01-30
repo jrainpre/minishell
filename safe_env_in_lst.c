@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   safe_env_in_lst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/26 16:28:59 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 09:49:04 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_global g_global;
+extern t_global	g_global;
 
 void	fill_env_lst(t_env_list **env_lst, char **envp)
 {
@@ -25,7 +25,6 @@ void	fill_env_lst(t_env_list **env_lst, char **envp)
 	while (envp[i])
 	{
 		new = malloc(sizeof(t_env_list));
-		
 		new->name = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') - envp[i]);
 		new->value = ft_substr(envp[i], ft_strchr(envp[i], '=') - envp[i] + 1,
 				ft_strlen(envp[i]));
@@ -119,6 +118,15 @@ void	free_env_lst(t_env_list *env_lst)
 	}
 }
 
+void	duplicate_list_helper(t_env_list *new, t_env_list *temp)
+{
+	new->next = malloc(sizeof(t_env_list));
+	new = new->next;
+	new->name = ft_strdup(temp->name);
+	new->value = ft_strdup(temp->value);
+	new->next = NULL;
+}
+
 t_env_list	*duplicate_list(t_env_list *env_lst)
 {
 	t_env_list	*new;
@@ -138,13 +146,7 @@ t_env_list	*duplicate_list(t_env_list *env_lst)
 			head = new;
 		}
 		else
-		{
-			new->next = malloc(sizeof(t_env_list));
-			new = new->next;
-			new->name = ft_strdup(temp->name);
-			new->value = ft_strdup(temp->value);
-			new->next = NULL;
-		}
+			duplicate_list_helper(new, temp);
 		temp = temp->next;
 	}
 	return (head);
@@ -262,6 +264,22 @@ int	add_env_no_value(t_env_list *env, char *str)
 	return (1);
 }
 
+void	export_env_helper(char *name, int *i, t_env_list *env, char **args)
+{
+	name = ft_substr(args[*i], 0, ft_strchr(args[*i], '=') - args[*i]);
+	if (is_valid_env(args[*i]) == 0)
+		printf(EXPORT_ERROR, args[*i]);
+	if (is_valid_env(args[*i]) == 0)
+		return (1);
+	if (is_valid_env(args[*i]) == 2)
+		add_env_no_value(env, args[*i]);
+	else if (get_env_value(env, name) == NULL)
+		add_env_entry(env, args[*i]);
+	else
+		changevalue(env, args[*i]);
+	free(name);
+}
+
 int	export_env(t_env_list *env, char **args)
 {
 	int		i;
@@ -276,31 +294,17 @@ int	export_env(t_env_list *env, char **args)
 	{
 		i = -1;
 		while (args[++i])
-		{
-			name = ft_substr(args[i], 0, ft_strchr(args[i], '=') - args[i]);
-			if (is_valid_env(args[i]) == 0)
-				printf(EXPORT_ERROR, args[i]);
-			if (is_valid_env(args[i]) == 0)
-				return (1);
-			if (is_valid_env(args[i]) == 2)
-				add_env_no_value(env, args[i]);
-			else if (get_env_value(env, name) == NULL)
-				add_env_entry(env, args[i]);
-			else
-				changevalue(env, args[i]);
-			free(name);
-		}
+			export_env_helper(name, &i, env, args);
 	}
-	return(1);
+	return (1);
 }
 
-void export_not_valid(char *str)
+void	export_not_valid(char *str)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putendl_fd(str, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	g_global.exit_status = 1;
-
 }
 
 int	export_helper(t_env_list *env, char **args)
@@ -332,8 +336,8 @@ int	export_helper(t_env_list *env, char **args)
 
 int	export(t_parse *node)
 {
-	char *name;
-	int i;
+	char	*name;
+	int		i;
 
 	g_global.exit_status = 0;
 	i = 1;

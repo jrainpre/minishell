@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 15:29:32 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 
-t_global g_global;
+t_global	g_global;
 
 int	count_pipes(char **split)
 {
@@ -135,6 +135,20 @@ int	pointer_count(char **str, int *i)
 	return (count);
 }
 
+void	put_table_non_pipe(char **str, t_parse *temp, int *i, int *j)
+{
+	temp->full_cmd[*j] = ft_strdup(str[*i]);
+	*j += 1;
+	*i += 1;
+}
+
+void	put_table_pipe(char **str, t_parse *temp, int *k, int *i)
+{
+	if (temp != NULL)
+		temp->full_cmd = ft_calloc((pointer_count(str, k) + 1), sizeof(char *));
+	*i += 1;
+}
+
 int	put_to_table(char **str, t_prompt *struc)
 {
 	int		i;
@@ -153,17 +167,11 @@ int	put_to_table(char **str, t_prompt *struc)
 	while (str[i])
 	{
 		if (str[i][0] != '|')
-		{
-			temp->full_cmd[j] = ft_strdup(str[i]);
-			j++;
-			i++;
-		}
+			put_table_non_pipe(str, temp, &i, &j);
 		else if (str[i][0] == '|')
 		{
 			temp = temp->next;
-			if (temp != NULL)
-				temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
-			i++;
+			put_table_pipe(str, temp, &k, &i);
 			j = 0;
 		}
 	}
@@ -243,7 +251,7 @@ char	**trim_2d_array(char **table)
 	return (new_table);
 }
 
-void clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
+void	clean_interrupt(t_prompt *struc, t_env_list *env_lst, t_input *input)
 {
 	unlink(".tmp");
 	free(input->str);
@@ -319,7 +327,6 @@ int	main(int argc, char **argv, char **envp)
   	minishell(&struc, struc.cmds, env_lst);
 	return (0);
 }
-
 
 int read_line_take_input(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input *input)
 {

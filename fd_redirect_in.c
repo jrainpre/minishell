@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 10:21:14 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:48:11 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ int	ft_strncmp_special(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
+void	heredoc_helper(t_parse *temp, char *str[2])
+{
+	temp = str[1];
+	str[1] = ft_strjoin(str[1], str[0]);
+	free(temp);
+	free(str[0]);
+	str[0] = readline("heredoc> ");
+}
+
 char	*heredoc(char *limit)
 {
 	char	*str[2];
@@ -44,11 +53,7 @@ char	*heredoc(char *limit)
 	while (!str[0] || (ft_strncmp_special(str[0], limit, len))
 		|| (ft_strlen(limit) != len))
 	{
-		temp = str[1];
-		str[1] = ft_strjoin(str[1], str[0]);
-		free(temp);
-		free(str[0]);
- 		str[0] = readline("heredoc> ");
+		heredoc_helper(temp, str);
 		if (!str[0])
 		{
 			put_error("ERROR!!");
@@ -120,9 +125,9 @@ int	create_heredoc(t_parse *temp, int *i)
 	return (1);
 }
 
-int heredoc_file(t_parse *node)
+int	heredoc_file(t_parse *node)
 {
-	int		fd;
+	int	fd;
 
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd == -1)
@@ -135,6 +140,18 @@ int heredoc_file(t_parse *node)
 	fd = open(".tmp", O_RDONLY, 0777);
 	node->in = fd;
 	return (0);
+}
+
+void	fd_in_helper(t_parse *temp, int *i)
+{
+	if (temp->full_cmd[*i][0] == '<' && temp->full_cmd[*i][1] == '<')
+	{
+		create_heredoc(temp, i);
+		heredoc_file(temp);
+	}
+	else if (temp->full_cmd[*i][0] == '<')
+		create_trunc_in(temp, i);
+	*i += 1;
 }
 
 int	get_all_fd_in(t_prompt *struc)
@@ -152,16 +169,7 @@ int	get_all_fd_in(t_prompt *struc)
 	while (temp)
 	{
 		while (temp->full_cmd[i])
-		{
-			if (temp->full_cmd[i][0] == '<' && temp->full_cmd[i][1] == '<')
-			{
-				create_heredoc(temp, &i);
-				heredoc_file(temp);
-			}
-			else if (temp->full_cmd[i][0] == '<')
-				create_trunc_in(temp, &i);
-			i++;
-		}
+			fd_in_helper(temp, &i);
 		trim_white(temp);
 		temp = temp->next;
 		i = 0;
