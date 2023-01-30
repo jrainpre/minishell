@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 18:30:38 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/30 09:01:13 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void    do_parent(t_parse *node, int *fd, int *backup)
 {
-    // wrapper_wait(NULL);
     wrapper_close(&fd[1]);
     if (*backup != STDIN_FILENO)
         wrapper_close(backup);
@@ -52,7 +51,7 @@ int    piper(t_parse *node, t_prompt *struc, int backup)
         temp = struc->cmds;
         while (temp != 0)
         {
-            wait(NULL);
+            wrapper_wait(NULL);
             temp = temp->next;
         }
         if (backup != STDIN_FILENO)

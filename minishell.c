@@ -354,6 +354,7 @@ int process_intput(t_prompt *struc, t_parse *node, t_env_list *env_lst, t_input 
 int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst)
 {
 	t_input		input;
+	
 	while (1)
 	{
 		if (read_line_take_input(struc, node, env_lst, &input))
