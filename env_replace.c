@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/27 22:36:20 by jonathanrai      ###   ########.fr       */
+/*   Updated: 2023/01/30 09:46:35 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ void include_env_struc(t_prompt *struc)
 	}
 }
 
+int is_end_of_env(char c, char *ptr, int i)
+{
+	if (c == ' ' || c == '\0' || c == '"' || c == '\'' || !not_dollar(ptr, i))
+		return (1);
+	return (0);
+}
+
 char	*get_new_str_env(char *str, char *envvar, char *ptr)
 {
 	char	*new;
@@ -79,7 +86,7 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (str[i] != '\0' && str[i] != ' ' && str[i] != '"' && str[i] != '\'' && not_dollar(ptr, i))
+	while (!is_end_of_env(str[i], ptr, i))
 		i++;
 	while (new[j])
 		j++;
