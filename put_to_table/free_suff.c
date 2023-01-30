@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_suff.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:37:57 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:18:52 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:16:51 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ void	free_table(char **table)
 
 void	clean_interrupt(t_env_list *env_lst, t_input *input)
 {
-	unlink(".tmp");
+	unlink(".*");
 	free(input->str);
 	free_env_lst(env_lst);
 }
 
 void	clean_exit(t_prompt *struc, t_input *input)
 {
-	unlink(".tmp");
+	unlink(".*");
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);
@@ -76,7 +76,7 @@ void	clean_exit(t_prompt *struc, t_input *input)
 
 void	clean_loop(t_prompt *struc, t_input *input)
 {
-	unlink(".tmp");
+	unlink(".*");
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);

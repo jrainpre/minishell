@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:54:10 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:04:46 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:52:54 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern t_global	g_global;
 
 int	ft_strchr_int(const char *s, int c)
 {
@@ -67,4 +69,11 @@ void	dup_fds(t_parse *node)
 		check_dup_out(node);
 	if (node->in >= 3)
 		check_dup_in(node);
+}
+
+void	update_exit_status(void)
+{
+	if (g_global.exit_status != 0 && g_global.exit_status != 1 \
+		&& g_global.exit_status != 2)
+		g_global.exit_status = 127;
 }

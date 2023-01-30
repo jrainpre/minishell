@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_in_helper.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:31:02 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:06:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:43:04 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,18 @@ void	print_file_error(char **str, int i)
 	ft_putstr_fd("\n", 2);
 }
 
-void	fd_in_helper(t_parse *temp, int *i)
+int	fd_in_helper(t_parse *temp, int *i, t_prompt *struc)
 {
 	if (temp->full_cmd[*i][0] == '<' && temp->full_cmd[*i][1] == '<')
 	{
-		create_heredoc(temp, i);
-		heredoc_file(temp);
+		if (create_heredoc(temp, i) == 0)
+			return (0);
+		heredoc_file(temp, struc);
 	}
 	else if (temp->full_cmd[*i][0] == '<')
 		create_trunc_in(temp, i);
 	*i += 1;
+	return (1);
 }
 
 void	heredoc_helper(char *temp, char *str[2])
@@ -59,4 +61,15 @@ void	heredoc_helper(char *temp, char *str[2])
 	free(temp);
 	free(str[0]);
 	str[0] = readline("heredoc> ");
+}
+
+int	check_heredoc_error(t_parse *temp, int *i)
+{
+	if (temp->full_cmd[*i][2] == '\0' && temp->full_cmd[*i + 1] == NULL)
+	{
+		put_error("minishell: ");
+		put_error("syntax error near unexpected token `newline'\n");
+		return (0);
+	}
+	return (1);
 }

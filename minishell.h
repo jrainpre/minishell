@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:46:55 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:51:46 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_prompt
 	pid_t				pid;
 	int					exit_flag;
 	int					exit_return_val;
+	int					rand;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -112,7 +113,7 @@ void					check_exit_flag(t_prompt *struc,
 void					set_env_lst(t_env_list *env_lst,
 							t_parse *temp, t_prompt *struc);
 //put_to_table.c
-int						put_to_table(char **str, t_prompt *struc);
+void						put_to_table(char **str, t_prompt *struc);
 void					add_nodes(t_prompt *struc, int ammount);
 char					**copie_env(char **env);
 char					**trim_2d_array(char **table);
@@ -135,6 +136,7 @@ int						error_message(char *path);
 int						ft_strchr_int(const char *s, int c);
 char					**env_list_to_array(t_env_list *env_lst);
 void					dup_fds(t_parse *node);
+void					update_exit_status(void);
 // executer.c
 void					do_parent(int *fd, int *backup);
 void					do_child(t_parse *node, t_prompt *struc, int *fd,
@@ -212,14 +214,17 @@ int						export(t_parse *node);
 int						ft_strncmp_special(const char *s1, const char *s2,
 							size_t n);
 void					print_file_error(char **str, int i);
-void					fd_in_helper(t_parse *temp, int *i);
+int						fd_in_helper(t_parse *temp, int *i, t_prompt *struc);
 void					heredoc_helper(char *temp, char *str[2]);
+int						check_heredoc_error(t_parse *temp, int *i);
 //fd_redirect_in.c
 char					*heredoc(char *limit);
 int						create_trunc_in(t_parse *temp, int *i);
 int						create_heredoc(t_parse *temp, int *i);
-int						heredoc_file(t_parse *node);
+int						heredoc_file(t_parse *node, t_prompt *struc);
 int						get_all_fd_in(t_prompt *struc);
+//fd_redirect_in_helper2.c
+void					print_warning(char *limit);
 //fd_redirect_out_helper.c
 int						trim_white(t_parse *node);
 void					append_out_case1(char *old, t_parse *temp, int *i);

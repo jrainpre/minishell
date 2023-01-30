@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:52:45 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:06:33 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern t_global	g_global;
 
 void	do_parent(int *fd, int *backup)
 {
@@ -34,7 +36,7 @@ void	wait_loop(t_parse *temp)
 {
 	while (temp != 0)
 	{
-		wrapper_wait(NULL);
+		wrapper_wait(&g_global.exit_status);
 		temp = temp->next;
 	}
 }
@@ -60,6 +62,7 @@ int	piper(t_parse *node, t_prompt *struc, int backup)
 	}
 	temp = struc->cmds;
 	wait_loop(temp);
+	update_exit_status();
 	if (backup != STDIN_FILENO)
 		wrapper_close(&backup);
 	return (1);

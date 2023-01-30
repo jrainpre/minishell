@@ -3,25 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   execute_and_file_error.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:55:03 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:04:42 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:00:25 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+extern t_global	g_global;
+
 void	error_to_fd(int fd, char *path, DIR *folder)
 {
 	if (ft_strchr(path, '/') == NULL)
+	{
 		ft_putendl_fd(": command not found", 2);
+		g_global.exit_status = 127;
+	}
 	else if (fd == -1 && folder == NULL)
+	{
 		ft_putendl_fd(": No such file or directory", 2);
+		g_global.exit_status = 127;
+	}
 	else if (fd == -1 && folder != NULL)
+	{
 		ft_putendl_fd(": is a directory", 2);
+		g_global.exit_status = 127;
+	}
 	else if (fd != -1 && folder == NULL)
+	{
 		ft_putendl_fd(": Permission denied", 2);
+		g_global.exit_status = 126;
+	}
 }
 
 int	error_message(char *path)

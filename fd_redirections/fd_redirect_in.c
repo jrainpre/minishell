@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:12:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:46:30 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+extern t_global	g_global;
+
 char	*heredoc(char *limit)
 {
-	char		*str[2];
-	char		*temp;
-	size_t		len;
+	char	*str[2];
+	char	*temp;
+	int		len;
 
 	len = 0;
 	str[0] = NULL;
@@ -27,8 +29,8 @@ char	*heredoc(char *limit)
 		heredoc_helper(temp, str);
 		if (!str[0])
 		{
-			put_error("ERROR!!");
-			break ;
+			print_warning(limit);
+			return (NULL);
 		}
 		temp = str[0];
 		str[0] = ft_strjoin(str[0], "\n");
@@ -67,32 +69,38 @@ int	create_heredoc(t_parse *temp, int *i)
 {
 	char	*str;
 
+	if (check_heredoc_error(temp, i) == 0)
+		return (0);
 	if (temp->full_cmd[*i][2] != '\0')
 	{
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
 		str = heredoc(temp->full_cmd[*i]);
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], \
-		temp->full_cmd[*i]);
+		if (str == NULL)
+			return (0);
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], temp->full_cmd[*i]);
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
-		free(str);
 	}
 	else
 	{
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
 		str = heredoc(temp->full_cmd[*i + 1]);
+		if (str == NULL)
+			return (0);
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1], \
-		temp->full_cmd[*i + 1]);
+			temp->full_cmd[*i + 1]);
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
-		free(str);
 	}
+	free(str);
 	return (1);
 }
 
-int	heredoc_file(t_parse *node)
+int	heredoc_file(t_parse *node, t_prompt *struc)
 {
-	int	fd;
+	int		fd;
+	char	*str;
 
-	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	str = ft_strjoin(".", ft_itoa(struc->rand));
+	fd = open(str, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd == -1)
 	{
 		put_error("ERROR!!");
@@ -100,8 +108,10 @@ int	heredoc_file(t_parse *node)
 	}
 	write(fd, node->heredoc, ft_strlen(node->heredoc));
 	close(fd);
-	fd = open(".tmp", O_RDONLY, 0777);
+	fd = open(str, O_RDONLY, 0777);
 	node->in = fd;
+	struc->rand--;
+	free(str);
 	return (0);
 }
 
@@ -120,7 +130,10 @@ int	get_all_fd_in(t_prompt *struc)
 	while (temp)
 	{
 		while (temp->full_cmd[i])
-			fd_in_helper(temp, &i);
+		{
+			if (fd_in_helper(temp, &i, struc) == 0)
+				return (0);
+		}
 		trim_white(temp);
 		temp = temp->next;
 		i = 0;

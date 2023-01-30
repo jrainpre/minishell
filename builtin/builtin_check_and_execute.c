@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_check_and_execute.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:45:26 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:22:30 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:01:44 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,26 @@ void	exec_cmd(t_parse *node, int to_fork)
 
 int	builtin(t_parse *node, t_prompt *struc)
 {
-	if (!ft_strncmp(node->full_cmd[0], ECHO, 4))
+	if (!ft_strncmp(node->full_cmd[0], ECHO, 5))
 		do_echo(node);
-	else if (!ft_strncmp(node->full_cmd[0], EXIT, 4))
+	else if (!ft_strncmp(node->full_cmd[0], EXIT, 5))
 		do_exit(struc, node);
-	else if (!ft_strncmp(node->full_cmd[0], CD, 2))
+	else if (!ft_strncmp(node->full_cmd[0], CD, 3))
 		do_cd(node);
-	else if (!ft_strncmp(node->full_cmd[0], PWD, 3))
+	else if (!ft_strncmp(node->full_cmd[0], PWD, 4))
 		do_pwd(node);
-	else if (!ft_strncmp(node->full_cmd[0], ENV, 3))
+	else if (!ft_strncmp(node->full_cmd[0], ENV, 4))
 		do_env(node);
-	else if (!ft_strncmp(node->full_cmd[0], EXPORT, 6))
+	else if (!ft_strncmp(node->full_cmd[0], EXPORT, 7))
 		do_export(node);
-	else if (!ft_strncmp(node->full_cmd[0], UNSET, 5))
+	else if (!ft_strncmp(node->full_cmd[0], UNSET, 6))
 		do_unset(node);
+	else
+	{
+		put_error("minishell: ");
+		put_error(node->full_cmd[0]);
+		put_error(": command not found\n");
+	}
 	return (0);
 }
 

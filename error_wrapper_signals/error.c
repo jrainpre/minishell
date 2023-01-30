@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:22:06 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:51:29 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:04:04 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ int	check_error(t_parse *node)
 void	put_error(char *str)
 {
 	ft_putstr_fd(str, 2);
+	g_global.exit_status = 127;
 }

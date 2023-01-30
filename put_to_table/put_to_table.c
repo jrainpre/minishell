@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   put_to_table.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:40:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:06:44 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:51:08 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	put_to_table(char **str, t_prompt *struc)
+void	put_to_table(char **str, t_prompt *struc)
 {
 	int		i;
 	int		j;
@@ -25,6 +25,7 @@ int	put_to_table(char **str, t_prompt *struc)
 	j = 0;
 	k = 0;
 	add_nodes(struc, count);
+	struc->rand = count + 1;
 	temp = struc->cmds;
 	temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
 	while (str[i])
@@ -38,7 +39,6 @@ int	put_to_table(char **str, t_prompt *struc)
 			j = 0;
 		}
 	}
-	return (0);
 }
 
 void	add_nodes(t_prompt *struc, int ammount)

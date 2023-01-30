@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:55:41 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:04:54 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:02:39 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,7 @@ int	do_echo(t_parse *node)
 		else
 			put_to_stdout(node, &i);
 	}
+	else
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
