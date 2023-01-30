@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 15:51:46 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:11:56 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define USER "USER"
 
 struct	s_env_list;
+struct	s_read_input;
 typedef struct s_parse
 {
 	char				**full_cmd;
@@ -65,6 +66,7 @@ typedef struct s_prompt
 	int					exit_flag;
 	int					exit_return_val;
 	int					rand;
+	struct	s_read_input				*input;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -125,7 +127,7 @@ char					*find_command(char **env_path, char *cmd,
 void					trim_full_cmd(t_parse *node);
 int						build_path(t_parse *node);
 // builtin_check_and_execute.c
-void					exec_cmd(t_parse *node, int to_fork);
+void					exec_cmd(t_parse *node, t_prompt *struc, int to_fork);
 int						builtin(t_parse *node, t_prompt *struc);
 int						is_bultin(t_parse *node);
 void					cmd_exec(t_parse *node, t_prompt *struc, int to_fork);
@@ -198,9 +200,7 @@ int						add_env_no_value(t_env_list *env, char *str);
 //export_sort_dup_delete.c
 void					delete_env_value(t_env_list *env_lst, char *name);
 void					free_env_lst(t_env_list *env_lst);
-void					duplicate_list_helper(t_env_list *new,
-							t_env_list *temp);
-t_env_list				*duplicate_list(t_env_list *env_lst);
+t_env_list				*duplicate_list(t_env_list *env_lst, t_env_list *new);
 t_env_list				*sort_list_alphabetically(t_env_list *env_lst);
 //export.c
 int						export_env_helper(char *name, int *i, t_env_list *env,
@@ -273,7 +273,7 @@ char					*ft_word(t_input *input, int i);
 void					split_input_helper(t_input *input, int *i, int *j);
 void					ft_split_input(t_input *input);
 // prepare_input_string_helper.c
-int						prepare_input_string_do(char *str, int *i);
+int						prepare_input_string_do(char **str, int *i);
 char					*prepare_input_string(char *str);
 int						check_lastpos_is_space(char *str, int i);
 int						check_nextpos_is_space(char *str, int i);

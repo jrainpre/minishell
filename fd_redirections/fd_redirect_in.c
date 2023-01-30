@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 15:46:30 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 18:51:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,29 @@ int	create_trunc_in(t_parse *temp, int *i)
 int	create_heredoc(t_parse *temp, int *i)
 {
 	char	*str;
+	char	*temp_str;
 
 	if (check_heredoc_error(temp, i) == 0)
 		return (0);
 	if (temp->full_cmd[*i][2] != '\0')
 	{
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
+		str = temp->full_cmd[*i];
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
+		free(str);
 		str = heredoc(temp->full_cmd[*i]);
 		if (str == NULL)
 			return (0);
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], temp->full_cmd[*i]);
+		free(temp->full_cmd[*i]);
+		temp->full_cmd[*i] = ft_strdup("");
+		// free(str);
+		temp_str = temp->heredoc;
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
+		free(str);
+		free(temp_str);
 	}
 	else
 	{
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<<");
+		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
 		str = heredoc(temp->full_cmd[*i + 1]);
 		if (str == NULL)
 			return (0);
@@ -90,7 +98,7 @@ int	create_heredoc(t_parse *temp, int *i)
 			temp->full_cmd[*i + 1]);
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
 	}
-	free(str);
+	// free(str);
 	return (1);
 }
 
@@ -98,8 +106,11 @@ int	heredoc_file(t_parse *node, t_prompt *struc)
 {
 	int		fd;
 	char	*str;
+	char	*temp;
 
-	str = ft_strjoin(".", ft_itoa(struc->rand));
+	temp = ft_itoa(struc->rand);
+	str = ft_strjoin(".", temp);
+	free(temp);
 	fd = open(str, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd == -1)
 	{

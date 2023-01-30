@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
+#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/30 15:41:43 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/30 16:34:52 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,6 +150,10 @@ run:		all
 			./${NAME}
 
 val: 		all
-			valgrind --leak-check=full --show-leak-kinds=all ./${NAME}
+			valgrind --leak-check=full \
+            --show-leak-kinds=all \
+            --track-origins=yes \
+            --verbose \
+            --log-file=valgrind-out.txt ./${NAME}
 
 .PHONY:		all clean fclean re

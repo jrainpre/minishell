@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:26:58 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:54:00 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	process_intput(t_prompt *struc, t_env_list *env_lst,
 		return (1);
 	delete_closed_quotes_struc(struc);
 	trim_nodes(struc);
+	struc->input = input;
 	return (0);
 }
 

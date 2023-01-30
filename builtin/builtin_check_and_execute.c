@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_check_and_execute.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:45:26 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 15:01:44 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:48:27 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 extern t_global	g_global;
 
-void	exec_cmd(t_parse *node, int to_fork)
+void	exec_cmd(t_parse *node, t_prompt *struc, int to_fork)
 {
 	build_path(node);
 	if (check_error(node))
+	{
+		if (to_fork == 0)
+			clean_exit(struc, struc->input);
 		return ;
+		}
 	else
 	{
 		run_signals(2);
@@ -89,7 +93,11 @@ int	is_bultin(t_parse *node)
 void	cmd_exec(t_parse *node, t_prompt *struc, int to_fork)
 {
 	if (is_bultin(node))
+	{
 		builtin(node, struc);
+		if (to_fork == 0)
+			clean_exit(struc, struc->input);
+	}
 	else
-		exec_cmd(node, to_fork);
+		exec_cmd(node, struc, to_fork);
 }

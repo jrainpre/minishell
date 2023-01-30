@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:51:47 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:05:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:11:12 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,11 @@ void	free_env_lst(t_env_list *env_lst)
 	}
 }
 
-void	duplicate_list_helper(t_env_list *new, t_env_list *temp)
+t_env_list	*duplicate_list(t_env_list *env_lst, t_env_list *new)
 {
-	new->next = malloc(sizeof(t_env_list));
-	new = new->next;
-	new->name = ft_strdup(temp->name);
-	new->value = ft_strdup(temp->value);
-	new->next = NULL;
-}
-
-t_env_list	*duplicate_list(t_env_list *env_lst)
-{
-	t_env_list	*new;
 	t_env_list	*temp;
 	t_env_list	*head;
 
-	new = NULL;
 	temp = env_lst;
 	while (temp)
 	{
@@ -79,7 +68,13 @@ t_env_list	*duplicate_list(t_env_list *env_lst)
 			head = new;
 		}
 		else
-			duplicate_list_helper(new, temp);
+		{
+			new->next = malloc(sizeof(t_env_list));
+			new = new->next;
+			new->name = ft_strdup(temp->name);
+			new->value = ft_strdup(temp->value);
+			new->next = NULL;
+		}
 		temp = temp->next;
 	}
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:05:51 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:12:18 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_export_list(t_env_list *env_lst)
 	t_env_list	*sort_copy;
 	t_env_list	*temp;
 
-	sort_copy = duplicate_list(env_lst);
+	sort_copy = duplicate_list(env_lst, NULL);
 	sort_copy = sort_list_alphabetically(sort_copy);
 	temp = sort_copy;
 	while (temp)

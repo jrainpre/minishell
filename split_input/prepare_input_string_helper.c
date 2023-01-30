@@ -6,22 +6,22 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 09:40:41 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:07:27 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:29:32 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	prepare_input_string_do(char *str, int *i)
+int	prepare_input_string_do(char **str, int *i)
 {
-	if (check_lastpos_is_space(str, *i))
+	if (check_lastpos_is_space(*str, *i))
 	{
-		str = add_space_before_this_position(str, i);
+		*str = add_space_before_this_position(*str, i);
 		return (1);
 	}
-	if (check_nextpos_is_space(str, *i))
+	if (check_nextpos_is_space(*str, *i))
 	{
-		str = add_space_after_this_position(str, i);
+		*str = add_space_after_this_position(*str, i);
 		return (1);
 	}
 	return (0);
@@ -43,7 +43,7 @@ char	*prepare_input_string(char *str)
 		check_if_qoute(&in_s_q, &in_d_q, str[i]);
 		if (check_if_unquoted_special_char(str, i, &in_s_q, &in_d_q))
 		{
-			if (prepare_input_string_do(str, &i) == 1)
+			if (prepare_input_string_do(&str, &i) == 1)
 				continue ;
 		}
 	}
