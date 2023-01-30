@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:23:08 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 17:42:39 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:42:12 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	run_signals(int sig)
 	}
 	if (sig == 3)
 	{
-		printf("exit");
+		ft_printf("exit");
 		exit(0);
 	}
 }
