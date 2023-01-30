@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 15:29:32 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/29 20:29:42 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,20 @@ int	pointer_count(char **str, int *i)
 	return (count);
 }
 
+void	put_table_non_pipe(char **str, t_parse *temp, int *i, int *j)
+{
+	temp->full_cmd[*j] = ft_strdup(str[*i]);
+	*j += 1;
+	*i += 1;
+}
+
+void	put_table_pipe(char **str, t_parse *temp, int *k, int *i)
+{
+	if (temp != NULL)
+		temp->full_cmd = ft_calloc((pointer_count(str, k) + 1), sizeof(char *));
+	*i += 1;
+}
+
 int	put_to_table(char **str, t_prompt *struc)
 {
 	int		i;
@@ -153,17 +167,11 @@ int	put_to_table(char **str, t_prompt *struc)
 	while (str[i])
 	{
 		if (str[i][0] != '|')
-		{
-			temp->full_cmd[j] = ft_strdup(str[i]);
-			j++;
-			i++;
-		}
+			put_table_non_pipe(str, temp, &i, &j);
 		else if (str[i][0] == '|')
 		{
 			temp = temp->next;
-			if (temp != NULL)
-				temp->full_cmd = ft_calloc((pointer_count(str, &k) + 1), sizeof(char *));
-			i++;
+			put_table_pipe(str, temp, &k, &i);
 			j = 0;
 		}
 	}

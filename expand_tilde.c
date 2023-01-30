@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tilde.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 11:49:43 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:18:51 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ void expand_tilde(t_parse *node)
 		i++;
 	}
 }
-	
-
 
 char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr)
 {

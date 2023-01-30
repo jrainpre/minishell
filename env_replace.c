@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 12:54:40 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:13:16 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int	not_dollar(char *arg, int i)
 			return (0);
 	}
 	return (1);
+}
+
+void	update_full_cmd(t_parse *node, char *name, char *dollar_pos, int *i)
+{
+	node->full_cmd[*i] = get_new_str_env(node->full_cmd[*i], name,
+					dollar_pos);
 }
 
 void	include_env(t_parse *node)
@@ -47,8 +53,7 @@ void	include_env(t_parse *node)
 			}
 			name = get_env_name(dollar_pos, node->env);
 			temp = node->full_cmd[i];
-			node->full_cmd[i] = get_new_str_env(node->full_cmd[i], name,
-					dollar_pos);
+			update_full_cmd(node, name, dollar_pos, &i);
 			free(temp);
 		}
 	}

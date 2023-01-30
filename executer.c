@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 13:26:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:18:13 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ void    do_child(t_parse *node, t_prompt *struc, int *fd, int *backup)
     wrapper_close(&fd[0]);
     cmd_exec(node, struc, 0);
 }
+
+void    wait_loop(t_parse *temp)
+{
+    while (temp != 0)
+    {
+        wrapper_wait(NULL);
+        temp = temp->next;
+    }
+}
+
 int    piper(t_parse *node, t_prompt *struc, int backup)
 {
     int        fd[2];
@@ -49,11 +59,7 @@ int    piper(t_parse *node, t_prompt *struc, int backup)
             }
         }
         temp = struc->cmds;
-        while (temp != 0)
-        {
-            wrapper_wait(NULL);
-            temp = temp->next;
-        }
+        wait_loop(temp);
         if (backup != STDIN_FILENO)
             wrapper_close(&backup);
     return (1);
