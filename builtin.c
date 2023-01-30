@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:46:26 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:35:46 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,14 @@ char	**env_list_to_array(t_env_list *env_lst)
 		temp = temp->next;
 	}
 	envp = malloc(sizeof(char *) * (i + 1));
-	i = 0;
+	i = -1;
 	temp = env_lst;
 	while (temp)
 	{
-		envp[i] = ft_strjoin(temp->name, "=");
+		envp[++i] = ft_strjoin(temp->name, "=");
 		to_free = envp[i];
 		envp[i] = ft_strjoin(envp[i], temp->value);
 		free(to_free);
-		i++;
 		temp = temp->next;
 	}
 	envp[i] = NULL;

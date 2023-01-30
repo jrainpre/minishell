@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 10:00:49 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:21:36 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <string.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -41,7 +41,7 @@
 # define PARSE_ERROR "minishell: parse error near \'\\n'"
 # define GREEN "\001\033[1;92m\002"
 # define WHITE "\033[0;37m"
-# define PROMPT "minishell $> "
+# define PROMPT "\001\033[1;92m\002minishell $> \033[0;37m"
 # define USER "USER"
 
 struct s_env_list;
@@ -162,7 +162,7 @@ void					do_parent(t_parse *node, int *fd, int *backup);
 void					do_child(t_parse *node, t_prompt *struc, int *fd,
 							int *backup);
 int						piper(t_parse *node, t_prompt *struc, int backup);
-void						executer(t_parse *node, t_prompt *struc);
+void					executer(t_parse *node, t_prompt *struc);
 
 char					*find_not_in_squoutes_char(char *str, char c);
 char					*get_new_str_exitstatus(char *str, char *envvar,
@@ -184,17 +184,13 @@ void					cmd_exec(t_parse *node, t_prompt *struc, int to_fork);
 int						is_bultin(t_parse *node);
 int						error_message(char *path);
 
-int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst);
+int						minishell(t_prompt *struc, t_parse *node,
+							t_env_list *env_lst);
 
- void include_env_struc(t_prompt *struc);
- void expand_tilde_struc(t_prompt *struc);
-void delete_closed_quotes_struc(t_prompt *struc);
+void					include_env_struc(t_prompt *struc);
+void					expand_tilde_struc(t_prompt *struc);
+void					delete_closed_quotes_struc(t_prompt *struc);
 
-
-int check_pos_not_in_quotes_test(char *str, char *pos);
-
-
-
-
+int						check_pos_not_in_quotes_test(char *str, char *pos);
 
 #endif

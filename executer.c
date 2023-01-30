@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:47:55 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:20:44 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,6 @@ int	piper(t_parse *node, t_prompt *struc, int backup)
 	wait_loop(temp);
 	if (backup != STDIN_FILENO)
 		wrapper_close(&backup);
-	return (1);
-}
-
-int	executer(t_parse *node, t_prompt *struc)
-{
-	if (node->next == NULL)
-		cmd_exec(node, struc, 1);
-	else
-		piper(node, struc, STDIN_FILENO);
 	return (1);
 }
 

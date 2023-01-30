@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 09:48:11 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:17:57 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_strncmp_special(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-void	heredoc_helper(t_parse *temp, char *str[2])
+void	heredoc_helper(char *temp, char *str[2])
 {
 	temp = str[1];
 	str[1] = ft_strjoin(str[1], str[0]);

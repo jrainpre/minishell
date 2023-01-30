@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:58:54 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 09:49:04 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:26:08 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ int	add_env_no_value(t_env_list *env, char *str)
 	return (1);
 }
 
-void	export_env_helper(char *name, int *i, t_env_list *env, char **args)
+int	export_env_helper(char *name, int *i, t_env_list *env, char **args)
 {
 	name = ft_substr(args[*i], 0, ft_strchr(args[*i], '=') - args[*i]);
 	if (is_valid_env(args[*i]) == 0)
@@ -278,6 +278,7 @@ void	export_env_helper(char *name, int *i, t_env_list *env, char **args)
 	else
 		changevalue(env, args[*i]);
 	free(name);
+	return (0);
 }
 
 int	export_env(t_env_list *env, char **args)
@@ -294,7 +295,10 @@ int	export_env(t_env_list *env, char **args)
 	{
 		i = -1;
 		while (args[++i])
-			export_env_helper(name, &i, env, args);
+		{
+			if (export_env_helper(name, &i, env, args) == 1)
+				return (1);
+		}
 	}
 	return (1);
 }
@@ -302,8 +306,8 @@ int	export_env(t_env_list *env, char **args)
 void	export_not_valid(char *str)
 {
 	ft_putstr_fd("minishell: export: `", 2);
-	ft_putendl_fd(str, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 	g_global.exit_status = 1;
 }
 
