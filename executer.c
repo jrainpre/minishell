@@ -6,11 +6,13 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 10:20:44 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 11:19:25 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_global	g_global;
 
 void	do_parent(t_parse *node, int *fd, int *backup)
 {
@@ -34,9 +36,15 @@ void	wait_loop(t_parse *temp)
 {
 	while (temp != 0)
 	{
-		wrapper_wait(NULL);
+		wrapper_wait(&g_global.exit_status);
 		temp = temp->next;
 	}
+}
+
+void	update_exit_status()
+{
+	if (g_global.exit_status != 0 && g_global.exit_status != 1 && g_global.exit_status != 2)
+		g_global.exit_status = 127;
 }
 
 int	piper(t_parse *node, t_prompt *struc, int backup)
@@ -60,6 +68,7 @@ int	piper(t_parse *node, t_prompt *struc, int backup)
 	}
 	temp = struc->cmds;
 	wait_loop(temp);
+	update_exit_status();
 	if (backup != STDIN_FILENO)
 		wrapper_close(&backup);
 	return (1);
