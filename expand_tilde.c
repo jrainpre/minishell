@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tilde.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:42:05 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 11:49:43 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:36:19 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_new_str_tilde(char *str, char *envvar, char *ptr)
 	return (new);
 }
 
-void expand_tilde(t_parse *node)
+void expand_tilde_node(t_parse *node)
 {
 	char	*tilde_pos;
 	char	*name;
@@ -68,7 +68,18 @@ void expand_tilde(t_parse *node)
 		i++;
 	}
 }
-	
+
+void expand_tilde_struc(t_prompt *struc)
+{
+	t_parse *temp;
+
+	temp = struc->cmds;
+	while (temp)
+	{
+		expand_tilde_node(temp);
+		temp = temp->next;
+	}
+}
 
 
 char	*get_new_str_exitstatus(char *str, char *envvar, char *ptr)

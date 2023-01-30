@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 13:34:10 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:31:50 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <string.h>
 
 # define ECHO "echo"
 # define CD "cd"
@@ -40,7 +41,7 @@
 # define PARSE_ERROR "minishell: parse error near \'\\n'"
 # define GREEN "\001\033[1;92m\002"
 # define WHITE "\033[0;37m"
-# define PROMPT "\001\033[1;92m\002minishell $> \033[0;37m"
+# define PROMPT "minishell $> "
 # define USER "USER"
 
 struct s_env_list;
@@ -69,7 +70,6 @@ typedef struct s_prompt
 typedef struct s_read_input
 {
 	char				*str;
-	char				c;
 	int					double_open;
 	int					single_open;
 	char				**output;
@@ -154,7 +154,7 @@ void					expand_tilde(t_parse *node);
 int						new_len_no_quotes(char *str);
 char					*delete_closed_quotes_str(char *str, int s_quotes,
 							int d_quotes);
-void					delete_closed_quotes_cmd(t_parse *node);
+void					delete_closed_quotes_node(t_parse *node);
 void					put_error(char *str);
 int						is_builtin(t_parse *node);
 void					restore_stdin(int saved);
@@ -162,7 +162,7 @@ void					do_parent(t_parse *node, int *fd, int *backup);
 void					do_child(t_parse *node, t_prompt *struc, int *fd,
 							int *backup);
 int						piper(t_parse *node, t_prompt *struc, int backup);
-int						executer(t_parse *node, t_prompt *struc);
+void						executer(t_parse *node, t_prompt *struc);
 
 char					*find_not_in_squoutes_char(char *str, char c);
 char					*get_new_str_exitstatus(char *str, char *envvar,
@@ -178,11 +178,23 @@ void					wrapper_wait(int *status);
 int						ft_strisnum(char *str);
 void					shell_level_plus_one(t_prompt *struc);
 int						check_error(t_parse *node);
-void					clean_exit(t_prompt *struc, t_env_list *env_lst,
-							t_input *input);
+void					clean_exit(t_prompt *struc, t_input *input);
 
 void					cmd_exec(t_parse *node, t_prompt *struc, int to_fork);
 int						is_bultin(t_parse *node);
 int						error_message(char *path);
+
+int minishell(t_prompt *struc, t_parse *node, t_env_list *env_lst);
+
+ void include_env_struc(t_prompt *struc);
+ void expand_tilde_struc(t_prompt *struc);
+void delete_closed_quotes_struc(t_prompt *struc);
+
+
+int check_pos_not_in_quotes_test(char *str, char *pos);
+
+
+
+
 
 #endif

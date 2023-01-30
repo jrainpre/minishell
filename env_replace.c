@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 12:54:40 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/27 22:36:20 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	not_dollar(char *arg, int i)
 	return (1);
 }
 
-void	include_env(t_parse *node)
+void	include_env_node(t_parse *node)
 {
 	char	*dollar_pos;
 	char	*name;
@@ -54,6 +54,18 @@ void	include_env(t_parse *node)
 	}
 }
 
+void include_env_struc(t_prompt *struc)
+{
+	t_parse	*node;
+
+	node = struc->cmds;
+	while (node)
+	{
+		include_env_node(node);
+		node = node->next;
+	}
+}
+
 char	*get_new_str_env(char *str, char *envvar, char *ptr)
 {
 	char	*new;
@@ -67,7 +79,7 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (str[i] != '\0' && str[i] != ' ' && not_dollar(ptr, i))
+	while (str[i] != '\0' && str[i] != ' ' && str[i] != '"' && str[i] != '\'' && not_dollar(ptr, i))
 		i++;
 	while (new[j])
 		j++;

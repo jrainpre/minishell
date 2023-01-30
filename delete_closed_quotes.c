@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_closed_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:10:27 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/25 17:27:18 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/27 18:41:12 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*delete_closed_quotes_str(char *str, int s_quotes, int d_quotes)
 	return (new);
 }
 
-void	delete_closed_quotes_cmd(t_parse *node)
+void	delete_closed_quotes_node(t_parse *node)
 {
 	int		i;
 	char	*temp;
@@ -75,5 +75,17 @@ void	delete_closed_quotes_cmd(t_parse *node)
 		node->full_cmd[i] = delete_closed_quotes_str(node->full_cmd[i], 0, 0);
 		i++;
 		free(temp);
+	}
+}
+
+void delete_closed_quotes_struc(t_prompt *struc)
+{
+	t_parse	*temp;
+
+	temp = struc->cmds;
+	while (temp)
+	{
+		delete_closed_quotes_node(temp);
+		temp = temp->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonathanrainprechter <jonathanrainprech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 10:24:45 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/27 10:19:42 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:04:13 by jonathanrai      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	check_valid_filename(t_parse *node)
 int	trim_white(t_parse *node)
 {
 	int	i;
-	char	*old;
+	char *old;
 	
 	i = 0;
 	if (**node->full_cmd == '\0')
 	{
 		while (node->full_cmd[i])
 		{
-			if (node->full_cmd[i + 1])
+		if (node->full_cmd[i + 1])
 			{
 				old = node->full_cmd[i];
 				node->full_cmd[i] = ft_strdup(node->full_cmd[i + 1]);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
+#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/27 14:39:56 by mkoller          ###   ########.fr        #
+#    Updated: 2023/01/30 09:32:22 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRCS        :=      libft/ft_printf.c \
                           libft/ft_strcat.c \
                           libft/ft_delete_char.c \
                           libft/ft_get_str_index_of_pos.c \
+                          libft/ft_is_whitespace.c \
                           parse_input.c \
                           env_replace.c \
                           safe_env_in_lst.c \
