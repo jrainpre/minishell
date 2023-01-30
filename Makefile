@@ -6,7 +6,7 @@
 #    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/30 14:38:27 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/30 14:49:20 by jrainpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,6 @@ SRCS        :=      libft/ft_printf.c \
                           put_to_table/free_suff.c \
                           put_to_table/put_to_table.c \
                           builtin/execute_and_file_error.c \
-                          builtin/builtin.c \
                           builtin/build_path.c \
                           builtin/executer.c \
                           builtin/builtin_check_and_execute.c \

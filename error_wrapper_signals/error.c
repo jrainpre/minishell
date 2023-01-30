@@ -6,11 +6,11 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 09:22:06 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:47:14 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:51:29 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 extern t_global	g_global;
 
