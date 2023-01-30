@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:42:38 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 11:02:49 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/30 11:28:05 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,12 @@ int	builtin(t_parse *node, t_prompt *struc, int to_fork)
 		do_export(node);
 	else if (!ft_strncmp(node->full_cmd[0], UNSET, 6))
 		do_unset(node);
+	else
+	{
+		put_error("minishell: ");
+		put_error(node->full_cmd[0]);
+		put_error(": command not found\n");	
+	}
 	return (0);
 }
 
