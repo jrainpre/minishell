@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 08:32:50 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:07:07 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 13:11:17 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_not_in_d_quotes_inpos(char *str, int *double_q)
 {
+	if (!str[1])
+		return (0);
 	if (*double_q == 0)
 		return (1);
 	else if (!ft_strchr(++str, '\"'))
@@ -24,6 +26,8 @@ int	check_not_in_d_quotes_inpos(char *str, int *double_q)
 
 int	check_not_in_s_quotes_inpos(char *str, int *single_q)
 {
+	if (!str[1])
+		return (0);
 	if (*single_q == 0)
 		return (1);
 	else if (!ft_strchr(++str, '\''))

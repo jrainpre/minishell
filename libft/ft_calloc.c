@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 14:03:40 by jrainpre          #+#    #+#             */
-/*   Updated: 2022/10/12 17:18:52 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 13:14:58 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	space = size * nmemb;
 	if (size > 4294967294 || nmemb > 4294967294)
 		return (NULL);
-	p = malloc(space);
+	p = malloc(space + 100);
 	if (p == NULL)
 		return (NULL);
 	i = 0;

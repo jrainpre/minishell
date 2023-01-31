@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/31 10:04:53 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/31 11:43:20 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,12 @@ int	read_line_take_input(t_env_list *env_lst,
 		clean_interrupt(env_lst, input, struc);
 		run_signals(3);
 	}
-	if (ft_is_whitespace(input->str[0]))
+	if (!ft_is_str_whitespace(input->str))
+	{
+		free(input->str);
+		input->str = NULL;
 		return (1);
+	}
 	input->str = prepare_input_string(input->str);
 	add_history(input->str);
 	ft_split_input(input);

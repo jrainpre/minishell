@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 10:32:01 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:05:11 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 12:53:02 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_env_name(char *arg, t_env_list *env_lst)
 	while (arg[i] && (arg[i] != ' ' && arg[i] != '\'' && arg[i] != '\"'
 			&& not_dollar(arg, i)))
 		i++;
-	env_name = calloc(i + 1, 1);
+	env_name = ft_calloc(i + 1, 1);
 	arg++;
 	i = 0;
 	while (arg[i] && (arg[i] != ' ' && arg[i] != '\'' && arg[i] != '\"'
