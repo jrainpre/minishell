@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/31 10:35:31 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/31 10:41:45 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void					clean_loop(t_prompt *struc, t_input *input);
 void					init_prompt(t_prompt *struc, t_env_list *env_lst);
 void					init_node(t_parse *node);
 void					free_heredoc(t_parse *cmds);
+void					unlink_all(t_prompt *struc);
 //put_to_table_helper.c
 int						count_pipes(char **split);
 int						count_redirect(char **split);
