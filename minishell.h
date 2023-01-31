@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 17:11:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 09:57:14 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void					clean_loop(t_prompt *struc, t_input *input);
 //init_suff.c
 void					init_prompt(t_prompt *struc, t_env_list *env_lst);
 void					init_node(t_parse *node);
+void					unlink_all(t_prompt *struc);
 //put_to_table_helper.c
 int						count_pipes(char **split);
 int						count_redirect(char **split);

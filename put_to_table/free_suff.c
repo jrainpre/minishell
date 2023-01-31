@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:37:57 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 18:46:16 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 09:59:28 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	free_table(char **table)
 
 void	clean_interrupt(t_env_list *env_lst, t_input *input)
 {
-	unlink(".*");
 	free(input->str);
 	free_env_lst(env_lst);
 }
@@ -82,9 +81,9 @@ void	free_heredoc(t_parse *cmds)
 
 void	clean_exit(t_prompt *struc, t_input *input)
 {
-	unlink(".*");
+	unklink_all(struc);
 	free(struc->cmds->heredoc);
-	// free_heredoc(struc->cmds);
+	free_heredoc(struc->cmds);
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);
@@ -93,7 +92,7 @@ void	clean_exit(t_prompt *struc, t_input *input)
 
 void	clean_loop(t_prompt *struc, t_input *input)
 {
-	unlink(".*");
+	unklink_all(struc);
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);
