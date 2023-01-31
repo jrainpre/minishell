@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirect_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 18:51:00 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 09:35:57 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,26 @@ int	create_heredoc(t_parse *temp, int *i)
 		// free(str);
 		temp_str = temp->heredoc;
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
-		free(str);
+		//free(str);
 		free(temp_str);
 	}
 	else
 	{
+		str = temp->full_cmd[*i];
 		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
+		free(str);
 		str = heredoc(temp->full_cmd[*i + 1]);
 		if (str == NULL)
 			return (0);
+		//free(temp->full_cmd[*i]);
+		temp_str = temp->heredoc;
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1], \
 			temp->full_cmd[*i + 1]);
 		temp->heredoc = ft_strjoin(temp->heredoc, str);
+		//free(str);
+		free(temp_str);
 	}
-	// free(str);
+	free(str);
 	return (1);
 }
 
