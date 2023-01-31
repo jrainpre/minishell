@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 17:11:56 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:35:31 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,13 @@ typedef struct s_global
 void					free_prompt(t_prompt *struc);
 void					free_table(char **table);
 void					clean_interrupt(t_env_list *env_lst,
-							t_input *input);
+							t_input *input, t_prompt *struc);
 void					clean_exit(t_prompt *struc, t_input *input);
 void					clean_loop(t_prompt *struc, t_input *input);
 //init_suff.c
 void					init_prompt(t_prompt *struc, t_env_list *env_lst);
 void					init_node(t_parse *node);
+void					free_heredoc(t_parse *cmds);
 //put_to_table_helper.c
 int						count_pipes(char **split);
 int						count_redirect(char **split);
@@ -220,9 +221,12 @@ int						check_heredoc_error(t_parse *temp, int *i);
 //fd_redirect_in.c
 char					*heredoc(char *limit);
 int						create_trunc_in(t_parse *temp, int *i);
-int						create_heredoc(t_parse *temp, int *i);
 int						heredoc_file(t_parse *node, t_prompt *struc);
 int						get_all_fd_in(t_prompt *struc);
+//heredoc_helper.c
+int    				create_heredoc_space(t_parse *temp, int *i);
+int    				create_heredoc_no_space(t_parse *temp, int *i);
+int						create_heredoc(t_parse *temp, int *i);
 //fd_redirect_in_helper2.c
 void					print_warning(char *limit);
 //fd_redirect_out_helper.c
@@ -305,7 +309,7 @@ void					wrapper_close(int *fd);
 void					wrapper_wait(int *status);
 //minishell.c
 int						read_line_take_input(t_env_list *env_lst, \
-						t_input *input);
+						t_input *input, t_prompt *struc);
 int						process_intput(t_prompt *struc, t_env_list *env_lst,
 							t_input *input);
 int						minishell(t_prompt *struc, t_env_list *env_lst);

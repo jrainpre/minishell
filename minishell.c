@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 08:06:40 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 16:54:00 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:04:53 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	main(int argc, char **argv, char **envp)
 }
 
 int	read_line_take_input(t_env_list *env_lst,
-		t_input *input)
+		t_input *input, t_prompt *struc)
 {
 	run_signals(1);
 	input->str = readline(PROMPT);
 	if (!input->str)
 	{
-		clean_interrupt(env_lst, input);
+		clean_interrupt(env_lst, input, struc);
 		run_signals(3);
 	}
 	if (ft_is_whitespace(input->str[0]))
@@ -75,7 +75,7 @@ int	minishell(t_prompt *struc, t_env_list *env_lst)
 
 	while (1)
 	{
-		if (read_line_take_input(env_lst, &input))
+		if (read_line_take_input(env_lst, &input, struc))
 			continue ;
 		if (process_intput(struc, env_lst, &input))
 		{

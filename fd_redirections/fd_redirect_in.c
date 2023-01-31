@@ -6,7 +6,7 @@
 /*   By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:40:39 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/31 09:35:57 by mkoller          ###   ########.fr       */
+/*   Updated: 2023/01/31 10:26:43 by mkoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,49 +62,6 @@ int	create_trunc_in(t_parse *temp, int *i)
 		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1], \
 		temp->full_cmd[*i + 1]);
 	}
-	return (1);
-}
-
-int	create_heredoc(t_parse *temp, int *i)
-{
-	char	*str;
-	char	*temp_str;
-
-	if (check_heredoc_error(temp, i) == 0)
-		return (0);
-	if (temp->full_cmd[*i][2] != '\0')
-	{
-		str = temp->full_cmd[*i];
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
-		free(str);
-		str = heredoc(temp->full_cmd[*i]);
-		if (str == NULL)
-			return (0);
-		free(temp->full_cmd[*i]);
-		temp->full_cmd[*i] = ft_strdup("");
-		// free(str);
-		temp_str = temp->heredoc;
-		temp->heredoc = ft_strjoin(temp->heredoc, str);
-		//free(str);
-		free(temp_str);
-	}
-	else
-	{
-		str = temp->full_cmd[*i];
-		temp->full_cmd[*i] = ft_strtrim(temp->full_cmd[*i], "<");
-		free(str);
-		str = heredoc(temp->full_cmd[*i + 1]);
-		if (str == NULL)
-			return (0);
-		//free(temp->full_cmd[*i]);
-		temp_str = temp->heredoc;
-		temp->full_cmd[*i + 1] = ft_strtrim(temp->full_cmd[*i + 1], \
-			temp->full_cmd[*i + 1]);
-		temp->heredoc = ft_strjoin(temp->heredoc, str);
-		//free(str);
-		free(temp_str);
-	}
-	free(str);
 	return (1);
 }
 

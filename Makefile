@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+         #
+#    By: mkoller <mkoller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 15:05:43 by mkoller           #+#    #+#              #
-#    Updated: 2023/01/30 16:34:52 by jrainpre         ###   ########.fr        #
+#    Updated: 2023/01/31 10:34:03 by mkoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ SRCS        :=      libft/ft_printf.c \
                           error_wrapper_signals/exit.c \
                           error_wrapper_signals/wrapper.c \
                           error_wrapper_signals/error.c \
-                          
+                          fd_redirections/heredoc_helper.c \
 
                           
 OBJS        := $(SRCS:.c=.o)
