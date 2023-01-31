@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:37:57 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/31 10:42:42 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:43:03 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	clean_interrupt(t_env_list *env_lst, t_input *input, t_prompt *struc)
 
 void	clean_exit(t_prompt *struc, t_input *input)
 {
-	unlink(".*");
+	unlink_all(struc);
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);
@@ -76,7 +76,7 @@ void	clean_exit(t_prompt *struc, t_input *input)
 void	clean_loop(t_prompt *struc, t_input *input)
 {
 	free_heredoc(struc->cmds);
-	unlink(".*");
+	unlink_all(struc);
 	free_prompt(struc);
 	free(input->str);
 	free_table(input->output);

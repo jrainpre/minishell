@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:45:26 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 17:48:27 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:54:03 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 extern t_global	g_global;
 
+static void	check_fork_clean(int to_fork, t_prompt *struc)
+{
+	if (to_fork == 0)
+		clean_exit(struc, struc->input);
+}
+
 void	exec_cmd(t_parse *node, t_prompt *struc, int to_fork)
 {
 	build_path(node);
 	if (check_error(node))
 	{
-		if (to_fork == 0)
-			clean_exit(struc, struc->input);
-		return ;
-		}
+		check_fork_clean(to_fork, struc);
+	}
 	else
 	{
 		run_signals(2);

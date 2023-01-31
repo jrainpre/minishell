@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 09:27:23 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 18:15:52 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:57:27 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static int	ft_is_valid(char c, char const *set)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char 	*str;
-	size_t 	i;
-	size_t 	start;
-	size_t 	end;
+	char	*str;
+	size_t	i;
+	size_t	start;
+	size_t	end;
 
 	start = 0;
 	if (s1 == NULL || set == NULL)

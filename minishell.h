@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/31 10:41:45 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:59:01 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_prompt
 	int					exit_flag;
 	int					exit_return_val;
 	int					rand;
-	struct	s_read_input				*input;
+	struct s_read_input	*input;
 }						t_prompt;
 
 typedef struct s_read_input
@@ -117,7 +117,7 @@ void					check_exit_flag(t_prompt *struc,
 void					set_env_lst(t_env_list *env_lst,
 							t_parse *temp, t_prompt *struc);
 //put_to_table.c
-void						put_to_table(char **str, t_prompt *struc);
+void					put_to_table(char **str, t_prompt *struc);
 void					add_nodes(t_prompt *struc, int ammount);
 char					**copie_env(char **env);
 char					**trim_2d_array(char **table);
@@ -225,8 +225,8 @@ int						create_trunc_in(t_parse *temp, int *i);
 int						heredoc_file(t_parse *node, t_prompt *struc);
 int						get_all_fd_in(t_prompt *struc);
 //heredoc_helper.c
-int    				create_heredoc_space(t_parse *temp, int *i);
-int    				create_heredoc_no_space(t_parse *temp, int *i);
+int						create_heredoc_space(t_parse *temp, int *i);
+int						create_heredoc_no_space(t_parse *temp, int *i);
 int						create_heredoc(t_parse *temp, int *i);
 //fd_redirect_in_helper2.c
 void					print_warning(char *limit);

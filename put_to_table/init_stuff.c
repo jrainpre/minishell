@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:39:35 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/31 10:42:01 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:45:05 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	unlink_all(t_prompt *struc)
 	char	*tmp;
 	char	*num;
 
-	i = 0;
+	i = 1;
 	help = struc->cmds;
 	while (help)
 	{

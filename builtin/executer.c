@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:34:28 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 17:41:42 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:47:29 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ void	do_child(t_parse *node, t_prompt *struc, int *fd, int *backup)
 		wrapper_dup2(&fd[1], STDOUT_FILENO);
 	wrapper_close(&fd[0]);
 	cmd_exec(node, struc, 0);
-	//free_table(node->full_cmd);
-	//free(node->full_path);
-	//free_env_lst(node->env);
-	//clean_exit(struc, struc->input);
 	exit(0);
 }
 
