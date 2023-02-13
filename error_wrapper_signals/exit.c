@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 09:57:02 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/30 14:05:30 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:24:54 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	do_exit(t_prompt *struc, t_parse *node)
 	}
 	else if (node->full_cmd[1] && ft_strisnum(node->full_cmd[1]) == 0)
 	{
-		struc->exit_return_val = 255;
+		struc->exit_return_val = 2;
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(node->full_cmd[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);

@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 10:45:26 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/02/13 10:47:04 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:09:46 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ void	cmd_exec(t_parse *node, t_prompt *struc, int to_fork)
 	else
 	{
 		exec_cmd(node, struc, to_fork);
-		if (g_global.exit_status > 2)
+		if (g_global.exit_status > 255)
+			g_global.exit_status = g_global.exit_status / 256;
+		else if (g_global.exit_status > 2)
 			g_global.exit_status = g_global.exit_status % 256;
 	}
 }
