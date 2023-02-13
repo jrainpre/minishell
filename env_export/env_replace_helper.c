@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:12:31 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:05:07 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:52:01 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	ft_strncpy(new, str, i);
 	ft_strcpy(&new[i], envvar);
 	j = i;
-	while (!is_end_of_env(str[i], ptr, i))
+	while (!is_end_of_env(str[i], ptr, i, str))
 		i++;
 	while (new[j])
 		j++;
@@ -43,9 +43,10 @@ char	*get_new_str_env(char *str, char *envvar, char *ptr)
 	return (new);
 }
 
-int	is_end_of_env(char c, char *ptr, int i)
+int	is_end_of_env(char c, char *ptr, int i, char *str)
 {
-	if (c == ' ' || c == '\0' || c == '"' || c == '\'' || !not_dollar(ptr, i))
+	if (c == ' ' || c == '\0' || c == '"' || c == '\'' || \
+	(c == '$' && &str[i] != ptr))
 		return (1);
 	return (0);
 }
@@ -60,7 +61,7 @@ int	get_new_strlen_env(char *str, char *value, char *ptr)
 		str++;
 		i++;
 	}
-	while (*str != '\0' && not_dollar(str, i))
+	while (*str != '\0' && (*str == '$' && str != ptr))
 		str++;
 	while (*str != '\0')
 	{

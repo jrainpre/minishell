@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:13:26 by mkoller           #+#    #+#             */
-/*   Updated: 2023/01/31 10:59:01 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:20:06 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define PARSE_ERROR "minishell: parse error near \'\\n'"
 # define GREEN "\001\033[1;92m\002"
 # define WHITE "\033[0;37m"
-# define PROMPT "\001\033[1;92m\002minishell $> \033[0;37m"
+# define PROMPT "minishell $> "
 # define USER "USER"
 
 struct	s_env_list;
@@ -169,7 +169,7 @@ int						do_env(t_parse *node);
 // env_replace_helper.c
 int						not_dollar(char *arg, int i);
 char					*get_new_str_env(char *str, char *envvar, char *ptr);
-int						is_end_of_env(char c, char *ptr, int i);
+int						is_end_of_env(char c, char *ptr, int i, char *str);
 int						get_new_strlen_env(char *str, char *value, char *ptr);
 //env_replace.c
 void					update_full_cmd(t_parse *node, char *name,
