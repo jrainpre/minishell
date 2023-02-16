@@ -149,11 +149,4 @@ re:			fclean all
 run:		all
 			./${NAME}
 
-val: 		all
-			valgrind --leak-check=full \
-            --show-leak-kinds=all \
-            --track-origins=yes \
-            --verbose \
-            --log-file=valgrind-out.txt ./${NAME}
-
 .PHONY:		all clean fclean re

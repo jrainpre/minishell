@@ -6,7 +6,7 @@
 /*   By: jrainpre <jrainpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 11:23:34 by jrainpre          #+#    #+#             */
-/*   Updated: 2023/01/30 16:21:36 by jrainpre         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:44:50 by jrainpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int	trim_white(t_parse *node)
 	int		i;
 	char	*old;
 
-	i = 0;
+	i = -1;
+	if (*node->full_cmd == NULL)
+		return (0);
 	if (**node->full_cmd == '\0')
 	{
-		while (node->full_cmd[i])
+		while (node->full_cmd[++i])
 		{
 			if (node->full_cmd[i + 1])
 			{
@@ -34,7 +36,6 @@ int	trim_white(t_parse *node)
 				node->full_cmd[i] = ft_strdup("");
 				free(old);
 			}
-			i++;
 		}
 	}
 	return (0);
